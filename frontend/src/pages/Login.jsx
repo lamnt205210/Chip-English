@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutationHook } from "../hooks/useMutationHook";
 import {
   Dialog,
   TextField,
@@ -9,18 +10,39 @@ import {
   DialogContent,
   Typography,
   IconButton,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
+import * as UserService from "../services/UserService";
+import LoadingComponent from "../ui/LoadingComponent";
 const Login = (props) => {
   const { openLogin, setOpenLogin, setOpenSignUp } = props;
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
   const handleChangePasswordVisible = () => {
     setPasswordVisible(!passwordVisible);
   };
+  const handleChangeUserName = (e) => {
+    setUserName(e.target.value);
+  };
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const mutation = useMutationHook((data) => UserService.loginUser(data));
+  const { data, error, isPending } = mutation;
+  const handleLogin = () => {
+    mutation.mutate({
+      userName,
+      password,
+    });
+  };
+
   return (
     <Dialog
       open={openLogin}
@@ -33,6 +55,10 @@ const Login = (props) => {
         },
       }}
     >
+      <LoadingComponent open={isPending} />
+      {(data?.status === "ERR" || error) && (
+        <Alert severity="error">{data?.message}</Alert>
+      )}
       <Box
         sx={{
           display: "flex",
@@ -70,7 +96,12 @@ const Login = (props) => {
       </Box>
       <DialogContent>
         <Box sx={{ marginBottom: "20px" }}>
-          <TextField label="Tên đăng nhập" fullWidth={true} />
+          <TextField
+            label="Tên đăng nhập"
+            fullWidth={true}
+            value={userName}
+            onChange={handleChangeUserName}
+          />
         </Box>
         <Box
           sx={{
@@ -80,7 +111,13 @@ const Login = (props) => {
             position: "relative",
           }}
         >
-          <TextField label="Mật khẩu" fullWidth={true} />
+          <TextField
+            label="Mật khẩu"
+            fullWidth={true}
+            onChange={handleChangePassword}
+            type={passwordVisible ? "text" : "password"}
+            value={password}
+          />
           <IconButton
             sx={{ position: "absolute", right: "0" }}
             onClick={handleChangePasswordVisible}
@@ -121,6 +158,7 @@ const Login = (props) => {
               fontWeight: "bold",
               color: "white",
             }}
+            onClick={handleLogin}
           >
             Đăng nhập
           </Button>

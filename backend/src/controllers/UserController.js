@@ -3,15 +3,16 @@ const JwtService = require("../services/JwtService");
 // Sign-up
 const createUser = async (req, res) => {
   try {
-    const { name, password, confirmPassword } = req.body;
+    const { userName, password, confirmPassword } = req.body;
 
-    if (!name || !password || !confirmPassword) {
+    if (!userName || !password || !confirmPassword) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "Please provide name, password and confirm password",
+      });
+    } else if (password != confirmPassword) {
       return res
-        .status(400)
-        .json({ message: "Please provide name and password" });
-    } else if (password !== confirmPassword) {
-      return res
-        .status(400)
+        .status(200)
         .json({ status: "ERR", message: "Password does not match" });
     }
     const response = await UserService.createUser(req.body);
@@ -23,12 +24,12 @@ const createUser = async (req, res) => {
 //Login
 const loginUser = async (req, res) => {
   try {
-    const { name, password } = req.body;
+    const { userName, password } = req.body;
 
-    if (!name || !password) {
+    if (!userName || !password) {
       return res
-        .status(400)
-        .json({ message: "Please provide name and password" });
+        .status(200)
+        .json({ status: "ERR", message: "Please provide name and password" });
     }
 
     const response = await UserService.loginUser(req.body);
@@ -42,7 +43,9 @@ const getDetailsUser = async (req, res) => {
   try {
     const userId = req.params.id;
     if (!userId) {
-      return res.status(200).json({ message: "Please provide user id" });
+      return res
+        .status(200)
+        .json({ status: "ERR", message: "Please provide user id" });
     }
     const response = await UserService.getDetailsUser(userId);
     return res.status(200).json(response);
@@ -56,7 +59,9 @@ const refreshToken = async (req, res) => {
   try {
     const token = req.headers.token.split(" ")[1];
     if (!token) {
-      return res.status(200).json({ message: "The token is required" });
+      return res
+        .status(200)
+        .json({ status: "ERR", message: "The token is required" });
     }
     const response = await JwtService.refreshTokenJwtService(token);
     return res.status(200).json(response);

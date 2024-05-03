@@ -3,9 +3,10 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./src/routes");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 dotenv.config({ path: "./config.env" });
-
+app.use(cors());
 app.use(bodyParser.json());
 routes(app);
 

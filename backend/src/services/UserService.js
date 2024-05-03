@@ -5,16 +5,16 @@ const { generalRefreshToken } = require("./JwtService");
 //Sign-up
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
-    const { name, password, confirmPassword } = newUser;
+    const { userName, password, confirmPassword } = newUser;
     try {
-      const checkUser = await User.findOne({ name });
+      const checkUser = await User.findOne({ userName });
       if (checkUser !== null) {
-        resolve({ status: "OK", message: "Username already exists" });
+        resolve({ status: "ERR", message: "Username already exists" });
       }
       const hash = bcrypt.hashSync(password, 10);
 
       const createdUser = await User.create({
-        name,
+        userName,
         password: hash,
       });
 
@@ -34,16 +34,16 @@ const createUser = (newUser) => {
 //Login
 const loginUser = (userLogin) => {
   return new Promise(async (resolve, reject) => {
-    const { name, password } = userLogin;
+    const { userName, password } = userLogin;
     try {
-      const checkUser = await User.findOne({ name });
+      const checkUser = await User.findOne({ userName });
       if (checkUser === null) {
-        resolve({ status: "OK", message: "Username does not exists" });
+        resolve({ status: "ERR", message: "Username does not exists" });
       }
       const comparePassword = bcrypt.compareSync(password, checkUser.password);
 
       if (!comparePassword) {
-        resolve({ status: "OK", message: "Password is incorrect" });
+        resolve({ status: "ERR", message: "Password is incorrect" });
       }
       const access_token = generalAccessToken({ id: checkUser._id });
       const refresh_token = generalRefreshToken({ id: checkUser._id });

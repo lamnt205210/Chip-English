@@ -8,14 +8,19 @@ import {
   DialogContent,
   IconButton,
   Typography,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useMutationHook } from "../hooks/useMutationHook";
+import * as UserService from "../services/UserService";
+import LoadingComponent from "../ui/LoadingComponent";
 
 const SignUp = (props) => {
   const { openSignUp, setOpenSignUp, setOpenLogin } = props;
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [userName, setUserName] = useState("");
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [passWord, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleCloseSignUp = () => {
@@ -27,12 +32,25 @@ const SignUp = (props) => {
   const handleChangeConfirmPasswordVisible = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
+  const handleChangeUserName = (e) => {
+    setUserName(e.target.value);
+  };
   const handleOnChangePassword = (e) => {
     setPassword(e.target.value);
   };
   const handleOnChangeConfirmPassword = (e) => {
     setConfirmPassword(e.target.value);
   };
+  const mutation = useMutationHook((data) => UserService.createUser(data));
+  const { data, error, isPending } = mutation;
+  const handleSignUp = () => {
+    mutation.mutate({
+      userName,
+      password,
+      confirmPassword,
+    });
+  };
+  console.log("mutation", mutation);
   return (
     <Dialog
       open={openSignUp}
@@ -45,6 +63,10 @@ const SignUp = (props) => {
         },
       }}
     >
+      <LoadingComponent open={isPending} />
+      {(data?.status === "ERR" || error) && (
+        <Alert severity="error">{data?.message}</Alert>
+      )}
       <Box
         sx={{
           display: "flex",
@@ -82,7 +104,12 @@ const SignUp = (props) => {
       </Box>
       <DialogContent>
         <Box sx={{ marginBottom: "20px" }}>
-          <TextField label="Tên đăng nhập" fullWidth={true} />
+          <TextField
+            label="Tên đăng nhập"
+            fullWidth={true}
+            value={userName}
+            onChange={handleChangeUserName}
+          />
         </Box>
         <Box
           sx={{
@@ -97,7 +124,7 @@ const SignUp = (props) => {
             fullWidth={true}
             type={passwordVisible ? "text" : "password"}
             onChange={handleOnChangePassword}
-            value={passWord}
+            value={password}
           />
 
           <IconButton
@@ -159,6 +186,7 @@ const SignUp = (props) => {
               fontWeight: "bold",
               color: "white",
             }}
+            onClick={handleSignUp}
           >
             Đăng ký
           </Button>
