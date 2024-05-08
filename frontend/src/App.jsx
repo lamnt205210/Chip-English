@@ -11,7 +11,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<DashBoard />} />
+          <Route path="/dashboard" element={<DashBoard />} />
         </Route>
         <Route index element={<Navigate replace to="landing-page" />} />
         <Route path="landing-page" element={<LangdingPage />} />

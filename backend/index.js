@@ -5,9 +5,12 @@ const dotenv = require("dotenv");
 const routes = require("./src/routes");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+
 dotenv.config({ path: "./config.env" });
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 routes(app);
 
 const DB = process.env.DATABASE.replace(

@@ -7,11 +7,22 @@ export const loginUser = async (data) => {
   );
   return res.data;
 };
-export const createUser = async (data) => {
-  console.log("data", data);
+export const signUpUser = async (data) => {
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/user/sign-up`,
     data
+  );
+  return res.data;
+};
+
+export const getDetailsUser = async (id, access_token) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/user/get-details/${id}`,
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
   );
   return res.data;
 };
