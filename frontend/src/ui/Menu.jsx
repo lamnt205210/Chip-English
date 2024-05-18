@@ -1,21 +1,421 @@
-import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import {
+  Avatar,
+  Button,
+  Box,
+  List,
+  CssBaseline,
+  Divider,
+  Typography,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
 
-const Menu = ({ username, choices }) => {
-  const [menuOpen, setMenuOpen] = useState(true);
+import MuiDrawer from "@mui/material/Drawer";
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useSelector } from "react-redux";
+const drawerWidth = 300;
+
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(16)} + 1px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(16)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "sticky",
+
+  top: 0,
+  // width: drawerWidth,
+  padding: theme.spacing(4, 2),
+  // marginTop: "20px",
+
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+const DrawerFooter = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  // position: "sticky", // Fixed position at the bottom
+  // zIndex: theme.zIndex.drawer + 1,
+  bottom: 0,
+  // width: drawerWidth
+
+  // padding: theme.spacing(0, 0),
+}));
+
+// const DrawerContent = styled("div")(({ theme }) => ({
+//   flexGrow: 1,
+//   overflow: "auto", // Allow scrolling
+//   paddingTop: theme.mixins.toolbar.minHeight, // Adjust padding to avoid overlap with fixed header
+//   paddingBottom: theme.spacing(8), // Adjust padding to avoid overlap with fixed footer
+// }));
+const DrawerContent = styled("div")(({ theme }) => ({
+  overflow: "auto",
+  paddingLeft: "10px",
+  "&::-webkit-scrollbar": {
+    width: "8px",
+  },
+  "&::-webkit-scrollbar-track": {
+    backgroundColor: "#20bec6",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#888",
+    borderRadius: "10px",
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    backgroundColor: "#555",
+  },
+}));
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  backgroundColor: "#20bec6",
+
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": {
+      ...openedMixin(theme),
+      backgroundColor: "#20bec6",
+      color: "white",
+    },
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": {
+      ...closedMixin(theme),
+      backgroundColor: "#20bec6",
+      color: "white",
+    },
+  }),
+}));
+
+export default function MiniDrawer() {
+  const [open, setOpen] = React.useState(true);
+  const [openCourse, setOpenCourse] = React.useState(false);
+
+  const user = useSelector((state) => state.user);
+  console.log("user", user);
+  const handleDrawerOpen = () => {
+    setOpen(true);
   };
 
-  return <div style={{ width: menuOpen ? "240px" : "80px" }}>HAHAH</div>;
-};
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-export default Menu;
+  const handleCourseClick = () => {
+    setOpenCourse(!openCourse);
+  };
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "10px",
+            }}
+          >
+            <Avatar
+              sx={{
+                width: 60,
+                height: 60,
+              }}
+              src=""
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              visibility={open ? "visible" : "hidden"}
+              sx={{
+                fontFamily: "Cabin, sans-serif",
+                fontWeight: "bold",
+                marginTop: "10px",
+                color: "#0f575a",
+              }}
+            >
+              {user.userName}
+            </Typography>
+          </Box>
+          <Button
+            sx={{
+              position: "absolute",
+              right: open ? 0 : -10,
+              bottom: 15,
+            }}
+          >
+            <IconButton
+              onClick={() => {
+                open ? handleDrawerClose() : handleDrawerOpen();
+              }}
+            >
+              {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </Button>
+        </DrawerHeader>
+        <Divider />
+        <DrawerContent>
+          <List>
+            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+              <ListItem
+                key={text}
+                disablePadding
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    display: "flex",
+                    justifyContent: open ? "initial" : "center",
+                    alignItems: "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      marginRight: open ? 3 : 0,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <InboxIcon
+                      fontSize="large"
+                      sx={{
+                        color: "white",
+                      }}
+                    />
+                  </ListItemIcon>
+                  {open && (
+                    <ListItemText
+                      primary={text}
+                      sx={{
+                        display: open ? "block" : "none",
+                      }}
+                      primaryTypographyProps={{
+                        fontFamily: "Cabin, sans-serif",
+                        fontWeight: "bold",
+                        fontSize: "24px",
+                      }}
+                    />
+                  )}
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <List>
+            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+              <ListItem
+                key={text}
+                disablePadding
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    display: "flex",
+                    justifyContent: open ? "initial" : "center",
+                    alignItems: "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      marginRight: open ? 3 : 0,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <InboxIcon
+                      fontSize="large"
+                      sx={{
+                        color: "white",
+                      }}
+                    />
+                  </ListItemIcon>
+                  {open && (
+                    <ListItemText
+                      primary={text}
+                      sx={{
+                        display: open ? "block" : "none",
+                      }}
+                      primaryTypographyProps={{
+                        fontFamily: "Cabin, sans-serif",
+                        fontWeight: "bold",
+                        fontSize: "24px",
+                      }}
+                    />
+                  )}
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <List>
+            <ListItem
+              disablePadding
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  display: "flex",
+                  justifyContent: open ? "initial" : "center",
+                  alignItems: "center",
+                  px: 2.5,
+                }}
+                onClick={handleCourseClick}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    marginRight: open ? 3 : 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <LibraryBooksIcon fontSize="large" />
+                </ListItemIcon>
+                {open && (
+                  <>
+                    <ListItemText
+                      primary={"Khoa hoc"}
+                      sx={{
+                        display: open ? "block" : "none",
+                      }}
+                      primaryTypographyProps={{
+                        fontFamily: "Cabin, sans-serif",
+                        fontWeight: "bold",
+                        fontSize: "24px",
+                      }}
+                    />
+                    {openCourse ? <ExpandLess /> : <ExpandMore />}
+                  </>
+                )}
+              </ListItemButton>
+            </ListItem>
+            <Collapse in={openCourse && open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 10 }}>
+                  <ListItemText
+                    primary="Tieng Anh lop 1"
+                    primaryTypographyProps={{
+                      fontFamily: "Cabin, sans-serif",
+
+                      fontSize: "20px",
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </List>
+        </DrawerContent>
+
+        <Divider />
+        {/* Logout option */}
+        <DrawerFooter>
+          <List>
+            <ListItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  display: "flex",
+                  justifyContent: open ? "initial" : "center",
+                  alignItems: "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    marginRight: open ? 3 : 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <LogoutIcon fontSize="large" />
+                </ListItemIcon>
+                {open && (
+                  <ListItemText
+                    primary="Đăng xuất"
+                    sx={{
+                      display: open ? "block" : "none",
+                    }}
+                    primaryTypographyProps={{
+                      fontFamily: "Cabin, sans-serif",
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                    }}
+                  />
+                )}
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </DrawerFooter>
+      </Drawer>
+    </Box>
+  );
+}

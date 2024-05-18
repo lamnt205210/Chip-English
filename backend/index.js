@@ -8,7 +8,12 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 dotenv.config({ path: "./config.env" });
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(cookieParser());
 routes(app);

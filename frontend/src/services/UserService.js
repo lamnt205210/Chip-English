@@ -1,5 +1,7 @@
 import axios from "axios";
 
+export const axiosJWT = axios.create();
+
 export const loginUser = async (data) => {
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/user/login`,
@@ -7,6 +9,12 @@ export const loginUser = async (data) => {
   );
   return res.data;
 };
+
+export const logoutUser = async () => {
+  const res = await axios.post(`${import.meta.env.VITE_API_URL}/user/logout`);
+  return res.data;
+};
+
 export const signUpUser = async (data) => {
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/user/sign-up`,
@@ -16,7 +24,7 @@ export const signUpUser = async (data) => {
 };
 
 export const getDetailsUser = async (id, access_token) => {
-  const res = await axios.get(
+  const res = await axiosJWT.get(
     `${import.meta.env.VITE_API_URL}/user/get-details/${id}`,
     {
       headers: {
@@ -24,5 +32,16 @@ export const getDetailsUser = async (id, access_token) => {
       },
     }
   );
+  return res.data;
+};
+
+export const refreshToken = async () => {
+  const res = await axios.post(
+    `${import.meta.env.VITE_API_URL}/user/refresh-token`,
+    {
+      withCredentials: true,
+    }
+  );
+  console.log("res refreshToken", res.data);
   return res.data;
 };

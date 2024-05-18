@@ -17,9 +17,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import * as UserService from "../services/UserService";
 import LoadingComponent from "../ui/LoadingComponent";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../redux/slides/userSlice";
 
 const Login = (props) => {
   const { openLogin, setOpenLogin, setOpenSignUp } = props;
@@ -29,7 +26,7 @@ const Login = (props) => {
   const [openLoginSucessMessage, setOpenLoginSucessMessage] = useState(false);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
@@ -48,11 +45,11 @@ const Login = (props) => {
     }
     setOpenLoginSucessMessage(false);
   };
-  const handleGetDetailsUser = async (id, token) => {
-    const res = await UserService.getDetailsUser(id, token);
-    dispatch(updateUser({ ...res?.data, access_token: token }));
-    console.log("res", res);
-  };
+  // const handleGetDetailsUser = async (id, token) => {
+  //   const res = await UserService.getDetailsUser(id, token);
+  //   dispatch(updateUser({ ...res?.data, access_token: token }));
+  //   console.log("res", res);
+  // };
 
   const mutation = useMutationHook((data) => UserService.loginUser(data));
   const { data, error, isPending, isSuccess } = mutation;
@@ -64,24 +61,24 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data?.status === "OK") {
+      console.log("isSuccess", isSuccess);
       setOpenLoginSucessMessage(true);
       navigate("/dashboard");
-      localStorage.setItem("access_token", data?.access_token);
-      if (data?.access_token) {
-        const decoded = jwtDecode(data?.access_token);
-        console.log("decoded", decoded);
-        if (decoded?.id) {
-          handleGetDetailsUser(decoded?.id, data?.access_token);
-        }
-      }
+      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
+      // if (data?.access_token) {
+      //   const decoded = jwtDecode(data?.access_token);
+      //   console.log("decoded", decoded);
+      //   if (decoded?.id) {
+      //     handleGetDetailsUser(decoded?.id, data?.access_token);
+      //   }
+      // }
     }
   }, [isSuccess]);
   console.log("mutation", mutation);
 
   return (
     <>
-      {" "}
       <Dialog
         open={openLogin}
         fullWidth={true}

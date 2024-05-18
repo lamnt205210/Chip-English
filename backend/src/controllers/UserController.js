@@ -34,11 +34,26 @@ const loginUser = async (req, res) => {
 
     const response = await UserService.loginUser(req.body);
     const { refresh_token, ...newResponse } = response;
+    console.log("refresh_token", refresh_token);
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
-      Secure: true,
+      sameSite: "none",
+      secure: true,
     });
+
     return res.status(200).json(newResponse);
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+};
+
+// Log out
+const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("refresh_token");
+    return res
+      .status(200)
+      .json({ status: "OK", message: "Logout successfully" });
   } catch (error) {
     return res.status(404).json({ message: error });
   }
@@ -62,6 +77,7 @@ const getDetailsUser = async (req, res) => {
 //Refresh token
 const refreshToken = async (req, res) => {
   try {
+    console.log("req.cookies", req.cookies);
     const token = req.cookies.refresh_token;
     if (!token) {
       return res
@@ -74,4 +90,10 @@ const refreshToken = async (req, res) => {
     return res.status(404).json({ message: e });
   }
 };
-module.exports = { createUser, loginUser, getDetailsUser, refreshToken };
+module.exports = {
+  createUser,
+  loginUser,
+  logoutUser,
+  getDetailsUser,
+  refreshToken,
+};
