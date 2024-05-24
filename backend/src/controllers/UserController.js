@@ -1,23 +1,30 @@
 const UserService = require("../services/UserService");
 const JwtService = require("../services/JwtService");
+const passport = require("passport");
 // Sign-up
 const createUser = async (req, res) => {
   try {
     const { userName, password, confirmPassword } = req.body;
 
     if (!userName || !password || !confirmPassword) {
-      return res.status(200).json({
+      return res.status(400).json({
         status: "ERR",
         message: "Please provide name, password and confirm password",
       });
     } else if (password != confirmPassword) {
       return res
-        .status(200)
+        .status(400)
         .json({ status: "ERR", message: "Password does not match" });
     }
     const response = await UserService.createUser(req.body);
+
+    if (response.status === "ERR") {
+      return res.status(400).json(response);
+    }
+
     return res.status(200).json(response);
   } catch (error) {
+    console.log(error);
     return res.status(404).json({ message: error });
   }
 };
@@ -28,11 +35,14 @@ const loginUser = async (req, res) => {
 
     if (!userName || !password) {
       return res
-        .status(200)
+        .status(400)
         .json({ status: "ERR", message: "Please provide name and password" });
     }
 
     const response = await UserService.loginUser(req.body);
+    if (response.status === "ERR") {
+      return res.status(400).json(response);
+    }
     const { refresh_token, ...newResponse } = response;
     console.log("refresh_token", refresh_token);
     res.cookie("refresh_token", refresh_token, {
@@ -90,10 +100,37 @@ const refreshToken = async (req, res) => {
     return res.status(404).json({ message: e });
   }
 };
+
+const authGoogle = () => {
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  });
+};
+const authGoogleCallback = (req, res, next) => {
+  passport.authenticate("google", (err, data) => {
+    req.data = data; // Attach the user object to the request
+    console.log("data", req.data);
+    const { user, access_token, refresh_token } = data;
+
+    res.cookie("refresh_token", refresh_token, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+
+    res.redirect(
+      `${process.env.URL_CLIENT}/dashboard?access_token=${access_token}`
+    );
+  })(req, res, next);
+};
+
 module.exports = {
   createUser,
   loginUser,
   logoutUser,
   getDetailsUser,
   refreshToken,
+  authGoogle,
+  authGoogleCallback,
 };

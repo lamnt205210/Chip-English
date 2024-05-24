@@ -6,14 +6,16 @@ const routes = require("./src/routes");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+require("./passport");
 
 dotenv.config({ path: "./config.env" });
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.URL_CLIENT,
     credentials: true,
   })
 );
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 routes(app);

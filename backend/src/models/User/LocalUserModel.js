@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const BaseUser = require("./BaseUser");
+const BaseUser = require("./BaseUserModel");
 
 const localUserSchema = new mongoose.Schema({
   userName: {

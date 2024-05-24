@@ -1,9 +1,16 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound";
 import DashBoard from "./pages/DashBoard";
 import AppLayout from "./ui/AppLayout";
+import Course from "./pages/Course";
 import LangdingPage from "./pages/LandingPage";
 import { isJsonString } from "./utils/utils";
 import * as UserService from "./services/UserService";
@@ -12,21 +19,26 @@ import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 axios.defaults.withCredentials = true;
 const App = () => {
-  console.log("This is APP");
-
   const dispatch = useDispatch();
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
-    dispatch(updateUser({ ...res?.data, access_token: token }));
+    console.log("user details", res?.user);
+    const userDetail = res?.user;
+
+    dispatch(
+      updateUser({
+        userName: userDetail?.userName || userDetail?.displayName,
+        profilePicture: userDetail?.profilePicture || "",
+        access_token: token,
+      })
+    );
     console.log("res", res);
   };
 
   const handleDecoded = () => {
     let storageData = localStorage.getItem("access_token");
-
     let decoded = {};
-
     if (storageData && isJsonString(storageData)) {
       storageData = JSON.parse(storageData);
       decoded = jwtDecode(storageData);
@@ -61,7 +73,10 @@ const App = () => {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/courses" element={<div>Courses</div>} />
+          <Route
+            path="/course/:courseId/semester/:semesterId"
+            element={<CourseWrapper />}
+          />
         </Route>
         <Route index element={<Navigate replace to="landing-page" />} />
         <Route path="landing-page" element={<LangdingPage />} />
@@ -70,5 +85,11 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
+// Wrapper component to extract URL params and pass them as props to Course component
+const CourseWrapper = () => {
+  const { courseId, semesterId } = useParams();
+  return (
+    <Course courseId={parseInt(courseId)} semesterId={parseInt(semesterId)} />
+  );
+};
 export default App;

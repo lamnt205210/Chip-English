@@ -7,6 +7,7 @@ import ClassCard from "../ui/ClassCard";
 const LandingPage = () => {
   const [openSignUp, setOpenSignUp] = React.useState(false);
   const [openLogin, setOpenLogin] = React.useState(false);
+
   return (
     <div>
       <HeaderLandingPage

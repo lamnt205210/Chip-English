@@ -25,7 +25,10 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { resetUser } from "../redux/slides/userSlice";
+import * as UserService from "../services/UserService";
 const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
@@ -67,12 +70,16 @@ const DrawerFooter = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  // position: "sticky", // Fixed position at the bottom
+  position: "sticky", // Fixed position at the bottom
   // zIndex: theme.zIndex.drawer + 1,
-  bottom: 0,
-  // width: drawerWidth
 
-  // padding: theme.spacing(0, 0),
+  // height: 90,
+  // height: 80,
+  bottom: 0,
+  width: drawerWidth,
+  marginTop: "auto",
+
+  // padding: theme.spacing(2, 2),
 }));
 
 // const DrawerContent = styled("div")(({ theme }) => ({
@@ -125,10 +132,11 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer() {
+export default function Menu() {
   const [open, setOpen] = React.useState(true);
   const [openCourse, setOpenCourse] = React.useState(false);
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   console.log("user", user);
   const handleDrawerOpen = () => {
@@ -141,6 +149,11 @@ export default function MiniDrawer() {
 
   const handleCourseClick = () => {
     setOpenCourse(!openCourse);
+  };
+  const handleLogout = async () => {
+    await UserService.logoutUser();
+    dispatch(resetUser());
+    navigate("/landing-page");
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -196,7 +209,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <DrawerContent>
-          <List>
+          {/* <List>
             {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
               <ListItem
                 key={text}
@@ -301,7 +314,7 @@ export default function MiniDrawer() {
                 </ListItemButton>
               </ListItem>
             ))}
-          </List>
+          </List> */}
           <List>
             <ListItem
               disablePadding
@@ -335,7 +348,7 @@ export default function MiniDrawer() {
                 {open && (
                   <>
                     <ListItemText
-                      primary={"Khoa hoc"}
+                      primary={"Khóa học"}
                       sx={{
                         display: open ? "block" : "none",
                       }}
@@ -352,16 +365,26 @@ export default function MiniDrawer() {
             </ListItem>
             <Collapse in={openCourse && open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 10 }}>
-                  <ListItemText
-                    primary="Tieng Anh lop 1"
-                    primaryTypographyProps={{
-                      fontFamily: "Cabin, sans-serif",
+                {[1, 2, 3, 4, 5].map((text, index) => {
+                  return (
+                    <ListItemButton
+                      key={text}
+                      sx={{ pl: 10, py: 0.5 }}
+                      onClick={() => {
+                        navigate(`/course/${text}/semester/1`);
+                      }}
+                    >
+                      <ListItemText
+                        primary={`Tiếng Anh lớp ${text}`}
+                        primaryTypographyProps={{
+                          fontFamily: "Cabin, sans-serif",
 
-                      fontSize: "20px",
-                    }}
-                  />
-                </ListItemButton>
+                          fontSize: "20px",
+                        }}
+                      />
+                    </ListItemButton>
+                  );
+                })}
               </List>
             </Collapse>
           </List>
@@ -386,6 +409,7 @@ export default function MiniDrawer() {
                   alignItems: "center",
                   px: 2.5,
                 }}
+                onClick={handleLogout}
               >
                 <ListItemIcon
                   sx={{
@@ -407,7 +431,7 @@ export default function MiniDrawer() {
                     primaryTypographyProps={{
                       fontFamily: "Cabin, sans-serif",
                       fontWeight: "bold",
-                      fontSize: "20px",
+                      fontSize: "24px",
                     }}
                   />
                 )}

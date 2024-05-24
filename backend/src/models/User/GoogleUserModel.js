@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const BaseUser = require("./BaseUser");
+const BaseUser = require("./BaseUserModel");
 
 const googleUserSchema = new mongoose.Schema({
   googleId: {
@@ -14,7 +14,6 @@ const googleUserSchema = new mongoose.Schema({
   },
   displayName: {
     type: String,
-    required: true,
   },
   profilePicture: {
     type: String,

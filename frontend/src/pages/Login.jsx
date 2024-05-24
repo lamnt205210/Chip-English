@@ -14,6 +14,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import GoogleIcon from "@mui/icons-material/Google";
 import * as UserService from "../services/UserService";
 import LoadingComponent from "../ui/LoadingComponent";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +51,10 @@ const Login = (props) => {
   //   dispatch(updateUser({ ...res?.data, access_token: token }));
   //   console.log("res", res);
   // };
-
+  const handleLoginWithGoogle = () => {
+    window.open("http://localhost:3000/api/user/auth/google", "_self");
+    localStorage.setItem("access_token");
+  };
   const mutation = useMutationHook((data) => UserService.loginUser(data));
   const { data, error, isPending, isSuccess } = mutation;
   const handleLogin = () => {
@@ -91,8 +95,8 @@ const Login = (props) => {
         }}
       >
         <LoadingComponent open={isPending} />
-        {(data?.status === "ERR" || error) && (
-          <Alert severity="error">{data?.message}</Alert>
+        {error && (
+          <Alert severity="error">{error?.response.data.message}</Alert>
         )}
         <Box
           sx={{
@@ -167,7 +171,7 @@ const Login = (props) => {
               />
             </IconButton>
           </Box>
-          <Box sx={{ display: "flex" }}>
+          {/* <Box sx={{ display: "flex" }}>
             <Checkbox label={"Lưu mật khẩu"} />
             <Typography
               sx={{
@@ -177,7 +181,7 @@ const Login = (props) => {
             >
               Lưu mật khẩu
             </Typography>
-          </Box>
+          </Box> */}
           <Box
             sx={{
               display: "flex",
@@ -218,8 +222,15 @@ const Login = (props) => {
                 fontWeight: "bold",
                 color: "#21BDC6",
               }}
+              onClick={handleLoginWithGoogle}
             >
               Đăng nhập với Google
+              <GoogleIcon
+                sx={{
+                  color: "#21BDC6",
+                  marginLeft: "10px",
+                }}
+              />
             </Button>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center" }}>

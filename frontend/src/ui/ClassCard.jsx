@@ -8,17 +8,21 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Item from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 
-export default function ClassCard() {
+export default function ClassCard(props) {
+  const { name, description, imageURL, teachers, courseId } = props;
+  const navigate = useNavigate();
   return (
     <Card sx={{ maxWidth: 312, borderRadius: 2 }}>
       <CardMedia
         sx={{
           height: 192,
-          borderRadius: 2,
+          borderTopLeftRadius: 8, // Applied border radius to only the top edges
+          borderTopRightRadius: 8, // Applied border radius to only the top edges
         }}
-        image="/images/lop-1-ngang.png"
-        title="Lop 1"
+        image={imageURL}
+        title={name}
       />
       <CardContent>
         <Box
@@ -41,7 +45,7 @@ export default function ClassCard() {
               fontFamily: "Cabin, sans-serif",
             }}
           >
-            Tiếng Anh Lớp 1
+            {name}
           </Typography>
           <Typography
             align="center"
@@ -50,10 +54,13 @@ export default function ClassCard() {
               fontFamily: "Cabin, sans-serif",
               color: "#515e5f",
               marginBottom: "10px",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              WebkitLineClamp: 3, // Limit to 5 lines
             }}
           >
-            Khóa học bám sát khung chương trình tiếng Anh lớp 1. Mỗi buổi học
-            bao gồm 01 video bài giảng hoặc bài hát
+            {description}
           </Typography>
           <Typography
             sx={{
@@ -67,69 +74,31 @@ export default function ClassCard() {
             Giáo viên giảng dạy
           </Typography>
           <Grid container xs={12} spacing={0.5}>
-            <Grid item xs={1} sx={{ alignContent: "center" }}>
-              <Avatar
-                sx={{ width: 24, height: 24 }}
-                alt="Remy Sharp"
-                src="images/exercise-icon.png"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Item>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: 11,
-                    fontFamily: "Cabin, sans-serif",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  Adam Lewis
-                </Typography>
-              </Item>
-            </Grid>
-            <Grid item xs={1} sx={{ alignContent: "center" }}>
-              <Avatar
-                sx={{ width: 24, height: 24 }}
-                alt="Remy Sharp"
-                src="images/exercise-icon.png"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Item>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: 11,
-                    fontFamily: "Cabin, sans-serif",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  Adam Lewis
-                </Typography>
-              </Item>
-            </Grid>
-            <Grid item xs={1} sx={{ alignContent: "center" }}>
-              <Avatar
-                sx={{ width: 24, height: 24 }}
-                alt="Remy Sharp"
-                src="images/exercise-icon.png"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Item>
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: 11,
-                    fontFamily: "Cabin, sans-serif",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  Adam Lewis
-                </Typography>
-              </Item>
-            </Grid>
+            {teachers?.map((teacher, index) => (
+              <React.Fragment key={index}>
+                <Grid item xs={1} sx={{ alignContent: "center" }}>
+                  <Avatar
+                    sx={{ width: 24, height: 24 }}
+                    alt={teacher.name}
+                    src={teacher.imageURL}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Item>
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        fontSize: 11,
+                        fontFamily: "Cabin, sans-serif",
+                        paddingLeft: "10px",
+                      }}
+                    >
+                      {teacher.name}
+                    </Typography>
+                  </Item>
+                </Grid>
+              </React.Fragment>
+            ))}
           </Grid>
           <Button
             variant="contained"
@@ -143,6 +112,9 @@ export default function ClassCard() {
               marginTop: "10px",
               color: "white",
               flex: 1,
+            }}
+            onClick={() => {
+              navigate(`/course/${courseId}/semester/1`);
             }}
           >
             Học ngay

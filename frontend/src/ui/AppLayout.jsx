@@ -14,7 +14,12 @@ const AppLayout = () => {
       }}
     >
       <Menu />
-      <Outlet />
+      <Outlet
+        sx={{
+          flex: 1,
+          overflowX: "hidden",
+        }}
+      />
     </Box>
   );
 };

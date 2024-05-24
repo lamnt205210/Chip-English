@@ -60,7 +60,7 @@ const SignUp = (props) => {
     });
   };
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data.status === "OK") {
       setOpenSignUpSucessMessage(true);
       setOpenLogin(true);
       setOpenSignUp(false);
@@ -81,8 +81,10 @@ const SignUp = (props) => {
         }}
       >
         <LoadingComponent open={isPending} />
-        {(data?.status === "ERR" || error) && (
-          <Alert severity="error">{data?.message}</Alert>
+        {error && (
+          <Alert severity="error">
+            {data?.message || error?.response.data.message}
+          </Alert>
         )}
         <Box
           sx={{
