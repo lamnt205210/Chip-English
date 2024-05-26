@@ -7,4 +7,5 @@ router.get(
   "/:courseId/semester/:semesterId",
   courseController.getUnitsByCourseId
 );
+router.get("/unit/:unitId", courseController.getUnitDetailsById);
 module.exports = router;

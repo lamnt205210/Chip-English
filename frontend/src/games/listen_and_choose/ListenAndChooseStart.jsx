@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { DialogGuideListenAndChoose } from "../ui/games/DialogGuideListenAndChoose";
-const ListenAndChoose = () => {
+import React, { useEffect, useRef, useState } from "react";
+import DialogGuide from "./DialogGuide";
+
+const ListenAndChooseStart = () => {
+  const [openGuide, setOpenGuide] = useState(false);
+  const [playGame, setPlayGame] = useState(false);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -8,7 +11,7 @@ const ListenAndChoose = () => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/listen_and_choose_bg.png"; // Update this path to the correct one
+    background.src = "images/listen_and_choose/listen_and_choose_bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -49,7 +52,7 @@ const ListenAndChoose = () => {
           Let's Play
         </button>
         <button
-          onClick={() => handleButtonClick("How To Play")}
+          onClick={() => setOpenGuide(true)}
           style={{
             position: "absolute",
             left: "55%",
@@ -65,10 +68,10 @@ const ListenAndChoose = () => {
         >
           How To Play
         </button>
-        <DialogGuideListenAndChoose />
+        {openGuide && <DialogGuide setOpenGuide={setOpenGuide} />}
       </div>
     </div>
   );
 };
 
-export default ListenAndChoose;
+export default ListenAndChooseStart;

@@ -14,18 +14,7 @@ const Course = ({ courseId, semesterId }) => {
     queryFn: () => CourseService.getUnits(courseId, semester),
   });
   const units = data?.units || [];
-  // const [units, setUnits] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchUnits = async () => {
-  //     try {
-  //       const res = await CourseService.getUnits(courseId, semesterId);
-  //       setUnits(res.units); // Assuming the response has a 'units' field
-  //     } catch (err) {}
-  //   };
-  //   fetchUnits();
-  // }, [courseId, semesterId]);
-  // console.log("units", units);
   return (
     <div style={{ margin: "30px 48px 100px" }}>
       <Box display="flex" gap={3} sx={{ marginBottom: "20px" }}>
@@ -67,7 +56,7 @@ const Course = ({ courseId, semesterId }) => {
             key={unit._id}
             style={{ width: "25%", padding: "0 10px", marginBottom: "20px" }}
           >
-            <UnitCard unit={unit} />
+            <UnitCard unit={unit} courseId={courseId} semesterId={semesterId} />
           </div>
         ))}
       </div>

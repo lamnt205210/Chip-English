@@ -25,4 +25,13 @@ const getUnitsByCourseId = async (req, res) => {
     return res.status(404).json({ message: error });
   }
 };
-module.exports = { getAllCourses, getUnitsByCourseId };
+const getUnitDetailsById = async (req, res) => {
+  try {
+    const unitId = req.params.unitId;
+    const response = await CourseService.getUnitDetailsById(unitId);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+};
+module.exports = { getAllCourses, getUnitsByCourseId, getUnitDetailsById };

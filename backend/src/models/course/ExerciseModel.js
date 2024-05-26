@@ -4,6 +4,8 @@ const { Schema } = mongoose;
 // Define the Course schema
 const exerciseSchema = new Schema(
   {
+    // unitId: { type: Schema.Types.ObjectId, required: true },
+    unit: { type: String, ref: "Unit", required: true },
     category: {
       type: String,
       required: true,
@@ -11,7 +13,7 @@ const exerciseSchema = new Schema(
     },
     name: { type: String, required: true },
   },
-  { collection: "exercise" }
+  { collection: "exercises" }
 );
 
 // Create the models

@@ -5,10 +5,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
-export default function UnitCard({ unit }) {
-  const { englishName, vnName, imageURL } = unit;
+export default function UnitCard({ unit, courseId, semesterId }) {
+  const { _id, englishName, vnName, imageURL } = unit;
 
+  const navigate = useNavigate();
   // Fixed height for 2 lines of text
   const fixedHeight = {
     height: "3em", // Assuming line-height is 1.5em, 2 lines = 3em
@@ -20,7 +22,12 @@ export default function UnitCard({ unit }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 250, borderRadius: 2 }}>
+    <Card
+      sx={{ maxWidth: 250, borderRadius: 2 }}
+      onClick={() => {
+        navigate(`/course/${courseId}/semester/${semesterId}/unit/${_id}`);
+      }}
+    >
       {/* <CardMedia
         sx={{
           height: 200,

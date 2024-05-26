@@ -1,12 +1,12 @@
 import { Grid, Typography } from "@mui/material";
 
-export default function ExerciseCategory() {
+export default function ExerciseCategory({ exercise }) {
   return (
     <div
       style={{
         border: "2px solid #f0f0f0",
-        boxShadow: "0px 4px 4px rgba(30, 28, 157, 0.25)",
-        borderRadius: "32px",
+        boxShadow: "0px 2px 2px rgba(83, 83, 123, 0.25)",
+        borderRadius: "20px",
         padding: "16px",
         margin: "15px",
         backgroundColor: "white",
@@ -15,7 +15,13 @@ export default function ExerciseCategory() {
       <Grid container alignItems="center" gridColumn={4}>
         <Grid item xs={1}>
           <img
-            src="/images/vocab-icon.png"
+            src={
+              exercise.category === "Từ vựng"
+                ? "/images/vocab-icon.png"
+                : exercise.category === "Ngữ âm"
+                ? "/images/phonetic-icon.png"
+                : "/images/grammar-icon.png"
+            }
             alt="vocab-icon"
             style={{ maxWidth: "60px", height: "auto" }}
           />
@@ -23,12 +29,12 @@ export default function ExerciseCategory() {
         <Grid item xs={7}>
           <Typography
             sx={{
-              fontWeight: "bold",
-              fontSize: "18px",
-              fontFamily: "Quicksand, sans-serif",
+              fontWeight: 550,
+              fontSize: "20px",
+              color: "#292d32",
             }}
           >
-            Từ vựng: Các đồ vật xuất hiện tại sân trường
+            {exercise.category}: {exercise.name}
           </Typography>
         </Grid>
 
@@ -54,7 +60,7 @@ export default function ExerciseCategory() {
               fontFamily: "Roboto, sans-serif",
             }}
           >
-            97%
+            • 97%
           </Typography>
         </Grid>
       </Grid>
