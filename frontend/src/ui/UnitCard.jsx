@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 
-export default function UnitCard({ units }) {
-  const { englishName, vnName, imageURL } = units;
+export default function UnitCard({ unit }) {
+  const { englishName, vnName, imageURL } = unit;
 
   // Fixed height for 2 lines of text
   const fixedHeight = {

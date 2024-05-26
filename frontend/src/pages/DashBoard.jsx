@@ -34,7 +34,7 @@ const DashBoard = () => {
       >
         {data?.courses?.map((course) => (
           <Box
-            key={course.id}
+            key={course._id}
             sx={{
               boxSizing: "border-box", // Include padding and border in the element's total width and height
               padding: 2, // Add some padding

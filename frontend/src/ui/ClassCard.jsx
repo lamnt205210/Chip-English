@@ -73,7 +73,7 @@ export default function ClassCard(props) {
           >
             Giáo viên giảng dạy
           </Typography>
-          <Grid container xs={12} spacing={0.5}>
+          <Grid container spacing={0.5}>
             {teachers?.map((teacher, index) => (
               <React.Fragment key={index}>
                 <Grid item xs={1} sx={{ alignContent: "center" }}>
@@ -84,18 +84,16 @@ export default function ClassCard(props) {
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <Item>
-                    <Typography
-                      sx={{
-                        fontWeight: "bold",
-                        fontSize: 11,
-                        fontFamily: "Cabin, sans-serif",
-                        paddingLeft: "10px",
-                      }}
-                    >
-                      {teacher.name}
-                    </Typography>
-                  </Item>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: 11,
+                      fontFamily: "Cabin, sans-serif",
+                      paddingLeft: "10px",
+                    }}
+                  >
+                    {teacher.name}
+                  </Typography>
                 </Grid>
               </React.Fragment>
             ))}

@@ -1,14 +1,15 @@
 import { Grid, Typography } from "@mui/material";
 
-export default function LineSubject() {
+export default function ExerciseCategory() {
   return (
     <div
       style={{
         border: "2px solid #f0f0f0",
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        boxShadow: "0px 4px 4px rgba(30, 28, 157, 0.25)",
         borderRadius: "32px",
         padding: "16px",
-        margin: "0px 200px",
+        margin: "15px",
+        backgroundColor: "white",
       }}
     >
       <Grid container alignItems="center" gridColumn={4}>
@@ -35,9 +36,10 @@ export default function LineSubject() {
           <Typography
             sx={{
               color: "#21BDC6",
-              fontWeight: "bold",
+              fontWeight: 700,
               fontSize: "20px",
-              fontFamily: "Quicksand, sans-serif",
+              lineHeight: "32px",
+              fontFamily: "Roboto, sans-serif",
             }}
           >
             390/400 điểm
@@ -49,7 +51,7 @@ export default function LineSubject() {
               color: "#AAAAAA",
               fontWeight: "bold",
               fontSize: "20px",
-              fontFamily: "Quicksand, sans-serif",
+              fontFamily: "Roboto, sans-serif",
             }}
           >
             97%

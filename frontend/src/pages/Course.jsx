@@ -43,7 +43,7 @@ const Course = ({ courseId, semesterId }) => {
           }}
         >
           <ArrowBackIcon
-            style={{ fontSize: "32px" }}
+            style={{ fontSize: "34px" }}
             onClick={() => navigate("/dashboard")}
           />
         </Box>
@@ -55,16 +55,19 @@ const Course = ({ courseId, semesterId }) => {
               fontWeight: "bold",
             }}
           >
-            Tiếng Anh Lớp 1
+            Tiếng Anh Lớp {courseId}
           </Typography>
         </Box>
       </Box>
 
       <SemesterTab semester={semester} setSemester={setSemester} />
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "30px" }}>
         {units.map((unit) => (
-          <div key={unit._id} style={{ width: "25%", padding: "0 10px" }}>
-            <UnitCard units={unit} />
+          <div
+            key={unit._id}
+            style={{ width: "25%", padding: "0 10px", marginBottom: "20px" }}
+          >
+            <UnitCard unit={unit} />
           </div>
         ))}
       </div>

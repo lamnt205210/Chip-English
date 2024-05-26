@@ -57,7 +57,7 @@ const SemesterTab = ({ semester, setSemester }) => {
         <Tab label="Học kì 1" />
         <Tab label="Học kì 2" />
       </Tabs>
-      <TabPanel value={value} index={0}>
+      {/* <TabPanel value={value} index={0}>
         <Box
           sx={{
             p: 2,
@@ -80,7 +80,7 @@ const SemesterTab = ({ semester, setSemester }) => {
         >
           <Typography variant="h6">Học kì 2 Content</Typography>
         </Box>
-      </TabPanel>
+      </TabPanel> */}
     </div>
   );
 };
