@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-const DialogGuide = (props) => {
+const ListenAndChooseDialogGuide = (props) => {
   const { setOpenGuide } = props;
   return (
     <div
@@ -63,4 +63,4 @@ const DialogGuide = (props) => {
   );
 };
 
-export default DialogGuide;
+export default ListenAndChooseDialogGuide;

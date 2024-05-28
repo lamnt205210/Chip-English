@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ListenAndChooseStart from "./ListenAndChooseStart";
-import ListenAndChooseLogic from "./ListenAndChooseLogic";
-import ListenAndChooseFinish from "./ListenAndChooseFinish";
-const ListenAndChoose = () => {
+import MemoryStart from "./MemoryStart";
+import MemoryLogic from "./MemoryLogic";
+import MemoryFinish from "./MemoryFinish";
+const Memory = () => {
   const words = [
     {
       word: "ball",
@@ -41,9 +41,9 @@ const ListenAndChoose = () => {
   };
   return (
     <div>
-      {!play && <ListenAndChooseStart setPlay={setPlay} />}
+      {!play && <MemoryStart setPlay={setPlay} />}
       {!finish && play && (
-        <ListenAndChooseLogic
+        <MemoryLogic
           words={words}
           pointPerQuestion={pointPerQuestion}
           setFinish={setFinish}
@@ -51,11 +51,9 @@ const ListenAndChoose = () => {
           setPoint={setPoint}
         />
       )}
-      {finish && (
-        <ListenAndChooseFinish point={point} handleReplay={handleReplay} />
-      )}
+      {finish && <MemoryFinish point={point} handleReplay={handleReplay} />}
     </div>
   );
 };
 
-export default ListenAndChoose;
+export default Memory;

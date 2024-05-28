@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import DialogGuide from "./DialogGuide";
+
 import { Typography, Button, Box } from "@mui/material";
 import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined";
 import "./styles.css";
 
 import { Howl } from "howler";
-const ListenAndChooseLogic = ({ words }) => {
+const ListenAndChooseLogic = ({
+  words,
+  pointPerQuestion,
+  setFinish,
+  point,
+  setPoint,
+}) => {
   const audioClick = "audio/touch.mp3";
-  const [point, setPoint] = useState(0);
+  //   const [point, setPoint] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
   const [trueAnswer, setTrueAnswer] = useState(() => getRandomOneOrTwo());
   const [wrongAnswer, setWrongAnswer] = useState(() =>
@@ -16,12 +22,9 @@ const ListenAndChooseLogic = ({ words }) => {
   const [isClicked, setIsClicked] = useState(0);
   const [isReviewing, setIsReviewing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [finish, setFinish] = useState(false);
+  //   const [finish, setFinish] = useState(false);
   //
   const canvasRef = useRef(null);
-  console.log("trueAnswer", trueAnswer);
-  console.log("wrongAnswer", wrongAnswer);
-  console.log("word index", wordIndex);
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -37,7 +40,9 @@ const ListenAndChooseLogic = ({ words }) => {
   }, []);
   useEffect(() => {}, [isClicked]);
   useEffect(() => {}, [isReviewing]);
-
+  useEffect(() => {
+    openAudio(words[0].audioURL);
+  }, []);
   function getRandomNumberExcluding(n, a) {
     console.log("n", n);
     console.log("a", a);
@@ -54,7 +59,6 @@ const ListenAndChooseLogic = ({ words }) => {
     return Math.floor(Math.random() * 2) + 1;
   }
   const openAudio = (audioURL) => {
-    console.log(audioURL);
     const audio = new Howl({
       src: audioURL,
       html5: true,
@@ -69,7 +73,7 @@ const ListenAndChooseLogic = ({ words }) => {
     }, 2000); // 2000ms = 2 seconds
 
     if (isClicked === trueAnswer) {
-      setPoint(point + 25);
+      setPoint(point + pointPerQuestion);
       openAudio("audio/rightanswer.mp3");
     } else {
       openAudio("audio/wronganswer.mp3");
@@ -78,14 +82,18 @@ const ListenAndChooseLogic = ({ words }) => {
   const handleNextQuestion = () => {
     setIsReviewing(false);
     setWordIndex(wordIndex + 1);
+    openAudio(words[wordIndex + 1].audioURL);
     setTrueAnswer(getRandomOneOrTwo());
     setWrongAnswer(getRandomNumberExcluding(words.length - 1, wordIndex + 1));
     setIsClicked(0);
-    if (wordIndex === 3) {
-      setFinish(true);
-    }
+    // if (wordIndex === 3) {
+    //   setFinish(true);
+    // }
   };
-  const handleFinishGame = () => {};
+  const handleFinishGame = () => {
+    console.log("finish game");
+    setFinish(true);
+  };
   return (
     <div style={{ position: "relative", textAlign: "center" }}>
       <canvas
@@ -150,7 +158,7 @@ const ListenAndChooseLogic = ({ words }) => {
             wordSpacing: "5px",
           }}
         >
-          {point} ĐIỂM
+          {point}/100 ĐIỂM
         </Typography>
 
         <div>
@@ -284,7 +292,7 @@ const ListenAndChooseLogic = ({ words }) => {
           >
             {!isReviewing
               ? "SUBMIT"
-              : isReviewing && wordIndex !== 3
+              : isReviewing && wordIndex !== words.length - 1
               ? "NEXT"
               : "FINISH"}
           </button>
