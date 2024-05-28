@@ -46,7 +46,7 @@ const DialogGuide = (props) => {
         }}
         style={{
           padding: "10px 20px",
-          fontSize: "30px",
+          fontSize: "26px",
           borderRadius: "50px",
           border: "none",
           backgroundColor: "#e3f7d5",

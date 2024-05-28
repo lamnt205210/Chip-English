@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import DialogGuide from "./DialogGuide";
 
-const ListenAndChooseStart = () => {
+const ListenAndChooseStart = ({ setPlay }) => {
   const [openGuide, setOpenGuide] = useState(false);
-  const [playGame, setPlayGame] = useState(false);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -20,11 +19,6 @@ const ListenAndChooseStart = () => {
     // Thêm các sự kiện và logic game khác tại đây
   }, []);
 
-  const handleButtonClick = (option) => {
-    // Xử lý khi người dùng chọn một nút
-    console.log("Option selected:", option);
-  };
-
   return (
     <div style={{ position: "relative", textAlign: "center" }}>
       <canvas
@@ -35,7 +29,6 @@ const ListenAndChooseStart = () => {
       ></canvas>
       <div>
         <button
-          onClick={() => handleButtonClick("Let's Play")}
           style={{
             position: "absolute",
             left: "32%",
@@ -48,6 +41,7 @@ const ListenAndChooseStart = () => {
             color: "white",
             cursor: "pointer",
           }}
+          onClick={() => setPlay(true)}
         >
           Let's Play
         </button>

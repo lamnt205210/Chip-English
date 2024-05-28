@@ -1,5 +1,5 @@
 import { Grid, Typography, Box } from "@mui/material";
-import ListenAndChooseLogic from "../games/listen_and_choose/ListenAndChooseLogic";
+import ListenAndChoose from "../games/listen_and_choose/ListenAndChoose";
 
 export default function Board() {
   return (
@@ -154,7 +154,7 @@ export default function Board() {
             <source src="/video/video_1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video> */}
-          <ListenAndChooseLogic />
+          <ListenAndChoose />
         </Box>
         {/* <video controls style={{ width: "100%" }}>
     <source src="/video/video_1.mp4" type="video/mp4" />
