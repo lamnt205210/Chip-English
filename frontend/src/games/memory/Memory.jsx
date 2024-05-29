@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import MemoryStart from "./MemoryStart";
 import MemoryLogic from "./MemoryLogic";
 import MemoryFinish from "./MemoryFinish";
+import MemoryCardAnimation from "./MemoryCardAnimation";
 const Memory = () => {
   const words = [
     {
@@ -29,29 +30,43 @@ const Memory = () => {
         "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_bike.mp3",
     },
   ];
+  function getRandomNumbers(n) {
+    const numbers = new Set();
 
-  const pointPerQuestion = 100 / words.length;
-  const [play, setPlay] = useState(false);
-  const [finish, setFinish] = useState(false);
-  const [point, setPoint] = useState(0);
+    while (numbers.size < 3) {
+      const randomNumber = Math.floor(Math.random() * (n + 1));
+      numbers.add(randomNumber);
+    }
+
+    return Array.from(numbers);
+  }
+
+  const listWordIndex = getRandomNumbers(words.length - 1);
+  const listWord = listWordIndex.map((index) => words[index]);
+  const [scenario, setScenario] = useState("start");
+  const clickTimeRef = useRef(0);
   const handleReplay = () => {
-    setPlay(true);
-    setFinish(false);
-    setPoint(0);
+    setScenario("logic");
   };
+
   return (
     <div>
-      {!play && <MemoryStart setPlay={setPlay} />}
-      {!finish && play && (
+      {scenario === "start" && <MemoryStart setScenario={setScenario} />}
+
+      {scenario === "animation" && (
+        <MemoryCardAnimation words={listWord} setScenario={setScenario} />
+      )}
+
+      {scenario === "logic" && (
         <MemoryLogic
-          words={words}
-          pointPerQuestion={pointPerQuestion}
-          setFinish={setFinish}
-          point={point}
-          setPoint={setPoint}
+          words={listWord}
+          setScenario={setScenario}
+          clickTimeRef={clickTimeRef}
         />
       )}
-      {finish && <MemoryFinish point={point} handleReplay={handleReplay} />}
+      {scenario === "finish" && (
+        <MemoryFinish handleReplay={handleReplay} clickTimeRef={clickTimeRef} />
+      )}
     </div>
   );
 };

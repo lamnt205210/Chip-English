@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import MemoryDialogGuide from "./MemoryDialogGuide";
 import Box from "@mui/material/Box";
 
-const MemoryStart = ({ setPlay }) => {
+const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const canvasRef = useRef(null);
 
@@ -45,20 +45,24 @@ const MemoryStart = ({ setPlay }) => {
           alt="play"
           style={{
             position: "absolute",
-            left: "28%",
-            top: "65%",
+            left: "27%",
+            top: "66%",
             cursor: "pointer",
             zIndex: 2,
           }}
-          onClick={() => setPlay(true)}
+          onClick={() => {
+            // setPlay(true);
+            // setAnimation(true);
+            setScenario("animation");
+          }}
         ></img>
         <img
           src="images/memory/howtoplay.png"
           alt="play"
           style={{
             position: "absolute",
-            left: "53%",
-            top: "65%",
+            left: "52%",
+            top: "66%",
             cursor: "pointer",
             zIndex: 2,
           }}

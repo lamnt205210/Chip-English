@@ -1,6 +1,7 @@
 import { Grid, Typography, Box } from "@mui/material";
 import ListenAndChoose from "../games/listen_and_choose/ListenAndChoose";
 import Memory from "../games/memory/Memory";
+import Dictation from "../games/dictation/Dictation";
 export default function Board() {
   return (
     <Grid container spacing={0}>
@@ -154,7 +155,9 @@ export default function Board() {
             <source src="/video/video_1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video> */}
-          <Memory />
+          {/* <ListenAndChoose /> */}
+          {/* <Memory /> */}
+          <Dictation />
         </Box>
         {/* <video controls style={{ width: "100%" }}>
     <source src="/video/video_1.mp4" type="video/mp4" />

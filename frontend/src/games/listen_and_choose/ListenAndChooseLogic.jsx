@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { Typography, Button, Box } from "@mui/material";
+
 import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined";
 import "./styles.css";
 
@@ -38,14 +39,13 @@ const ListenAndChooseLogic = ({
 
     // Thêm các sự kiện và logic game khác tại đây
   }, []);
+
   useEffect(() => {}, [isClicked]);
   useEffect(() => {}, [isReviewing]);
   useEffect(() => {
     openAudio(words[0].audioURL);
   }, []);
   function getRandomNumberExcluding(n, a) {
-    console.log("n", n);
-    console.log("a", a);
     let numbers = [];
     for (let i = 0; i <= n; i++) {
       if (i !== a) {
@@ -156,6 +156,7 @@ const ListenAndChooseLogic = ({
             backgroundColor: "#2f4858",
             fontWeight: 600,
             wordSpacing: "5px",
+            zIndex: 300,
           }}
         >
           {point}/100 ĐIỂM
@@ -271,8 +272,8 @@ const ListenAndChooseLogic = ({
           <button
             style={{
               position: "absolute",
-              left: "45%",
-              top: "78%",
+              left: "51%",
+              top: "82%",
               padding: "10px 20px",
               fontSize: "16px",
               fontWeight: "600",
@@ -281,6 +282,7 @@ const ListenAndChooseLogic = ({
               backgroundColor: "#2f4858",
               color: "white",
               cursor: "pointer",
+              transform: "translate(-50%, -50%)",
             }}
             onClick={
               !isReviewing
