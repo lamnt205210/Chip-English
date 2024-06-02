@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-import { Howl } from "howler";
+import { openAudio } from "../../utils/audioUtils";
 const MemoryFinish = ({ handleReplay, clickTimeRef }) => {
   let point = 0;
   console.log("clickTimeRef", clickTimeRef);
@@ -27,13 +27,6 @@ const MemoryFinish = ({ handleReplay, clickTimeRef }) => {
   };
   const rate = evaluate(point);
 
-  const openAudio = (audioURL) => {
-    const audio = new Howl({
-      src: [audioURL],
-      html5: true,
-    });
-    audio.play();
-  };
   if (rate === 1) {
     openAudio("audio/TryAgain.mp3");
   } else if (rate === 2) {
@@ -99,7 +92,7 @@ const MemoryFinish = ({ handleReplay, clickTimeRef }) => {
           zIndex: 901,
         }}
       >
-        {point}
+        {Math.floor(point)}
       </Typography>
       <Box onClick={handleReplay}>
         <img

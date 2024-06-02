@@ -2,16 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Box, Typography } from "@mui/material";
 
-const DictationStart = ({ setPlay }) => {
+const SortSentenceStart = ({ setPlay }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const canvasRef = useRef(null);
-
+  const [srcPlay, setSrcPlay] = useState(
+    "images/sort_sentence/btn-lestplay.png"
+  );
+  const [srcHowToPlay, setSrcHowToPlay] = useState(
+    "images/sort_sentence/btn-howtoplay.png"
+  );
+  const [srcBack, setSrcBack] = useState("images/sort_sentence/btn-back.png");
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/dictation/bg.png"; // Update this path to the correct one
+    background.src = "images/sort_sentence/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -31,7 +37,7 @@ const DictationStart = ({ setPlay }) => {
       {!openGuide && (
         <Box>
           <img
-            src="images/dictation/title.png"
+            src="images/sort_sentence/title.png"
             alt="lỗi"
             style={{
               position: "absolute",
@@ -42,39 +48,51 @@ const DictationStart = ({ setPlay }) => {
             }}
           ></img>
           <img
-            src="images/dictation/btn-lestplay.png"
+            src={srcPlay}
             alt="play"
             style={{
               position: "absolute",
-              left: "34%",
-              top: "72%",
+              left: "35%",
+              top: "62%",
               cursor: "pointer",
               zIndex: 2,
               width: "123px",
               height: "40px",
             }}
             onClick={() => setPlay(true)}
+            onMouseEnter={() =>
+              setSrcPlay("images/sort_sentence/btn-lestplay-hover.png")
+            }
+            onMouseLeave={() =>
+              setSrcPlay("images/sort_sentence/btn-lestplay.png")
+            }
           ></img>
           <img
-            src="images/dictation/howto.png"
+            src={srcHowToPlay}
             alt="play"
             style={{
               position: "absolute",
-              left: "52%",
-              top: "72%",
+              left: "53%",
+              top: "62%",
               cursor: "pointer",
               width: "123px",
               height: "40px",
               zIndex: 1,
             }}
             onClick={() => setOpenGuide(true)}
+            onMouseEnter={() =>
+              setSrcHowToPlay("images/sort_sentence/btn-howtoplay-hover.png")
+            }
+            onMouseLeave={() =>
+              setSrcHowToPlay("images/sort_sentence/btn-howtoplay.png")
+            }
           ></img>
         </Box>
       )}
       {openGuide && (
         <div>
           <img
-            src="images/dictation/bg_howtoplay.png"
+            src="images/sort_sentence/board.png"
             alt="play"
             style={{
               position: "absolute",
@@ -87,7 +105,7 @@ const DictationStart = ({ setPlay }) => {
             onClick={() => setOpenGuide(true)}
           ></img>
           <img
-            src="images/dictation/back.png"
+            src={srcBack}
             alt="play"
             style={{
               position: "absolute",
@@ -100,24 +118,31 @@ const DictationStart = ({ setPlay }) => {
               zIndex: 1,
             }}
             onClick={() => setOpenGuide(false)}
+            onMouseEnter={() =>
+              setSrcBack("images/sort_sentence/btn-backhover.png")
+            }
+            onMouseLeave={() => setSrcBack("images/sort_sentence/btn-back.png")}
           ></img>
           <Typography
             sx={{
               position: "absolute",
               left: "18%",
+
               top: "28%",
               height: "114px",
-              width: "588px",
+              width: "555px",
               color: "white",
               zIndex: 5,
               fontSize: "24px",
-              fontWeight: 600,
+              fontWeight: 550,
               fontStyle: "italic",
+
               cursor: "pointer",
+              padding: "20px",
             }}
           >
-            Học sinh được xem 1 hình ảnh và âm thanh miêu tả từ vựng cùng số ô
-            trống. Học sinh gõ đúng từ miêu tả để đạt điểm
+            Dựa vào các từ cho trước theo gợi ý, học sinh sắp xếp lại câu đúng
+            để đạt điểm
           </Typography>
         </div>
       )}
@@ -125,4 +150,4 @@ const DictationStart = ({ setPlay }) => {
   );
 };
 
-export default DictationStart;
+export default SortSentenceStart;

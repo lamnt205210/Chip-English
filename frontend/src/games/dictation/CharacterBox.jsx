@@ -1,23 +1,35 @@
 // CharacterBox.js
 import React from "react";
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 
-const CharacterBox = ({ value, index, onChange }) => {
+const CharacterBox = ({
+  value,
+  index,
+  correctValue,
+  onChange,
+  onKeyDown,
+  inputRef,
+  status,
+}) => {
+  const displayValue = status === "review" ? correctValue.toUpperCase() : value;
   return (
     <TextField
       variant="outlined"
+      inputRef={inputRef}
       inputProps={{
         maxLength: 1,
         style: {
-          color: "white", // Cài đặt màu chữ
+          color: "white",
           textAlign: "center",
-          fontSize: "24px", // Cài đặt kích thước font chữ
-          fontStyle: "italic", // Cài đặt kiểu font chữ
-          fontWeight: 600, // Cài đặt độ đậm của font chữ
+          fontSize: "24px",
+          fontStyle: "italic",
+          fontWeight: 600,
         },
+        autoComplete: "off",
       }}
-      value={value}
+      value={displayValue}
       onChange={(e) => onChange(e.target.value, index)}
+      onKeyDown={(e) => onKeyDown(e, index)}
       sx={{
         display: "inline-block",
         alignSelf: "center",
@@ -25,12 +37,12 @@ const CharacterBox = ({ value, index, onChange }) => {
         padding: 0,
         width: "33px",
         height: "33px",
-        backgroundColor: "#1d99a3",
+        backgroundColor: status === "review" ? "#850404" : "#1d99a3",
         borderRadius: "7px",
         "& .MuiInputBase-input": {
-          padding: "3px 0", // Điều chỉnh padding bên trong để giảm chiều cao
+          padding: "3px 0",
           height: "33px",
-          lineHeight: "33px", // Điều chỉnh chiều cao dòng để căn giữa văn bản theo chiều dọc
+          lineHeight: "33px",
         },
         "& .MuiOutlinedInput-root": {
           "& fieldset": {

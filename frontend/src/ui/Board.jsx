@@ -2,6 +2,9 @@ import { Grid, Typography, Box } from "@mui/material";
 import ListenAndChoose from "../games/listen_and_choose/ListenAndChoose";
 import Memory from "../games/memory/Memory";
 import Dictation from "../games/dictation/Dictation";
+import SortSentence from "../games/sort_sentence/SortSentence";
+import SentenceMonkey from "../games/sentence_monkey/SentenceMonkey";
+import ChooseWord from "../games/choose_word/ChooseWord";
 export default function Board() {
   return (
     <Grid container spacing={0}>
@@ -157,7 +160,10 @@ export default function Board() {
           </video> */}
           {/* <ListenAndChoose /> */}
           {/* <Memory /> */}
-          <Dictation />
+          {/* <Dictation /> */}
+          {/* <SortSentence /> */}
+          {/* <SentenceMonkey /> */}
+          <ChooseWord />
         </Box>
         {/* <video controls style={{ width: "100%" }}>
     <source src="/video/video_1.mp4" type="video/mp4" />

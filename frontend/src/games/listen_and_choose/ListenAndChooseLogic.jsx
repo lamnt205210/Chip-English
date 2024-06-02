@@ -5,7 +5,7 @@ import { Typography, Button, Box } from "@mui/material";
 import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined";
 import "./styles.css";
 
-import { Howl } from "howler";
+import { openAudio } from "../../utils/audioUtils";
 const ListenAndChooseLogic = ({
   words,
   pointPerQuestion,
@@ -58,13 +58,7 @@ const ListenAndChooseLogic = ({
   function getRandomOneOrTwo() {
     return Math.floor(Math.random() * 2) + 1;
   }
-  const openAudio = (audioURL) => {
-    const audio = new Howl({
-      src: audioURL,
-      html5: true,
-    });
-    audio.play();
-  };
+
   const handleCheckAnswer = () => {
     setIsReviewing(true);
     setIsVisible(true);
@@ -159,7 +153,7 @@ const ListenAndChooseLogic = ({
             zIndex: 300,
           }}
         >
-          {point}/100 ĐIỂM
+          {Math.floor(point)}/100 ĐIỂM
         </Typography>
 
         <div>

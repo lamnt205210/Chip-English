@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { openAudio } from "../../utils/audioUtils";
-const ListenAndChooseFinish = ({ point, handleReplay }) => {
+const SortSentenceFinish = ({ point, handleReplay }) => {
   const canvasRef = useRef(null);
   const evaluate = (score) => {
     if (score >= 0 && score <= 25) {
@@ -27,13 +27,13 @@ const ListenAndChooseFinish = ({ point, handleReplay }) => {
   } else {
     openAudio("audio/Excellent.mp3");
   }
-  openAudio();
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/listen_and_choose/listen_and_choose_bg_main.png"; // Update this path to the correct one
+    background.src = "images/dictation/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -102,4 +102,4 @@ const ListenAndChooseFinish = ({ point, handleReplay }) => {
   );
 };
 
-export default ListenAndChooseFinish;
+export default SortSentenceFinish;

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import DictationStart from "./DictationStart";
 import DictationLogic from "./DictationLogic";
+import DictationFinish from "./DictationFinish";
 const Dictation = () => {
   const words = [
     {
@@ -28,9 +29,26 @@ const Dictation = () => {
         "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_bike.mp3",
     },
   ];
+  const [play, setPlay] = useState(false);
+  const [finish, setFinish] = useState(false);
+  const [point, setPoint] = useState(0);
+  const handleReplay = () => {
+    setPlay(true);
+    setFinish(false);
+    setPoint(0);
+  };
   return (
     <div>
-      <DictationLogic words={words} />
+      {!play && <DictationStart setPlay={setPlay} />}
+      {play && !finish && (
+        <DictationLogic
+          words={words}
+          point={point}
+          setPoint={setPoint}
+          setFinish={setFinish}
+        />
+      )}
+      {finish && <DictationFinish point={point} handleReplay={handleReplay} />}
     </div>
   );
 };
