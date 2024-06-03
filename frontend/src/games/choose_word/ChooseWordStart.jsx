@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { openAudio } from "../../utils/audioUtils";
 import { Box, Typography } from "@mui/material";
-import LearnBoard from "./LearnBoard";
+import LearnBoard from "./components/LearnBoard";
 
 const ChooseWordStart = ({ setPlay, words }) => {
   const [openGuide, setOpenGuide] = useState(false);
@@ -122,7 +122,7 @@ const ChooseWordStart = ({ setPlay, words }) => {
             alt="play"
             style={{
               position: "absolute",
-              left: "48%",
+              left: "44.5%",
               top: "70%",
               width: "95px",
               height: "35px",
@@ -141,7 +141,7 @@ const ChooseWordStart = ({ setPlay, words }) => {
           <Typography
             sx={{
               position: "absolute",
-              left: "20%",
+              left: "18.5%",
               top: "25%",
               height: "114px",
               width: "555px",
@@ -157,14 +157,14 @@ const ChooseWordStart = ({ setPlay, words }) => {
             }}
           >
             Cách chơi: Người chơi được nghe 1 file âm thanh và hình ảnh miêu tả
-            1 từ vựng. Có 3 phưogn án trả lời, 1 phương án đúng và 2 phương án
+            1 từ vựng. Có 3 phương án trả lời, 1 phương án đúng và 2 phương án
             viết sai chính tả từ vựng đó.
           </Typography>
         </div>
       )}
       {openLearn && (
-        <div style={{ position: "absolute", left: "18%", top: "10%" }}>
-          <LearnBoard words={words} />
+        <div style={{ position: "absolute", left: "18%", top: "8%" }}>
+          <LearnBoard words={words} setOpenLearn={setOpenLearn} />
         </div>
       )}
     </div>

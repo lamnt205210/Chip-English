@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // Define the Course schema
-const exerciseSchema = new Schema(
+const lessonSchema = new Schema(
   {
     // unitId: { type: Schema.Types.ObjectId, required: true },
     unit: { type: String, ref: "Unit", required: true },
@@ -12,12 +12,13 @@ const exerciseSchema = new Schema(
       enum: ["Từ vựng", "Ngữ âm", "Mẫu câu"],
     },
     name: { type: String, required: true },
+    videoURL: { type: String, required: false },
   },
-  { collection: "exercises" }
+  { collection: "lessons" }
 );
 
 // Create the models
 
-const Exercise = mongoose.model("Exercise", exerciseSchema);
+const Lesson = mongoose.model("Lessom", lessonSchema);
 
-module.exports = Exercise;
+module.exports = Lesson;

@@ -12,7 +12,7 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
     queryFn: () => CourseService.getUnitDetails(unitId),
   });
   console.log("data", data);
-  const unitName = data?.exercises[0]?.unit.englishName;
+  const unitName = data?.lessons[0]?.unit.englishName;
 
   return (
     <div
@@ -63,7 +63,7 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
         >
           {unitName}
         </Typography>
-        {data?.exercises.map((exercise) => (
+        {data?.lessons.map((exercise) => (
           <ExerciseCatergory key={exercise._id} exercise={exercise} />
         ))}
       </Box>

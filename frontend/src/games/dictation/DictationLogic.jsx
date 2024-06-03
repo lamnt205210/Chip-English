@@ -251,7 +251,7 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
                 }}
                 className="rotate-animation"
               >
-                {checkAnswer === true ? Math.floow(pointPerQuestion) : 0} ĐIỂM
+                {checkAnswer === true ? Math.floor(pointPerQuestion) : 0} ĐIỂM
               </Typography>
             </Box>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DictationStart from "./DictationStart";
 import DictationLogic from "./DictationLogic";
-import DictationFinish from "./DictationFinish";
+import Finish from "../Finish";
 const Dictation = () => {
   const words = [
     {
@@ -48,7 +48,7 @@ const Dictation = () => {
           setFinish={setFinish}
         />
       )}
-      {finish && <DictationFinish point={point} handleReplay={handleReplay} />}
+      {finish && <Finish point={point} handleReplay={handleReplay} />}
     </div>
   );
 };

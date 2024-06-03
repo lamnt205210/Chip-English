@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SortSentenceStart from "./SortSentenceStart";
 import SortSentenceLogic from "./SortSentenceLogic";
-import SortSentenceFinish from "./SortSentenceFinish";
+import Finish from "../Finish";
 const SortSentence = () => {
   const sentences = [
     {
@@ -37,9 +37,7 @@ const SortSentence = () => {
           setPoint={setPoint}
         />
       )}
-      {finish && (
-        <SortSentenceFinish point={point} handleReplay={handleReplay} />
-      )}
+      {finish && <Finish point={point} handleReplay={handleReplay} />}
     </div>
   );
 };

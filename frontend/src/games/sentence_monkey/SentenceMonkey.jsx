@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import SentenceMonkeyLogic from "./SentenceMoneyLogic";
-import SentenceMonkeyFinish from "./SentenceMonkeyFinish";
+import Finish from "../Finish";
 import SentenceMonkeyStart from "./SentenceMonkeyStart";
 const SentenceMonkey = () => {
   const sentences = [
@@ -42,9 +42,7 @@ const SentenceMonkey = () => {
           setPoint={setPoint}
         />
       )}
-      {finish && (
-        <SentenceMonkeyFinish point={point} handleReplay={handleReplay} />
-      )}
+      {finish && <Finish point={point} handleReplay={handleReplay} />}
     </div>
   );
 };

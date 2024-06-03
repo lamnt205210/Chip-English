@@ -1,7 +1,7 @@
 const Teacher = require("../models/course/TeacherModel");
 const Course = require("../models/course/CourseModel");
 const Unit = require("../models/course/UnitModel");
-const Exercise = require("../models/course/ExerciseModel");
+const Lesson = require("../models/course/LessonModel");
 const mongoose = require("mongoose");
 const getAllCourses = async () => {
   try {
@@ -30,9 +30,9 @@ const getUnitsByCourseId = async (courseId, semesterId) => {
 };
 const getUnitDetailsById = async (unitId) => {
   try {
-    const exercises = await Exercise.find({ unit: unitId }).populate("unit");
+    const lessons = await Lesson.find({ unit: unitId }).populate("unit");
 
-    return { exercises: exercises };
+    return { lessons: lessons };
   } catch (error) {
     return error;
   }

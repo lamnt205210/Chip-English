@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ListenAndChooseStart from "./ListenAndChooseStart";
 import ListenAndChooseLogic from "./ListenAndChooseLogic";
-import ListenAndChooseFinish from "./ListenAndChooseFinish";
+import Finish from "../Finish";
 const ListenAndChoose = () => {
   const words = [
     {
@@ -51,9 +51,7 @@ const ListenAndChoose = () => {
           setPoint={setPoint}
         />
       )}
-      {finish && (
-        <ListenAndChooseFinish point={point} handleReplay={handleReplay} />
-      )}
+      {finish && <Finish point={point} handleReplay={handleReplay} />}
     </div>
   );
 };

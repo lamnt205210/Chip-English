@@ -154,16 +154,19 @@ export default function Board() {
 
       <Grid item xs={10.5} style={{ maxHeight: "550px" }}>
         <Box sx={{ height: "100%" }}>
-          {/* <video controls style={{ width: "100%", height: "100%" }}>
-            <source src="/video/video_1.mp4" type="video/mp4" />
+          <video controls style={{ width: "100%", height: "100%" }}>
+            <source
+              src="https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/class-1-sem-1-unit-1-1.mp4"
+              type="video/mp4"
+            />
             Your browser does not support the video tag.
-          </video> */}
+          </video>
           {/* <ListenAndChoose /> */}
-          {/* <Memory /> */}
+          {/* <Memory />  */}
           {/* <Dictation /> */}
           {/* <SortSentence /> */}
           {/* <SentenceMonkey /> */}
-          <ChooseWord />
+          {/* <ChooseWord /> */}
         </Box>
         {/* <video controls style={{ width: "100%" }}>
     <source src="/video/video_1.mp4" type="video/mp4" />
