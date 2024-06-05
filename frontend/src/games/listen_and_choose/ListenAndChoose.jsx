@@ -6,7 +6,8 @@ const ListenAndChoose = () => {
   const words = [
     {
       word: "ball",
-      imageURL: "https://i.ibb.co/6sM22FZ/ball-v.png",
+      imageURL:
+        "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/ball_v.png",
       audioURL:
         "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_ball%20(1).mp3",
     },

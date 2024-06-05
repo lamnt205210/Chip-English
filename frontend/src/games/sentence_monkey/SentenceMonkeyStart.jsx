@@ -5,20 +5,24 @@ import { Box, Typography } from "@mui/material";
 const SentenceMonkeyStart = ({ setPlay }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const canvasRef = useRef(null);
-  const [srcPlay, setSrcPlay] = useState("images/sentence_monkey/btn-play.png");
-  const [srcHowToPlay, setSrcHowToPlay] = useState(
-    "images/sentence_monkey/btn-howtoplay.png"
+  const [srcPlay, setSrcPlay] = useState(
+    "/images/sentence_monkey/btn-play.png"
   );
-  const [srcBack, setSrcBack] = useState("images/sentence_monkey/btn-back.png");
+  const [srcHowToPlay, setSrcHowToPlay] = useState(
+    "/images/sentence_monkey/btn-howtoplay.png"
+  );
+  const [srcBack, setSrcBack] = useState(
+    "/images/sentence_monkey/btn-back.png"
+  );
   useEffect(() => {
-    openAudio("audio/monkey-game-start.mp3");
+    openAudio("/audio/monkey-game-start.mp3");
   }, []);
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/sentence_monkey/bg.png"; // Update this path to the correct one
+    background.src = "/images/sentence_monkey/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -51,10 +55,10 @@ const SentenceMonkeyStart = ({ setPlay }) => {
             }}
             onClick={() => setPlay(true)}
             onMouseEnter={() =>
-              setSrcPlay("images/sentence_monkey/btn-play-hover.png")
+              setSrcPlay("/images/sentence_monkey/btn-play-hover.png")
             }
             onMouseLeave={() =>
-              setSrcPlay("images/sentence_monkey/btn-play.png")
+              setSrcPlay("/images/sentence_monkey/btn-play.png")
             }
           ></img>
           <img
@@ -71,10 +75,10 @@ const SentenceMonkeyStart = ({ setPlay }) => {
             }}
             onClick={() => setOpenGuide(true)}
             onMouseEnter={() =>
-              setSrcHowToPlay("images/sentence_monkey/btn-howtoplay-hover.png")
+              setSrcHowToPlay("/images/sentence_monkey/btn-howtoplay-hover.png")
             }
             onMouseLeave={() =>
-              setSrcHowToPlay("images/sentence_monkey/btn-howtoplay.png")
+              setSrcHowToPlay("/images/sentence_monkey/btn-howtoplay.png")
             }
           ></img>
         </Box>
@@ -82,7 +86,7 @@ const SentenceMonkeyStart = ({ setPlay }) => {
       {openGuide && (
         <div>
           <img
-            src="images/sentence_monkey/helpboard.png"
+            src="/images/sentence_monkey/helpboard.png"
             alt="play"
             style={{
               position: "absolute",
@@ -109,10 +113,10 @@ const SentenceMonkeyStart = ({ setPlay }) => {
             }}
             onClick={() => setOpenGuide(false)}
             onMouseEnter={() =>
-              setSrcBack("images/sentence_monkey/btn-back-hover.png")
+              setSrcBack("/images/sentence_monkey/btn-back-hover.png")
             }
             onMouseLeave={() =>
-              setSrcBack("images/sentence_monkey/btn-back.png")
+              setSrcBack("/images/sentence_monkey/btn-back.png")
             }
           ></img>
           <Typography

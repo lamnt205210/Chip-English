@@ -153,8 +153,8 @@ const SignUp = (props) => {
               <img
                 src={
                   passwordVisible
-                    ? "images/eye_hide.png"
-                    : "images/eye_show.svg"
+                    ? "/images/eye_hide.png"
+                    : "/images/eye_show.svg"
                 }
                 alt="eye"
               />
@@ -183,8 +183,8 @@ const SignUp = (props) => {
               <img
                 src={
                   confirmPasswordVisible
-                    ? "images/eye_hide.png"
-                    : "images/eye_show.svg"
+                    ? "/images/eye_hide.png"
+                    : "/images/eye_show.svg"
                 }
                 alt="eye"
               />

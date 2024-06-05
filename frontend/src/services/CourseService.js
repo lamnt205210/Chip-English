@@ -21,3 +21,10 @@ export const getUnitDetails = async (unitId) => {
 
   return res.data;
 };
+export const getLessonDetails = async (lessonId) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/course/lesson/${lessonId}`
+  );
+
+  return res.data;
+};

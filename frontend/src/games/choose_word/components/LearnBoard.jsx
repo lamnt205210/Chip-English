@@ -4,13 +4,13 @@ import BoxWord from "./BoxWord";
 
 const LearnBoard = ({ words, setOpenLearn }) => {
   const [urlBack, setUrlBack] = useState(
-    "images/choose_word/btn_backsmall.png"
+    "/images/choose_word/btn_backsmall.png"
   );
 
   return (
     <div>
       <img
-        src="images/choose_word/boardguide.jpg"
+        src="/images/choose_word/boardguide.jpg"
         alt="play"
         style={{
           position: "absolute",
@@ -66,10 +66,10 @@ const LearnBoard = ({ words, setOpenLearn }) => {
             alt="button back"
             style={{ borderRadius: "18px" }}
             onMouseEnter={() =>
-              setUrlBack("images/choose_word/btn_backsmall_hover.png")
+              setUrlBack("/images/choose_word/btn_backsmall_hover.png")
             }
             onMouseLeave={() =>
-              setUrlBack("images/choose_word/btn_backsmall.png")
+              setUrlBack("/images/choose_word/btn_backsmall.png")
             }
             onClick={() => setOpenLearn(false)}
           />

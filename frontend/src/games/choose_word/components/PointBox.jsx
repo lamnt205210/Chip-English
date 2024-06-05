@@ -5,7 +5,7 @@ const PointBox = ({ point }) => {
   return (
     <Box style={{ position: "relative" }}>
       <img
-        src="images/choose_word/background_score.jpg"
+        src="/images/choose_word/background_score.jpg"
         alt="score"
         style={{
           position: "absolute",

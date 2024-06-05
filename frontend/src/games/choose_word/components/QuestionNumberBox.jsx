@@ -4,7 +4,7 @@ const QuestionNumberBox = ({ numberQuestion, total }) => {
   return (
     <Box style={{ position: "relative" }}>
       <img
-        src="images/choose_word/quest.png"
+        src="/images/choose_word/quest.png"
         alt="score"
         style={{
           position: "absolute",

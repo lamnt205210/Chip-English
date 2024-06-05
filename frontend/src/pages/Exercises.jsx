@@ -1,10 +1,22 @@
 import React from "react";
-
+import { useLocation, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box } from "@mui/material";
 import Board from "../ui/Board";
+import * as CourseService from "../services/CourseService";
+import { useQuery } from "@tanstack/react-query";
+const Exercises = ({ lessonId }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { courseId, semesterId, unitId } = location.state || {};
 
-const Exercises = () => {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["lesson", lessonId],
+    queryFn: () => CourseService.getLessonDetails(lessonId),
+  });
+
+  const videoURL = data?.videoURL || "";
+  const games = data?.games || [];
   return (
     <div
       style={{
@@ -27,6 +39,9 @@ const Exercises = () => {
           marginLeft: "98px",
           position: "fixed",
         }}
+        onClick={() =>
+          navigate(`/course/${courseId}/semester/${semesterId}/unit/${unitId}`)
+        }
       >
         <ArrowBackIcon style={{ fontSize: "35px" }} />
       </Box>
@@ -41,7 +56,7 @@ const Exercises = () => {
           overflow: "hidden",
         }}
       >
-        <Board />
+        <Board videoURL={videoURL} games={games} />
       </Box>
     </div>
   );

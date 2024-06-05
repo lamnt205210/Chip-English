@@ -5,7 +5,7 @@ import "./styles.css"; // Nhớ import file CSS
 const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
   const [flipped, setFlipped] = useState(true);
   const [srcButton, setSrcButton] = useState(
-    "images/choose_word/btn_submit.png"
+    "/images/choose_word/btn_submit.png"
   );
   useEffect(() => {
     setFlipped(true);
@@ -17,9 +17,9 @@ const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
     if (showAnswer) {
       setFlipped(true);
       if (word === keyword) {
-        setSrcButton("images/choose_word/btn_submit_true.png");
+        setSrcButton("/images/choose_word/btn_submit_true.png");
       } else if (word === answer) {
-        setSrcButton("images/choose_word/btn_submit_false.png");
+        setSrcButton("/images/choose_word/btn_submit_false.png");
       }
       const timer = setTimeout(() => {
         setFlipped(false);
@@ -29,7 +29,7 @@ const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
     }
   }, [showAnswer]);
   useEffect(() => {
-    setSrcButton("images/choose_word/btn_submit.png");
+    setSrcButton("/images/choose_word/btn_submit.png");
   }, [word]);
 
   const handleOnClick = () => {
@@ -48,7 +48,7 @@ const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
         <div className="flip-card-inner">
           <div className="flip-card-front">
             <img
-              src="images/choose_word/cardsheet.png"
+              src="/images/choose_word/cardsheet.png"
               alt="score"
               style={{
                 height: "160px",
@@ -60,7 +60,7 @@ const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
           </div>
           <div className="flip-card-back" style={{ position: "relative" }}>
             <img
-              src="images/choose_word/answer.png"
+              src="/images/choose_word/answer.png"
               alt="cau tra loi"
               style={{
                 height: "160px",

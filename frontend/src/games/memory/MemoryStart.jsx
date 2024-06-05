@@ -11,7 +11,7 @@ const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/memory/background.png"; // Update this path to the correct one
+    background.src = "/images/memory/background.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -37,11 +37,11 @@ const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
           zIndex: 1,
         }}
       >
-        <img src="images/memory/intro.png" alt="lỗi"></img>
+        <img src="/images/memory/intro.png" alt="lỗi"></img>
       </Box>
       <div>
         <img
-          src="images/memory/btn-lestplay.png"
+          src="/images/memory/btn-lestplay.png"
           alt="play"
           style={{
             position: "absolute",
@@ -57,7 +57,7 @@ const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
           }}
         ></img>
         <img
-          src="images/memory/howtoplay.png"
+          src="/images/memory/howtoplay.png"
           alt="play"
           style={{
             position: "absolute",

@@ -1,6 +1,13 @@
 import { Grid, Typography } from "@mui/material";
-
-export default function ExerciseCategory({ exercise }) {
+import { useNavigate } from "react-router-dom";
+import Exercises from "../pages/Exercises";
+export default function ExerciseCategory({
+  exercise,
+  courseId,
+  semesterId,
+  unitId,
+}) {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -10,6 +17,11 @@ export default function ExerciseCategory({ exercise }) {
         padding: "16px",
         margin: "15px",
         backgroundColor: "white",
+      }}
+      onClick={() => {
+        navigate(`/lesson/${exercise._id}`, {
+          state: { courseId, semesterId, unitId },
+        });
       }}
     >
       <Grid container alignItems="center" gridColumn={4}>

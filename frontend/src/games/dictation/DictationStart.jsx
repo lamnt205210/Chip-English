@@ -11,7 +11,7 @@ const DictationStart = ({ setPlay }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/dictation/bg.png"; // Update this path to the correct one
+    background.src = "/images/dictation/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -31,7 +31,7 @@ const DictationStart = ({ setPlay }) => {
       {!openGuide && (
         <Box>
           <img
-            src="images/dictation/title.png"
+            src="/images/dictation/title.png"
             alt="lỗi"
             style={{
               position: "absolute",
@@ -42,7 +42,7 @@ const DictationStart = ({ setPlay }) => {
             }}
           ></img>
           <img
-            src="images/dictation/btn-lestplay.png"
+            src="/images/dictation/btn-lestplay.png"
             alt="play"
             style={{
               position: "absolute",
@@ -56,7 +56,7 @@ const DictationStart = ({ setPlay }) => {
             onClick={() => setPlay(true)}
           ></img>
           <img
-            src="images/dictation/howto.png"
+            src="/images/dictation/howto.png"
             alt="play"
             style={{
               position: "absolute",
@@ -74,7 +74,7 @@ const DictationStart = ({ setPlay }) => {
       {openGuide && (
         <div>
           <img
-            src="images/dictation/bg_howtoplay.png"
+            src="/images/dictation/bg_howtoplay.png"
             alt="play"
             style={{
               position: "absolute",
@@ -87,7 +87,7 @@ const DictationStart = ({ setPlay }) => {
             onClick={() => setOpenGuide(true)}
           ></img>
           <img
-            src="images/dictation/back.png"
+            src="/images/dictation/back.png"
             alt="play"
             style={{
               position: "absolute",

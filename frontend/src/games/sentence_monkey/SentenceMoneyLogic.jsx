@@ -8,10 +8,10 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [selectedWord, setSelectedWord] = useState(null);
   const [monkeyImg, setMonkeyImg] = useState(
-    "images/sentence_monkey/monkey-doing.png"
+    "/images/sentence_monkey/monkey-doing.png"
   );
   const [buttonURL, setButtonURL] = useState(
-    "images/sentence_monkey/btn-submit.png"
+    "/images/sentence_monkey/btn-submit.png"
   );
   const [status, setStatus] = useState("doing");
 
@@ -25,16 +25,16 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/sentence_monkey/bg_main.png";
+    background.src = "/images/sentence_monkey/bg_main.png";
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       const overlay = new Image();
-      overlay.src = "images/sentence_monkey/bg_cauhoi.png";
+      overlay.src = "/images/sentence_monkey/bg_cauhoi.png";
       overlay.onload = () => {
         context.drawImage(overlay, 22, 254, 938, 150);
       };
       const boxMonkey = new Image();
-      boxMonkey.src = "images/sentence_monkey/box_monkey.png";
+      boxMonkey.src = "/images/sentence_monkey/box_monkey.png";
       boxMonkey.onload = () => {
         context.drawImage(boxMonkey, 22, 36, 350, 198);
         const monkey = new Image();
@@ -44,7 +44,7 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
         };
       };
       const boxCo = new Image();
-      boxCo.src = "images/sentence_monkey/box_conco.png";
+      boxCo.src = "/images/sentence_monkey/box_conco.png";
       boxCo.onload = () => {
         context.drawImage(boxCo, 608, 36, 350, 198);
         const sentenceImage = new Image();
@@ -91,18 +91,18 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
         const isCorrect = selectedWord.word === currentSentence.key;
         if (isCorrect) {
           setPoint(point + pointPerQuestion);
-          setMonkeyImg("images/sentence_monkey/monkey_happy.png");
-          openAudio("audio/sentence_monkey/true.mp3");
+          setMonkeyImg("/images/sentence_monkey/monkey_happy.png");
+          openAudio("/audio/sentence_monkey/true.mp3");
         } else {
-          setMonkeyImg("images/sentence_monkey/monkey_sad.png");
-          openAudio("audio/sentence_monkey/wrong.mp3");
+          setMonkeyImg("/images/sentence_monkey/monkey_sad.png");
+          openAudio("/audio/sentence_monkey/wrong.mp3");
         }
         setSelectedWord({
           word: currentSentence.key,
-          imageSrc: "images/sentence_monkey/box_goiy3.png",
+          imageSrc: "/images/sentence_monkey/box_goiy3.png",
         });
         setStatus("reviewing");
-        setButtonURL("images/sentence_monkey/btn-next.png");
+        setButtonURL("/images/sentence_monkey/btn-next.png");
       }
     } else {
       if (status === "reviewing") {
@@ -111,13 +111,13 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
         } else {
           setSentenceIndex(sentenceIndex + 1);
           setSelectedWord(null);
-          setMonkeyImg("images/sentence_monkey/monkey-doing.png");
+          setMonkeyImg("/images/sentence_monkey/monkey-doing.png");
           setStatus("doing");
-          setButtonURL("images/sentence_monkey/btn-submit.png");
+          setButtonURL("/images/sentence_monkey/btn-submit.png");
         }
       } else {
         setSelectedWord(null);
-        setMonkeyImg("images/sentence_monkey/monkey.png");
+        setMonkeyImg("/images/sentence_monkey/monkey.png");
         setStatus("doing");
       }
     }
@@ -145,17 +145,17 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
             onClick={handleOnClickButton}
             onMouseEnter={() => {
               if (status === "doing")
-                setButtonURL("images/sentence_monkey/btn-submit-hover.png");
+                setButtonURL("/images/sentence_monkey/btn-submit-hover.png");
             }}
             onMouseLeave={() => {
               if (status === "doing")
-                setButtonURL("images/sentence_monkey/btn-submit.png");
+                setButtonURL("/images/sentence_monkey/btn-submit.png");
             }}
           ></img>
         </Box>
         <Box>
           <img
-            src="images/sentence_monkey/box_diem.png"
+            src="/images/sentence_monkey/box_diem.png"
             alt="lỗi"
             style={{
               position: "absolute",
@@ -199,7 +199,7 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
             <DraggableWord
               key={index}
               word={word}
-              imageSrc={`images/sentence_monkey/box_goiy${index}.png`}
+              imageSrc={`/images/sentence_monkey/box_goiy${index}.png`}
               top={`${index < 3 ? 53 : 65}%`}
               left={`${index < 3 ? 20 + index * 30 : 35 + (index - 3) * 30}%`}
             />
@@ -329,7 +329,7 @@ const DropTarget = ({ children, onDrop, onReset }) => {
       onClick={onReset}
     >
       <img
-        src="images/sentence_monkey/bg_cauhoi.png"
+        src="/images/sentence_monkey/bg_cauhoi.png"
         alt="dap an"
         style={{
           width: "100%",

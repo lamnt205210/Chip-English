@@ -7,23 +7,25 @@ const ChooseWordStart = ({ setPlay, words }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const [openLearn, setOpenLearn] = useState(false);
   const canvasRef = useRef(null);
-  const [srcPlay, setSrcPlay] = useState("images/choose_word/btn_letsplay.png");
+  const [srcPlay, setSrcPlay] = useState(
+    "/images/choose_word/btn_letsplay.png"
+  );
   const [srcHowToPlay, setSrcHowToPlay] = useState(
-    "images/choose_word/btn_howtoplay.png"
+    "/images/choose_word/btn_howtoplay.png"
   );
   const [srcLearn, setSrcLearn] = useState(
-    "images/choose_word/btn_letslearn.png"
+    "/images/choose_word/btn_letslearn.png"
   );
-  const [srcBack, setSrcBack] = useState("images/choose_word/btn_backbig.png");
+  const [srcBack, setSrcBack] = useState("/images/choose_word/btn_backbig.png");
   useEffect(() => {
-    openAudio("audio/monkey-game-start.mp3");
+    openAudio("/audio/monkey-game-start.mp3");
   }, []);
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/choose_word/bg.jpg"; // Update this path to the correct one
+    background.src = "/images/choose_word/bg.jpg"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -56,9 +58,11 @@ const ChooseWordStart = ({ setPlay, words }) => {
           }}
           onClick={() => setPlay(true)}
           onMouseEnter={() =>
-            setSrcPlay("images/choose_word/btn_letsplay_hover.png")
+            setSrcPlay("/images/choose_word/btn_letsplay_hover.png")
           }
-          onMouseLeave={() => setSrcPlay("images/choose_word/btn_letsplay.png")}
+          onMouseLeave={() =>
+            setSrcPlay("/images/choose_word/btn_letsplay.png")
+          }
         ></img>
         <img
           src={srcHowToPlay}
@@ -74,10 +78,10 @@ const ChooseWordStart = ({ setPlay, words }) => {
           }}
           onClick={() => setOpenGuide(true)}
           onMouseEnter={() =>
-            setSrcHowToPlay("images/choose_word/btn_howtoplay_hover.png")
+            setSrcHowToPlay("/images/choose_word/btn_howtoplay_hover.png")
           }
           onMouseLeave={() =>
-            setSrcHowToPlay("images/choose_word/btn_howtoplay.png")
+            setSrcHowToPlay("/images/choose_word/btn_howtoplay.png")
           }
         ></img>
         <img
@@ -94,10 +98,10 @@ const ChooseWordStart = ({ setPlay, words }) => {
           }}
           onClick={() => setOpenLearn(true)}
           onMouseEnter={() =>
-            setSrcLearn("images/choose_word/btn_letslearn_hover.png")
+            setSrcLearn("/images/choose_word/btn_letslearn_hover.png")
           }
           onMouseLeave={() =>
-            setSrcLearn("images/choose_word/btn_letslearn.png")
+            setSrcLearn("/images/choose_word/btn_letslearn.png")
           }
         ></img>
       </Box>
@@ -105,7 +109,7 @@ const ChooseWordStart = ({ setPlay, words }) => {
       {openGuide && (
         <div>
           <img
-            src="images/choose_word/boardguide.jpg"
+            src="/images/choose_word/boardguide.jpg"
             alt="play"
             style={{
               position: "absolute",
@@ -132,10 +136,10 @@ const ChooseWordStart = ({ setPlay, words }) => {
             }}
             onClick={() => setOpenGuide(false)}
             onMouseEnter={() =>
-              setSrcBack("images/choose_word/btn_backbig_hover.png")
+              setSrcBack("/images/choose_word/btn_backbig_hover.png")
             }
             onMouseLeave={() =>
-              setSrcBack("images/choose_word/btn_backbig.png")
+              setSrcBack("/images/choose_word/btn_backbig.png")
             }
           ></img>
           <Typography

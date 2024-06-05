@@ -16,7 +16,7 @@ const ChooseWordLogic = ({ words, point, setPoint, setFinish }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/choose_word/bg_play.jpg";
+    background.src = "/images/choose_word/bg_play.jpg";
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
     };
@@ -31,11 +31,11 @@ const ChooseWordLogic = ({ words, point, setPoint, setFinish }) => {
   useEffect(() => {
     if (answer !== "") {
       if (answer === currentWord.word) {
-        openAudio("audio/sentence_monkey/true.mp3");
+        openAudio("/audio/sentence_monkey/true.mp3");
         setPoint((prevPoint) => prevPoint + pointPerQuestion);
         setShowAnswer(true);
       } else {
-        openAudio("audio/sentence_monkey/wrong.mp3");
+        openAudio("/audio/sentence_monkey/wrong.mp3");
         setShowAnswer(true);
       }
 
@@ -52,7 +52,7 @@ const ChooseWordLogic = ({ words, point, setPoint, setFinish }) => {
 
       return () => clearTimeout(timeout);
     } else if (time === 0 && answer === "") {
-      openAudio("audio/sentence_monkey/wrong.mp3");
+      openAudio("/audio/sentence_monkey/wrong.mp3");
 
       const timeout = setTimeout(() => {
         if (currentIndex < words.length - 1) {

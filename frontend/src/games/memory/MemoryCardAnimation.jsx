@@ -9,7 +9,7 @@ const MemoryCardAnimation = ({ words, setScenario }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/memory/background.png"; // Update this path to the correct one
+    background.src = "/images/memory/background.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
     };
@@ -60,7 +60,7 @@ const MemoryCardAnimation = ({ words, setScenario }) => {
         height={550}
       ></canvas>
       <img
-        src="images/memory/boardinsight.png"
+        src="/images/memory/boardinsight.png"
         alt="play"
         style={{
           position: "absolute",
@@ -145,7 +145,7 @@ const MemoryCardAnimation = ({ words, setScenario }) => {
               )
             ) : (
               <img
-                src="images/memory/card.png"
+                src="/images/memory/card.png"
                 alt="cover"
                 style={{ width: "100%", height: "100%" }}
               />

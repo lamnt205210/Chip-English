@@ -13,7 +13,19 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
   });
   console.log("data", data);
   const unitName = data?.lessons[0]?.unit.englishName;
+  // Define the desired order of categories
+  const categoryOrder = ["Từ vựng", "Ngữ âm", "Mẫu câu"];
 
+  // Sorting function
+  const lessons = data?.lessons;
+  const sortLessonsByCategory = (lessons) => {
+    if (!lessons) return [];
+    return lessons.sort((a, b) => {
+      return (
+        categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)
+      );
+    });
+  };
   return (
     <div
       style={{
@@ -63,8 +75,14 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
         >
           {unitName}
         </Typography>
-        {data?.lessons.map((exercise) => (
-          <ExerciseCatergory key={exercise._id} exercise={exercise} />
+        {sortLessonsByCategory(lessons).map((exercise) => (
+          <ExerciseCatergory
+            key={exercise._id}
+            exercise={exercise}
+            courseId={courseId}
+            semesterId={semesterId}
+            unitId={unitId}
+          />
         ))}
       </Box>
     </div>

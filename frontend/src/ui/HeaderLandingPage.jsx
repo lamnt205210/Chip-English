@@ -30,7 +30,7 @@ function HeaderLandingPage(prop) {
           <Toolbar disableGutters>
             <Avatar
               alt="EnglishChip"
-              src="images/logo.jpg"
+              src="/images/logo.jpg"
               sx={{ width: 70, height: 70 }}
             />
 
@@ -117,7 +117,7 @@ export default HeaderLandingPage;
 //           <Toolbar disableGutters>
 //             <Avatar
 //               alt="EnglishChip"
-//               src="images/logo.jpg"
+//               src="/images/logo.jpg"
 //               sx={{ width: 80, height: 80 }}
 //             />
 //             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>

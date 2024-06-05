@@ -13,12 +13,18 @@ const lessonSchema = new Schema(
     },
     name: { type: String, required: true },
     videoURL: { type: String, required: false },
+    games: [
+      {
+        gameName: { type: String },
+        materialId: { type: Schema.Types.ObjectId, ref: "Material" },
+      },
+    ],
   },
   { collection: "lessons" }
 );
 
 // Create the models
 
-const Lesson = mongoose.model("Lessom", lessonSchema);
+const Lesson = mongoose.model("Lesson", lessonSchema);
 
 module.exports = Lesson;

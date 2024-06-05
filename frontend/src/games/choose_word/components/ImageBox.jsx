@@ -21,7 +21,7 @@ const ImageBox = ({ word }) => {
         }}
       />
       <img
-        src="images/choose_word/sound.png"
+        src="/images/choose_word/sound.png"
         alt="sound"
         style={{
           position: "absolute",

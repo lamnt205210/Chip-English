@@ -6,18 +6,18 @@ const SortSentenceStart = ({ setPlay }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const canvasRef = useRef(null);
   const [srcPlay, setSrcPlay] = useState(
-    "images/sort_sentence/btn-lestplay.png"
+    "/images/sort_sentence/btn-lestplay.png"
   );
   const [srcHowToPlay, setSrcHowToPlay] = useState(
-    "images/sort_sentence/btn-howtoplay.png"
+    "/images/sort_sentence/btn-howtoplay.png"
   );
-  const [srcBack, setSrcBack] = useState("images/sort_sentence/btn-back.png");
+  const [srcBack, setSrcBack] = useState("/images/sort_sentence/btn-back.png");
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/sort_sentence/bg.png"; // Update this path to the correct one
+    background.src = "/images/sort_sentence/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -37,7 +37,7 @@ const SortSentenceStart = ({ setPlay }) => {
       {!openGuide && (
         <Box>
           <img
-            src="images/sort_sentence/title.png"
+            src="/images/sort_sentence/title.png"
             alt="lỗi"
             style={{
               position: "absolute",
@@ -61,10 +61,10 @@ const SortSentenceStart = ({ setPlay }) => {
             }}
             onClick={() => setPlay(true)}
             onMouseEnter={() =>
-              setSrcPlay("images/sort_sentence/btn-lestplay-hover.png")
+              setSrcPlay("/images/sort_sentence/btn-lestplay-hover.png")
             }
             onMouseLeave={() =>
-              setSrcPlay("images/sort_sentence/btn-lestplay.png")
+              setSrcPlay("/images/sort_sentence/btn-lestplay.png")
             }
           ></img>
           <img
@@ -81,10 +81,10 @@ const SortSentenceStart = ({ setPlay }) => {
             }}
             onClick={() => setOpenGuide(true)}
             onMouseEnter={() =>
-              setSrcHowToPlay("images/sort_sentence/btn-howtoplay-hover.png")
+              setSrcHowToPlay("/images/sort_sentence/btn-howtoplay-hover.png")
             }
             onMouseLeave={() =>
-              setSrcHowToPlay("images/sort_sentence/btn-howtoplay.png")
+              setSrcHowToPlay("/images/sort_sentence/btn-howtoplay.png")
             }
           ></img>
         </Box>
@@ -92,7 +92,7 @@ const SortSentenceStart = ({ setPlay }) => {
       {openGuide && (
         <div>
           <img
-            src="images/sort_sentence/board.png"
+            src="/images/sort_sentence/board.png"
             alt="play"
             style={{
               position: "absolute",
@@ -119,9 +119,11 @@ const SortSentenceStart = ({ setPlay }) => {
             }}
             onClick={() => setOpenGuide(false)}
             onMouseEnter={() =>
-              setSrcBack("images/sort_sentence/btn-backhover.png")
+              setSrcBack("/images/sort_sentence/btn-backhover.png")
             }
-            onMouseLeave={() => setSrcBack("images/sort_sentence/btn-back.png")}
+            onMouseLeave={() =>
+              setSrcBack("/images/sort_sentence/btn-back.png")
+            }
           ></img>
           <Typography
             sx={{

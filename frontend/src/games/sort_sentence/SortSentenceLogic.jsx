@@ -14,12 +14,12 @@ export default function SortSentenceLogic({
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/sort_sentence/bg.png"; // Update this path to the correct one
+    background.src = "/images/sort_sentence/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Load and draw the overlay image
       const overlay = new Image();
-      overlay.src = "images/sort_sentence/mainboard.png"; // Update this path to the correct one
+      overlay.src = "/images/sort_sentence/mainboard.png"; // Update this path to the correct one
       overlay.onload = () => {
         // Calculate center position for the overlay
         const overlayX = (canvas.width - overlay.width) / 2;
@@ -47,7 +47,7 @@ export default function SortSentenceLogic({
 
   const [status, setStatus] = useState("doing");
   const [srcButton, setSrcButton] = useState(
-    "images/sort_sentence/btn-submit.png"
+    "/images/sort_sentence/btn-submit.png"
   );
   //
   const pointPerQuestion = 100 / sentences.length;
@@ -112,25 +112,25 @@ export default function SortSentenceLogic({
       const correct = sentences[sentenceIndex].sentence.toLowerCase();
       if (result === correct) {
         setPoint(point + pointPerQuestion);
-        openAudio("audio/rightanswer.mp3");
+        openAudio("/audio/rightanswer.mp3");
         setCheckAnswer(true);
       } else {
         setCheckAnswer(false);
-        openAudio("audio/wronganswer.mp3");
+        openAudio("/audio/wronganswer.mp3");
         setSelectedWords([sentences[sentenceIndex].sentence]);
       }
       setTimeout(() => {
         setVisible(false);
       }, 1000);
       if (sentenceIndex === sentences.length - 1) {
-        setSrcButton("images/sort_sentence/btn-finish.png");
+        setSrcButton("/images/sort_sentence/btn-finish.png");
       } else {
-        setSrcButton("images/sort_sentence/btn-next.png");
+        setSrcButton("/images/sort_sentence/btn-next.png");
       }
     } else {
       if (sentenceIndex < sentences.length - 1) {
         setSentenceIndex(sentenceIndex + 1);
-        setSrcButton("images/sort_sentence/btn-submit.png");
+        setSrcButton("/images/sort_sentence/btn-submit.png");
         setStatus("doing");
         setVisible(true);
       } else {
@@ -163,7 +163,7 @@ export default function SortSentenceLogic({
 
       <Box>
         <img
-          src="images/sort_sentence/point.png"
+          src="/images/sort_sentence/point.png"
           alt="lỗi"
           style={{
             position: "absolute",
@@ -274,8 +274,8 @@ export default function SortSentenceLogic({
             <img
               src={
                 checkAnswer === true
-                  ? "images/dictation/well.png"
-                  : "images/dictation/try.png"
+                  ? "/images/dictation/well.png"
+                  : "/images/dictation/try.png"
               }
               alt="check"
               className="rotate-animation"

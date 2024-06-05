@@ -2,6 +2,7 @@ const Teacher = require("../models/course/TeacherModel");
 const Course = require("../models/course/CourseModel");
 const Unit = require("../models/course/UnitModel");
 const Lesson = require("../models/course/LessonModel");
+const Material = require("../models/course/MaterialModel");
 const mongoose = require("mongoose");
 const getAllCourses = async () => {
   try {
@@ -9,7 +10,7 @@ const getAllCourses = async () => {
       path: "teacher",
       model: "Teacher",
     });
-    console.log("courses", courses);
+
     return { courses: courses };
   } catch (error) {
     return error;
@@ -22,7 +23,7 @@ const getUnitsByCourseId = async (courseId, semesterId) => {
       courseId: courseId,
       semesterId: semesterId,
     });
-    console.log("Units found:", units);
+
     return { units: units };
   } catch (error) {
     return error;
@@ -37,4 +38,20 @@ const getUnitDetailsById = async (unitId) => {
     return error;
   }
 };
-module.exports = { getAllCourses, getUnitsByCourseId, getUnitDetailsById };
+const getLessonDetailsById = async (lessonId) => {
+  try {
+    const lesson = await Lesson.findById({ _id: lessonId }).populate({
+      path: "games.materialId",
+      model: "Material",
+    });
+    return lesson;
+  } catch (error) {
+    return error;
+  }
+};
+module.exports = {
+  getAllCourses,
+  getUnitsByCourseId,
+  getUnitDetailsById,
+  getLessonDetailsById,
+};

@@ -12,7 +12,7 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/dictation/bg.png";
+    background.src = "/images/dictation/bg.png";
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
     };
@@ -64,13 +64,13 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
     setStatus("review");
     if (result === correct) {
       setPoint(point + pointPerQuestion);
-      openAudio("audio/rightanswer.mp3");
+      openAudio("/audio/rightanswer.mp3");
       setCheckAnswer(true);
       setTimeout(() => {
         setVisible(false);
       }, 1000);
     } else {
-      openAudio("audio/wronganswer.mp3");
+      openAudio("/audio/wronganswer.mp3");
       setCheckAnswer(false);
     }
   };
@@ -96,7 +96,7 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
       ></canvas>
       <Box>
         <img
-          src="images/dictation/mainboard.png"
+          src="/images/dictation/mainboard.png"
           alt="lỗi"
           style={{
             position: "absolute",
@@ -109,7 +109,7 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
 
       <Box>
         <img
-          src="images/dictation/point.png"
+          src="/images/dictation/point.png"
           alt="lỗi"
           style={{
             position: "absolute",
@@ -169,7 +169,7 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
             }}
           ></img>
           <img
-            src="images/dictation/sound.png"
+            src="/images/dictation/sound.png"
             alt="sound"
             style={{
               position: "absolute",
@@ -226,8 +226,8 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
               <img
                 src={
                   checkAnswer === true
-                    ? "images/dictation/well.png"
-                    : "images/dictation/try.png"
+                    ? "/images/dictation/well.png"
+                    : "/images/dictation/try.png"
                 }
                 alt="check"
                 className="rotate-animation"

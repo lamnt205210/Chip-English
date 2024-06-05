@@ -4,7 +4,7 @@ const MemoryDialogGuide = ({ setOpenGuide }) => {
   return (
     <div>
       <img
-        src="images/memory/guide.png"
+        src="/images/memory/guide.png"
         alt="play"
         style={{
           position: "absolute",
@@ -16,7 +16,7 @@ const MemoryDialogGuide = ({ setOpenGuide }) => {
         onClick={() => setOpenGuide(false)}
       ></img>
       <img
-        src="images/memory/backIntro.png"
+        src="/images/memory/backIntro.png"
         alt="play"
         style={{
           position: "absolute",

@@ -13,7 +13,7 @@ const ListenAndChooseLogic = ({
   point,
   setPoint,
 }) => {
-  const audioClick = "audio/touch.mp3";
+  const audioClick = "/audio/touch.mp3";
   //   const [point, setPoint] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
   const [trueAnswer, setTrueAnswer] = useState(() => getRandomOneOrTwo());
@@ -31,7 +31,7 @@ const ListenAndChooseLogic = ({
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/listen_and_choose/listen_and_choose_bg_main.png"; // Update this path to the correct one
+    background.src = "/images/listen_and_choose/listen_and_choose_bg_main.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -68,9 +68,9 @@ const ListenAndChooseLogic = ({
 
     if (isClicked === trueAnswer) {
       setPoint(point + pointPerQuestion);
-      openAudio("audio/rightanswer.mp3");
+      openAudio("/audio/rightanswer.mp3");
     } else {
-      openAudio("audio/wronganswer.mp3");
+      openAudio("/audio/wronganswer.mp3");
     }
   };
   const handleNextQuestion = () => {
@@ -109,8 +109,8 @@ const ListenAndChooseLogic = ({
           <img
             src={
               isClicked === trueAnswer
-                ? "images/listen_and_choose/well.png"
-                : "images/listen_and_choose/try.png"
+                ? "/images/listen_and_choose/well.png"
+                : "/images/listen_and_choose/try.png"
             }
             alt="lỗi"
             className="rotate-animation"

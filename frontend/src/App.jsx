@@ -84,6 +84,7 @@ const App = () => {
           path="/course/:courseId/semester/:semesterId/unit/:unitId"
           element={<UnitWrapper />}
         />
+        <Route path="/lesson/:lessonId" element={<LessonWrapper />} />
         <Route path="/test" element={<Exercises />} />
         <Route index element={<Navigate replace to="landing-page" />} />
         <Route path="landing-page" element={<LangdingPage />} />
@@ -110,3 +111,7 @@ const UnitWrapper = () => {
   );
 };
 export default App;
+const LessonWrapper = () => {
+  const { lessonId } = useParams();
+  return <Exercises lessonId={lessonId} />;
+};

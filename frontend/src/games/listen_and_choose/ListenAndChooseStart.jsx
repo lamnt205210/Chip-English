@@ -10,7 +10,7 @@ const ListenAndChooseStart = ({ setPlay }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/listen_and_choose/listen_and_choose_bg.png"; // Update this path to the correct one
+    background.src = "/images/listen_and_choose/listen_and_choose_bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây

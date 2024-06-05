@@ -8,4 +8,5 @@ router.get(
   courseController.getUnitsByCourseId
 );
 router.get("/unit/:unitId", courseController.getUnitDetailsById);
+router.get("/lesson/:lessonId", courseController.getLessonDetailsById);
 module.exports = router;

@@ -4,7 +4,7 @@ const TimeBox = ({ time }) => {
   return (
     <Box style={{ position: "relative" }}>
       <img
-        src="images/choose_word/time.png"
+        src="/images/choose_word/time.png"
         alt="score"
         style={{
           position: "relative",

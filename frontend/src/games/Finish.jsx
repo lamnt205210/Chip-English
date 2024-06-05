@@ -19,13 +19,13 @@ const Finish = ({ point, handleReplay }) => {
   const rate = evaluate(point);
 
   if (rate === 1) {
-    openAudio("audio/TryAgain.mp3");
+    openAudio("/audio/TryAgain.mp3");
   } else if (rate === 2) {
-    openAudio("audio/NiceTry.mp3");
+    openAudio("/audio/NiceTry.mp3");
   } else if (rate === 3) {
-    openAudio("audio/GoodJob.mp3");
+    openAudio("/audio/GoodJob.mp3");
   } else {
-    openAudio("audio/Excellent.mp3");
+    openAudio("/audio/Excellent.mp3");
   }
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Finish = ({ point, handleReplay }) => {
     const context = canvas.getContext("2d");
 
     const background = new Image();
-    background.src = "images/sentence_monkey/bg.png"; // Update this path to the correct one
+    background.src = "/images/sentence_monkey/bg.png"; // Update this path to the correct one
     background.onload = () => {
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
       // Vẽ các đối tượng game khác tại đây
@@ -62,12 +62,12 @@ const Finish = ({ point, handleReplay }) => {
         <img
           src={
             rate === 1
-              ? "images/listen_and_choose/tryAgain.png"
+              ? "/images/listen_and_choose/tryAgain.png"
               : rate === 2
-              ? "images/listen_and_choose/niceTry.png"
+              ? "/images/listen_and_choose/niceTry.png"
               : rate === 3
-              ? "images/listen_and_choose/goodJob.png"
-              : "images/listen_and_choose/excellent.png"
+              ? "/images/listen_and_choose/goodJob.png"
+              : "/images/listen_and_choose/excellent.png"
           }
           alt="lỗi"
         ></img>
@@ -87,7 +87,7 @@ const Finish = ({ point, handleReplay }) => {
       </Typography>
       <Box onClick={handleReplay}>
         <img
-          src="images/listen_and_choose/btnRePlay.png"
+          src="/images/listen_and_choose/btnRePlay.png"
           alt="point"
           style={{
             position: "absolute",
