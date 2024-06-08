@@ -11,8 +11,8 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
     queryKey: ["units", unitId],
     queryFn: () => CourseService.getUnitDetails(unitId),
   });
-  console.log("data", data);
-  const unitName = data?.lessons[0]?.unit.englishName;
+
+  const unitName = data?.lessons[0]?.unitId.englishName;
   // Define the desired order of categories
   const categoryOrder = ["Từ vựng", "Ngữ âm", "Mẫu câu"];
 

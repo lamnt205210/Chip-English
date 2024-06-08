@@ -14,6 +14,7 @@ const Course = ({ courseId, semesterId }) => {
     queryFn: () => CourseService.getUnits(courseId, semester),
   });
   const units = data?.units || [];
+  const courseName = units[0]?.courseId.name || "";
 
   return (
     <div style={{ margin: "30px 48px 100px" }}>
@@ -44,7 +45,7 @@ const Course = ({ courseId, semesterId }) => {
               fontWeight: "bold",
             }}
           >
-            Tiếng Anh Lớp {courseId}
+            {courseName}
           </Typography>
         </Box>
       </Box>
@@ -56,7 +57,7 @@ const Course = ({ courseId, semesterId }) => {
             key={unit._id}
             style={{ width: "25%", padding: "0 10px", marginBottom: "20px" }}
           >
-            <UnitCard unit={unit} courseId={courseId} semesterId={semesterId} />
+            <UnitCard unit={unit} courseId={courseId} semesterId={semester} />
           </div>
         ))}
       </div>

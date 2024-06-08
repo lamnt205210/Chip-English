@@ -1,26 +1,38 @@
-import React, { useState } from "react";
-import { Tabs, Tab, Box, Typography } from "@mui/material";
-
-const TabPanel = ({ children, value, index }) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-      style={{ marginTop: "20px" }}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-};
-
+import React, { useState, useEffect } from "react";
+import { Tabs, Tab } from "@mui/material";
+import * as CourseService from "../services/CourseService";
 const SemesterTab = ({ semester, setSemester }) => {
-  const [value, setValue] = useState(semester - 1);
+  const [semesters, setSemesters] = useState([
+    { name: "Học kì 1", id: null },
+    { name: "Học kì 2", id: null },
+  ]);
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const fetchSemesterIds = async () => {
+      try {
+        const semester1Id = await CourseService.getSemesterId(1);
+        const semester2Id = await CourseService.getSemesterId(2);
+
+        setSemesters([
+          { name: "Học kì 1", id: semester1Id },
+          { name: "Học kì 2", id: semester2Id },
+        ]);
+
+        // Find the index of the current semesterId to set the selected tab correctly
+        const currentSemesterIndex = semester1Id === semester ? 0 : 1;
+        setValue(currentSemesterIndex);
+      } catch (error) {
+        console.error("Failed to fetch semester IDs", error);
+      }
+    };
+
+    fetchSemesterIds();
+  }, [semester]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    setSemester(newValue + 1);
+    setSemester(semesters[newValue].id);
   };
 
   return (
@@ -57,30 +69,6 @@ const SemesterTab = ({ semester, setSemester }) => {
         <Tab label="Học kì 1" />
         <Tab label="Học kì 2" />
       </Tabs>
-      {/* <TabPanel value={value} index={0}>
-        <Box
-          sx={{
-            p: 2,
-            backgroundColor: "#ffffff",
-            borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-          }}
-        >
-          <Typography variant="h6">Học kì 1 Content</Typography>
-        </Box>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Box
-          sx={{
-            p: 2,
-            backgroundColor: "#ffffff",
-            borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-          }}
-        >
-          <Typography variant="h6">Học kì 2 Content</Typography>
-        </Box>
-      </TabPanel> */}
     </div>
   );
 };

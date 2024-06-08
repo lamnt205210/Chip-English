@@ -96,18 +96,12 @@ const App = () => {
 // Wrapper component to extract URL params and pass them as props to Course component
 const CourseWrapper = () => {
   const { courseId, semesterId } = useParams();
-  return (
-    <Course courseId={parseInt(courseId)} semesterId={parseInt(semesterId)} />
-  );
+  return <Course courseId={courseId} semesterId={semesterId} />;
 };
 const UnitWrapper = () => {
   const { courseId, semesterId, unitId } = useParams();
   return (
-    <UnitDetail
-      courseId={parseInt(courseId)}
-      semesterId={parseInt(semesterId)}
-      unitId={unitId}
-    />
+    <UnitDetail courseId={courseId} semesterId={semesterId} unitId={unitId} />
   );
 };
 export default App;

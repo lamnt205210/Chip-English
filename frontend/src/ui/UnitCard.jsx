@@ -1,12 +1,12 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-
+import { useQuery } from "@tanstack/react-query";
+import * as CourseService from "../services/CourseService";
 export default function UnitCard({ unit, courseId, semesterId }) {
   const { _id, englishName, vnName, imageURL } = unit;
 
@@ -28,17 +28,6 @@ export default function UnitCard({ unit, courseId, semesterId }) {
         navigate(`/course/${courseId}/semester/${semesterId}/unit/${_id}`);
       }}
     >
-      {/* <CardMedia
-        sx={{
-          height: 200,
-          borderRadius: 2,
-          margin: "30px",
-          backgroundSize: "contain", // Ensure the entire image is visible
-          backgroundPosition: "center", // Center the image
-        }}
-        image={imageURL}
-        title={englishName}
-      /> */}
       <Box
         sx={{
           height: 250,

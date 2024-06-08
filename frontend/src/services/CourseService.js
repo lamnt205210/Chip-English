@@ -28,3 +28,25 @@ export const getLessonDetails = async (lessonId) => {
 
   return res.data;
 };
+
+export const getSemesterId = async (semesterNumber) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/course/semester/${semesterNumber}`
+  );
+
+  return res.data;
+};
+export const getCourseId = async (courseNumber) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/course/${courseNumber}`
+  );
+  return res.data;
+};
+
+export const getMaterialById = async (materialId) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/course/material/${materialId}`
+  );
+
+  return res.data;
+};

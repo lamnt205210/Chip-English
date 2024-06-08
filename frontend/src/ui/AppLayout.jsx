@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import { Box } from "@mui/system";
 import { isJsonString } from "../utils/utils";
 import * as UserService from "../services/UserService";
-import { updateUser } from "../redux/slides/userSlice";
+import { updateUser } from "../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 axios.defaults.withCredentials = true;

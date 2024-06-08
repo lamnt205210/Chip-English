@@ -5,13 +5,13 @@ const { Schema } = mongoose;
 const semesterSchema = new Schema(
   {
     name: { type: String, required: true },
-    semesterId: { type: Number, required: true, unique: true },
+    semesterNumber: { type: Number, required: true, unique: true },
   },
   { collection: "semesters" }
 );
 
 // Create the models
 
-const Course = mongoose.model("Semester", semesterSchema);
+const Semester = mongoose.model("Semester", semesterSchema);
 
 module.exports = Semester;

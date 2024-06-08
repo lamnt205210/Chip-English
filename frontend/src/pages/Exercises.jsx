@@ -14,7 +14,7 @@ const Exercises = ({ lessonId }) => {
     queryKey: ["lesson", lessonId],
     queryFn: () => CourseService.getLessonDetails(lessonId),
   });
-
+  console.log("data", data);
   const videoURL = data?.videoURL || "";
   const games = data?.games || [];
   return (
@@ -56,7 +56,12 @@ const Exercises = ({ lessonId }) => {
           overflow: "hidden",
         }}
       >
-        <Board videoURL={videoURL} games={games} />
+        <Board
+          videoURL={videoURL}
+          games={games}
+          lessonId={lessonId}
+          unitId={unitId}
+        />
       </Box>
     </div>
   );

@@ -108,7 +108,7 @@ const authGoogle = () => {
   });
 };
 const authGoogleCallback = (req, res, next) => {
-  passport.authenticate("google", (err, data) => {
+  return passport.authenticate("google", (err, data) => {
     req.data = data; // Attach the user object to the request
     console.log("data", req.data);
     const { user, access_token, refresh_token } = data;

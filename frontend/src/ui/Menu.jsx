@@ -17,8 +17,6 @@ import {
 } from "@mui/material";
 
 import MuiDrawer from "@mui/material/Drawer";
-
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -27,8 +25,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { resetUser } from "../redux/slides/userSlice";
+import { resetUser } from "../redux/slices/userSlice";
 import * as UserService from "../services/UserService";
+import { useQuery } from "@tanstack/react-query";
+import * as CourseService from "../services/CourseService";
 const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
@@ -71,23 +71,11 @@ const DrawerFooter = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   position: "sticky", // Fixed position at the bottom
-  // zIndex: theme.zIndex.drawer + 1,
-
-  // height: 90,
-  // height: 80,
   bottom: 0,
   width: drawerWidth,
   marginTop: "auto",
-
-  // padding: theme.spacing(2, 2),
 }));
 
-// const DrawerContent = styled("div")(({ theme }) => ({
-//   flexGrow: 1,
-//   overflow: "auto", // Allow scrolling
-//   paddingTop: theme.mixins.toolbar.minHeight, // Adjust padding to avoid overlap with fixed header
-//   paddingBottom: theme.spacing(8), // Adjust padding to avoid overlap with fixed footer
-// }));
 const DrawerContent = styled("div")(({ theme }) => ({
   overflow: "auto",
   paddingLeft: "10px",
@@ -155,6 +143,17 @@ export default function Menu() {
     dispatch(resetUser());
     navigate("/landing-page");
   };
+  const { data: dataCourses } = useQuery({
+    queryKey: ["course"],
+    queryFn: () => CourseService.getAllCourses(),
+  });
+  const courses = dataCourses?.courses || [];
+  const { data: semesterData } = useQuery({
+    queryKey: ["semester"],
+    queryFn: () => CourseService.getSemesterId(1),
+  });
+  // console.log("semesterData", semesterData);
+  const semesterId = semesterData || "";
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -209,112 +208,6 @@ export default function Menu() {
         </DrawerHeader>
         <Divider />
         <DrawerContent>
-          {/* <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem
-                key={text}
-                disablePadding
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    display: "flex",
-                    justifyContent: open ? "initial" : "center",
-                    alignItems: "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      marginRight: open ? 3 : 0,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <InboxIcon
-                      fontSize="large"
-                      sx={{
-                        color: "white",
-                      }}
-                    />
-                  </ListItemIcon>
-                  {open && (
-                    <ListItemText
-                      primary={text}
-                      sx={{
-                        display: open ? "block" : "none",
-                      }}
-                      primaryTypographyProps={{
-                        fontFamily: "Cabin, sans-serif",
-                        fontWeight: "bold",
-                        fontSize: "24px",
-                      }}
-                    />
-                  )}
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem
-                key={text}
-                disablePadding
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    display: "flex",
-                    justifyContent: open ? "initial" : "center",
-                    alignItems: "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      marginRight: open ? 3 : 0,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <InboxIcon
-                      fontSize="large"
-                      sx={{
-                        color: "white",
-                      }}
-                    />
-                  </ListItemIcon>
-                  {open && (
-                    <ListItemText
-                      primary={text}
-                      sx={{
-                        display: open ? "block" : "none",
-                      }}
-                      primaryTypographyProps={{
-                        fontFamily: "Cabin, sans-serif",
-                        fontWeight: "bold",
-                        fontSize: "24px",
-                      }}
-                    />
-                  )}
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List> */}
           <List>
             <ListItem
               disablePadding
@@ -365,17 +258,19 @@ export default function Menu() {
             </ListItem>
             <Collapse in={openCourse && open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {[1, 2, 3, 4, 5].map((text, index) => {
+                {courses.map((course, index) => {
                   return (
                     <ListItemButton
-                      key={text}
+                      key={index}
                       sx={{ pl: 10, py: 0.5 }}
                       onClick={() => {
-                        navigate(`/course/${text}/semester/1`);
+                        navigate(
+                          `/course/${course._id}/semester/${semesterId}`
+                        );
                       }}
                     >
                       <ListItemText
-                        primary={`Tiếng Anh lớp ${text}`}
+                        primary={`Tiếng Anh lớp ${course.courseNumber}`}
                         primaryTypographyProps={{
                           fontFamily: "Cabin, sans-serif",
 

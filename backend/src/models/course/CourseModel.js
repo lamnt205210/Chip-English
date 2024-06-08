@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 // Define the Course schema
 const courseSchema = new Schema(
   {
-    courseId: { type: Number, required: true, unique: true },
+    courseNumber: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     imageURL: { type: String, required: true },

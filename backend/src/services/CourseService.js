@@ -2,6 +2,7 @@ const Teacher = require("../models/course/TeacherModel");
 const Course = require("../models/course/CourseModel");
 const Unit = require("../models/course/UnitModel");
 const Lesson = require("../models/course/LessonModel");
+const Semester = require("../models/course/SemesterModel");
 const Material = require("../models/course/MaterialModel");
 const mongoose = require("mongoose");
 const getAllCourses = async () => {
@@ -20,18 +21,21 @@ const getAllCourses = async () => {
 const getUnitsByCourseId = async (courseId, semesterId) => {
   try {
     const units = await Unit.find({
-      courseId: courseId,
-      semesterId: semesterId,
-    });
+      courseId,
+      semesterId,
+    }).populate("courseId");
 
+    console.log("units", units);
     return { units: units };
   } catch (error) {
+    console.error("Error fetching units:", error);
     return error;
   }
 };
+
 const getUnitDetailsById = async (unitId) => {
   try {
-    const lessons = await Lesson.find({ unit: unitId }).populate("unit");
+    const lessons = await Lesson.find({ unitId: unitId }).populate("unitId");
 
     return { lessons: lessons };
   } catch (error) {
@@ -40,11 +44,33 @@ const getUnitDetailsById = async (unitId) => {
 };
 const getLessonDetailsById = async (lessonId) => {
   try {
-    const lesson = await Lesson.findById({ _id: lessonId }).populate({
-      path: "games.materialId",
-      model: "Material",
-    });
+    const lesson = await Lesson.findById(lessonId);
+
     return lesson;
+  } catch (error) {
+    return error;
+  }
+};
+const getSemesterId = async (semesterNumber) => {
+  try {
+    const semester = await Semester.findOne({ semesterNumber: semesterNumber });
+    return semester._id;
+  } catch (error) {
+    return error;
+  }
+};
+const getCourseId = async (courseNumber) => {
+  try {
+    const course = await Course.findOne({ courseNumber: courseNumber });
+    return course._id;
+  } catch (error) {
+    return error;
+  }
+};
+const getMaterialById = async (materialId) => {
+  try {
+    const material = await Material.findById(materialId);
+    return material;
   } catch (error) {
     return error;
   }
@@ -54,4 +80,7 @@ module.exports = {
   getUnitsByCourseId,
   getUnitDetailsById,
   getLessonDetailsById,
+  getSemesterId,
+  getCourseId,
+  getMaterialById,
 };

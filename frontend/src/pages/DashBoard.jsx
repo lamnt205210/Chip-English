@@ -46,7 +46,8 @@ const DashBoard = () => {
               imageURL={course.imageURL}
               id={course.id}
               teachers={course.teacher}
-              courseId={course.courseId}
+              courseId={course._id}
+              courseNumber={course.courseNumber}
             />
           </Box>
         ))}

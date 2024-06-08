@@ -3,29 +3,36 @@ const GoogleUser = require("../models/user/GoogleUserModel");
 const BaseUser = require("../models/user/BaseUserModel");
 const { generalAccessToken } = require("./JwtService");
 const { generalRefreshToken } = require("./JwtService");
+const { initializeProgress } = require("./InitializeProgress");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 async function createUser(data) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { userName, password } = data;
 
-    // Check if the username already exists
-
-    const existingUser = await LocalUser.findOne({ userName });
+    const existingUser = await LocalUser.findOne({ userName }).session(session);
     if (existingUser) {
+      await session.abortTransaction();
+      session.endSession();
       return { status: "ERR", message: "Username already taken" };
     }
 
-    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new local user
+    const newUser = await LocalUser.create(
+      [{ userName, password: hashedPassword, typeUser: "Local" }],
+      { session }
+    );
+    const user = newUser[0];
 
-    const newUser = await LocalUser.create({
-      userName: userName,
-      password: hashedPassword,
-      typeUser: "Local",
-    });
+    await initializeProgress(user._id);
+
+    await session.commitTransaction();
+    session.endSession();
 
     return {
       status: "OK",
@@ -33,10 +40,44 @@ async function createUser(data) {
       user: newUser,
     };
   } catch (error) {
-    console.log(error);
+    await session.abortTransaction();
+    session.endSession();
+    console.error(error);
     return { status: "ERR", message: error.message };
   }
 }
+// async function createUser(data) {
+//   try {
+//     const { userName, password } = data;
+
+//     // Check if the username already exists
+
+//     const existingUser = await LocalUser.findOne({ userName });
+//     if (existingUser) {
+//       return { status: "ERR", message: "Username already taken" };
+//     }
+
+//     // Hash the password before saving
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Create a new local user
+
+//     const newUser = await LocalUser.create({
+//       userName: userName,
+//       password: hashedPassword,
+//       typeUser: "Local",
+//     });
+
+//     return {
+//       status: "OK",
+//       message: "User created successfully",
+//       user: newUser,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//     return { status: "ERR", message: error.message };
+//   }
+// }
 
 async function loginUser(data) {
   const { userName, password } = data;
@@ -44,7 +85,7 @@ async function loginUser(data) {
   // Find the user by username
   const user = await LocalUser.findOne({ userName });
   if (!user) {
-    return { status: "ERR", message: "Invalid username" };
+    return { status: "ERR", message: "Username does not exist" };
   }
 
   // Compare the password
@@ -83,17 +124,20 @@ const authenticateGoogleUser = async (
   try {
     console.log("profile", profile);
     if (profile) {
-      const user = await GoogleUser.findOne({ googleId: profile.id });
+      let user = await GoogleUser.findOne({ googleId: profile.id });
 
       if (!user) {
-        const user = await GoogleUser.create({
+        user = await GoogleUser.create({
           googleId: profile.id,
           email: profile.emails[0].value,
           displayName: profile.displayName,
           profilePicture: profile.photos[0].value,
           typeUser: "Google",
         });
+        // Initialize progress for the new user
+        await initializeProgress(user._id);
       }
+
       const access_token = generalAccessToken({ id: user._id });
       const refresh_token = generalRefreshToken({ id: user._id });
       done(null, { user, access_token, refresh_token });
@@ -111,82 +155,3 @@ module.exports = {
   getDetailsUser,
   authenticateGoogleUser,
 };
-
-// const User = require("../models/UserModel");
-// const bcrypt = require("bcrypt");
-// const { generalAccessToken } = require("./JwtService");
-// const { generalRefreshToken } = require("./JwtService");
-// //Sign-up
-// const createUser = (newUser) => {
-//   return new Promise(async (resolve, reject) => {
-//     const { userName, password, confirmPassword } = newUser;
-//     try {
-//       const checkUser = await User.findOne({ userName });
-//       if (checkUser !== null) {
-//         resolve({ status: "ERR", message: "Username already exists" });
-//       }
-//       const hash = bcrypt.hashSync(password, 10);
-
-//       const createdUser = await User.create({
-//         userName,
-//         password: hash,
-//       });
-
-//       if (createdUser) {
-//         resolve({
-//           status: "OK",
-//           message: "User created successfully",
-//           data: createdUser,
-//         });
-//       }
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// };
-
-// //Login
-// const loginUser = (userLogin) => {
-//   return new Promise(async (resolve, reject) => {
-//     const { userName, password } = userLogin;
-//     try {
-//       const checkUser = await LocalUser.findOne({ userName });
-//       if (checkUser === null) {
-//         resolve({ status: "ERR", message: "Username does not exists" });
-//       }
-//       const comparePassword = bcrypt.compareSync(password, checkUser.password);
-
-//       if (!comparePassword) {
-//         resolve({ status: "ERR", message: "Password is incorrect" });
-//       }
-//       const access_token = generalAccessToken({ id: checkUser._id });
-//       const refresh_token = generalRefreshToken({ id: checkUser._id });
-
-//       resolve({
-//         status: "OK",
-//         message: "Login successful",
-//         access_token,
-//         refresh_token,
-//       });
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// };
-
-// //Get detail user
-// const getDetailsUser = (userId) => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const user = await User.findOne({ _id: userId });
-//       if (user === null) {
-//         resolve({ status: "OK", message: "User does not exists" });
-//       }
-//       resolve({ status: "OK", message: "SUCCESS", data: user });
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// };
-
-// module.exports = { createUser, loginUser, getDetailsUser };
