@@ -16,7 +16,7 @@ const AppLayout = () => {
     const res = await UserService.getDetailsUser(id, token);
     console.log("user details", res?.user);
     const userDetail = res?.user;
-
+    console.log("userDetail profile Picture", userDetail?.profilePicture);
     dispatch(
       updateUser({
         userName: userDetail?.userName || userDetail?.displayName,

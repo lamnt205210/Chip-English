@@ -2,34 +2,14 @@ import React, { useState } from "react";
 import ListenAndChooseStart from "./ListenAndChooseStart";
 import ListenAndChooseLogic from "./ListenAndChooseLogic";
 import Finish from "../Finish";
-const ListenAndChoose = () => {
-  const words = [
-    {
-      word: "ball",
-      imageURL:
-        "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/ball_v.png",
-      audioURL:
-        "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_ball%20(1).mp3",
-    },
-    {
-      word: "Bill",
-      imageURL: "https://i.ibb.co/vYnmnQz/bill-v.png",
-      audioURL:
-        "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_bill.mp3",
-    },
-    {
-      word: "book",
-      imageURL: "https://i.ibb.co/0q8xPr5/book-v.png",
-      audioURL:
-        "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_book.mp3",
-    },
-    {
-      word: "bike",
-      imageURL: "https://i.ibb.co/Vwxpm9j/bike-v.png",
-      audioURL:
-        "https://raw.githubusercontent.com/lamnt205210/audio-hosting/main/uploads/g1u1l1_bike.mp3",
-    },
-  ];
+import * as CourseService from "../../services/CourseService";
+import { useQuery } from "@tanstack/react-query";
+const ListenAndChoose = ({ game }) => {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["lesson", game.materialId],
+    queryFn: () => CourseService.getMaterialById(game.materialId),
+  });
+  const words = data?.words || [];
 
   const pointPerQuestion = 100 / words.length;
   const [play, setPlay] = useState(false);
@@ -52,7 +32,9 @@ const ListenAndChoose = () => {
           setPoint={setPoint}
         />
       )}
-      {finish && <Finish point={point} handleReplay={handleReplay} />}
+      {finish && (
+        <Finish point={point} handleReplay={handleReplay} gameId={game._id} />
+      )}
     </div>
   );
 };

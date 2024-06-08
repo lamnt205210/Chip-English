@@ -1,7 +1,21 @@
 import React, { useRef, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { openAudio } from "../utils/audioUtils";
-const Finish = ({ point, handleReplay }) => {
+import { GetUserId } from "./GetUserId";
+import { useMutationHook } from "../hooks/useMutationHook";
+import * as ProgressService from "../services/ProgressService";
+const Finish = ({ point, handleReplay, gameId }) => {
+  const userId = GetUserId();
+  const mutation = useMutationHook((data) =>
+    ProgressService.updateGameScore(data)
+  );
+  const { data, error, isPending, isSuccess } = mutation;
+  useEffect(() => {
+    mutation.mutate({ userId, gameId, score: point });
+  }, []);
+  console.log("userId", typeof userId);
+  console.log("gaeId", typeof gameId);
+
   const canvasRef = useRef(null);
   const evaluate = (score) => {
     if (score >= 0 && score <= 25) {

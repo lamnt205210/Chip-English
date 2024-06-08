@@ -13,6 +13,7 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       state.userName = action.payload.userName;
       state.access_token = action.payload.access_token;
+      state.profilePicture = action.payload.profilePicture;
     },
     resetUser: (state) => initialState,
   },

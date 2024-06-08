@@ -14,6 +14,9 @@ const Exercises = ({ lessonId }) => {
     queryKey: ["lesson", lessonId],
     queryFn: () => CourseService.getLessonDetails(lessonId),
   });
+  if (isLoading) {
+    return null;
+  }
   console.log("data", data);
   const videoURL = data?.videoURL || "";
   const games = data?.games || [];

@@ -11,7 +11,13 @@ const Course = require("../models/course/CourseModel");
 const findIdsByGameId = async (gameId) => {
   try {
     // Find the lesson containing the given gameId
-    const lesson = await Lesson.findOne({ "games.materialId": gameId }).exec();
+    console.log("gameId", gameId);
+    const lesson = await Lesson.findOne({
+      games: { $elemMatch: { _id: gameId } },
+    }).exec();
+
+    // const lesson = await Lesson.findOne({ "games._id": gameId }).exec();
+    console.log("1", lesson);
     if (!lesson) {
       throw new Error(`No lesson found with gameId: ${gameId}`);
     }
@@ -71,11 +77,12 @@ const updateGameScore = async (userId, gameId, score) => {
   try {
     // Update game score
     await GameProgress.updateOne(
-      { userId: userId, game: gameId },
+      { userId: userId, gameId: gameId },
       { $set: { score } },
       { upsert: true, session }
     );
     const { lessonId, unitId, courseId } = await findIdsByGameId(gameId);
+    console.log(lessonId);
     // Recalculate lesson progress
     const lessonProgress = await LessonProgress.findOne({
       userId: userId,
@@ -144,7 +151,7 @@ const updateGameScore = async (userId, gameId, score) => {
   }
 };
 
-const updateVideoScore = async (userId, lessonId, unitId, courseId, score) => {
+const updateVideoScore = async (userId, lessonId, score) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -194,7 +201,7 @@ const updateVideoScore = async (userId, lessonId, unitId, courseId, score) => {
 
     // Recalculate course progress
     const courseUnits = await UnitProgress.find({
-      studentId: userId,
+      userId: userId,
       courseId: courseId,
     }).session(session);
     const courseCompleted =
@@ -241,7 +248,7 @@ const getUnitProgress = async (userId, unitId) => {
 const getLessonProgress = async (userId, lessonId) => {
   try {
     const lessonProgress = await LessonProgress.findOne({
-      studentId: userId,
+      userId: userId,
       lessonId: lessonId,
     });
     return lessonProgress;
@@ -252,7 +259,7 @@ const getLessonProgress = async (userId, lessonId) => {
 const getGameProgress = async (userId, gameId) => {
   try {
     const gameProgress = await GameProgress.findOne({
-      studentId: userId,
+      userId: userId,
       gameId: gameId,
     });
     return gameProgress;

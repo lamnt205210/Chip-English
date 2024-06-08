@@ -4,14 +4,18 @@ const { Schema } = mongoose;
 // Define the Course schema
 const materialSchema = new Schema(
   {
-    ls: { type: String },
-    rs: { type: String },
-    word: { type: String },
-    imageURL: { type: String },
-    audioURL: { type: String },
-    keyword: { type: Array },
-    key: { type: String },
-    sentence: { type: String },
+    words: [
+      {
+        ls: { type: String },
+        rs: { type: String },
+        word: { type: String },
+        imageURL: { type: String },
+        audioURL: { type: String },
+        keyword: { type: Array },
+        key: { type: String },
+        sentence: { type: String },
+      },
+    ],
   },
   { collection: "materials" }
 );

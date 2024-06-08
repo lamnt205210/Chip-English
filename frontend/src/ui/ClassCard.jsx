@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import * as CourseService from "../services/CourseService";
 export default function ClassCard(props) {
-  const { name, description, imageURL, teacher, courseId } = props;
+  const { name, description, imageURL, teachers, courseId } = props;
   const { data: semesterData } = useQuery({
     queryKey: ["semester"],
     queryFn: () => CourseService.getSemesterId(1),
@@ -81,7 +81,7 @@ export default function ClassCard(props) {
             Giáo viên giảng dạy
           </Typography>
           <Grid container spacing={0.5}>
-            {teacher?.map((teacher, index) => (
+            {teachers?.map((teacher, index) => (
               <React.Fragment key={index}>
                 <Grid item xs={1} sx={{ alignContent: "center" }}>
                   <Avatar

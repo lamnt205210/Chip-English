@@ -23,7 +23,6 @@ const updateVideoScore = async (req, res) => {
     const score = req.body.score;
     const response = await ProgressService.updateVideoScore(
       userId,
-      videoId,
       lessonId,
       score
     );
