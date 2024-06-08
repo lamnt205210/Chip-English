@@ -8,43 +8,6 @@ const Lesson = require("../models/course/LessonModel");
 const Unit = require("../models/course/UnitModel");
 const Course = require("../models/course/CourseModel");
 
-const findIdsByGameId = async (gameId) => {
-  try {
-    // Find the lesson containing the given gameId
-    console.log("gameId", gameId);
-    const lesson = await Lesson.findOne({
-      games: { $elemMatch: { _id: gameId } },
-    }).exec();
-
-    // const lesson = await Lesson.findOne({ "games._id": gameId }).exec();
-    console.log("1", lesson);
-    if (!lesson) {
-      throw new Error(`No lesson found with gameId: ${gameId}`);
-    }
-    const unitId = lesson.unitId;
-    // Find the unit containing the lesson
-    const unit = await Unit.findById(unitId).exec();
-
-    if (!unit) {
-      throw new Error(`No unit found with unitId: ${unitId}`);
-    }
-    const courseId = unit.courseId;
-
-    // Find the course containing the unit
-    const course = await Course.findById(courseId).exec();
-
-    if (!course) {
-      throw new Error(`No course found with courseId: ${courseId}`);
-    }
-    return {
-      lessonId: lesson._id,
-      unitId: unit._id,
-      courseId: course._id,
-    };
-  } catch (error) {
-    return error;
-  }
-};
 const findIdsByLessonId = async (lessonId) => {
   try {
     // Find the lesson
@@ -53,6 +16,7 @@ const findIdsByLessonId = async (lessonId) => {
       throw new Error(`No lesson found with lessonId: ${lessonId}`);
     }
     const unitId = lesson.unitId;
+
     const unit = await Unit.findById(unitId).exec();
     if (!unit) {
       throw new Error(`No unit found with unitId: ${unitId}`);
@@ -60,6 +24,7 @@ const findIdsByLessonId = async (lessonId) => {
     const courseId = unit.courseId;
     // Find the course containing the unit
     const course = await Course.findById(courseId).exec();
+
     if (!course) {
       throw new Error(`No course found with courseId: ${courseId}`);
     }
@@ -71,7 +36,7 @@ const findIdsByLessonId = async (lessonId) => {
     return error;
   }
 };
-const updateGameScore = async (userId, gameId, score) => {
+const updateGameScore = async (userId, gameId, lessonId, score) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -81,66 +46,104 @@ const updateGameScore = async (userId, gameId, score) => {
       { $set: { score } },
       { upsert: true, session }
     );
-    const { lessonId, unitId, courseId } = await findIdsByGameId(gameId);
-    console.log(lessonId);
+    console.log("userId", userId);
+    console.log("lessonId", lessonId);
+
     // Recalculate lesson progress
     const lessonProgress = await LessonProgress.findOne({
       userId: userId,
       lessonId: lessonId,
     }).session(session);
     if (!lessonProgress) throw new Error("Lesson progress not found");
-
     const videoScore = lessonProgress.videoScore;
-    const gamesScore = await GameProgress.find({
-      userId: userId,
-      lessonId: lessonId,
+
+    const gamesData = await Lesson.findById(lessonId)
+      .select("games")
+      .session(session);
+    const gameIds = gamesData.games;
+
+    const gameProgressDocs = await GameProgress.find({
+      gameId: { $in: gameIds },
     }).session(session);
-    const gamesTotalScore = gamesScore.reduce(
+
+    //
+    const gamesTotalScore = gameProgressDocs.reduce(
       (acc, game) => acc + (game.score || 0),
       0
     );
+
     const totalScore = videoScore + gamesTotalScore;
+
     const videoCompleted = lessonProgress.videoScore !== 0 ? 1 : 0;
-    const gameCompleted = gamesScore.some((game) => game.score !== 0) ? 1 : 0;
-    const completed =
-      ((videoCompleted + gameCompleted) / (1 + gamesScore.length)) * 100;
+    const gameCompleted = gameProgressDocs.some((game) => game.score !== 0)
+      ? 1
+      : 0;
+    // Prevent NaN in the completed calculation
+    let completed = 0;
+    if (gameProgressDocs.length > 0) {
+      completed = Math.floor(
+        ((videoCompleted + gameCompleted) / (1 + gameProgressDocs.length)) * 100
+      );
+    }
+    if (isNaN(completed) || isNaN(totalScore)) {
+      throw new Error("Calculated values are NaN");
+    }
 
     await LessonProgress.updateOne(
-      { userId: userId, lesson: lessonId },
+      { userId: userId, lessonId: lessonId },
       { $set: { completed, totalScore } },
-      { session }
+      { upsert: true, session }
     );
-
+    const { unitId, courseId } = await findIdsByLessonId(lessonId);
     // Recalculate unit progress
-    const unitLessons = await LessonProgress.find({
-      userId: userId,
-      unitId: unitId,
+    const lessonsOfUnit = await Lesson.find({ unitId: unitId })
+      .select("_id")
+      .session(session);
+    const lessonIds = lessonsOfUnit.map((lesson) => lesson._id);
+
+    const lessonProgressDocs = await LessonProgress.find({
+      lessonId: { $in: lessonIds },
     }).session(session);
-    const unitCompleted =
-      unitLessons.reduce((acc, lesson) => acc + (lesson.completed || 0), 0) /
-      unitLessons.length;
+
+    let unitCompleted = 0;
+    if (lessonProgressDocs.length > 0) {
+      unitCompleted = Math.floor(
+        lessonProgressDocs.reduce((acc, lesson) => acc + lesson.completed, 0) /
+          lessonProgressDocs.length
+      );
+    }
 
     await UnitProgress.updateOne(
-      { userId: userId, unit: unitId },
+      { userId: userId, unitId: unitId },
       { $set: { completed: unitCompleted } },
       { session }
     );
 
     // Recalculate course progress
-    const courseUnits = await UnitProgress.find({
-      userId: userId,
-      courseId: courseId,
+    const unitsOfCourse = await Unit.find({ courseId: courseId })
+      .select("_id")
+      .session(session);
+    const unitIds = unitsOfCourse.map((unit) => unit._id);
+    const unitProgressDocs = await UnitProgress.find({
+      unitId: { $in: unitIds },
     }).session(session);
-    const courseCompleted =
-      courseUnits.reduce((acc, unit) => acc + (unit.completed || 0), 0) /
-      courseUnits.length;
-
+    let courseCompleted = 0;
+    if (unitProgressDocs.length > 0) {
+      courseCompleted = Math.floor(
+        unitProgressDocs.reduce((acc, unit) => acc + unit.completed, 0) /
+          unitProgressDocs.length
+      );
+    }
     await CourseProgress.updateOne(
       { userId: userId, courseId: courseId },
       { $set: { completed: courseCompleted } },
       { session }
     );
-
+    const courseProgress = await CourseProgress.findOne({
+      userId: userId,
+      courseId: courseId,
+    }).session(session);
+    console.log("courseProgress", courseProgress);
     await session.commitTransaction();
     session.endSession();
     return { status: "OK", message: "Score updated" };
@@ -159,9 +162,9 @@ const updateVideoScore = async (userId, lessonId, score) => {
     await LessonProgress.updateOne(
       { userId: userId, lessonId: lessonId },
       { $set: { videoScore: score } },
-      { session }
+      { upsert: true, session }
     );
-    const { unitId, courseId } = await findIdsByLessonId(lessonId);
+
     // Recalculate lesson progress
     const lessonProgress = await LessonProgress.findOne({
       userId: userId,
@@ -169,51 +172,92 @@ const updateVideoScore = async (userId, lessonId, score) => {
     }).session(session);
     if (!lessonProgress) throw new Error("Lesson progress not found");
 
-    const videoCompleted = score !== 0 ? 1 : 0;
-    const gamesScore = await GameProgress.find({
-      userId: userId,
-      lessonId: lessonId,
+    const videoScore = lessonProgress.videoScore;
+
+    const gamesData = await Lesson.findById(lessonId)
+      .select("games")
+      .session(session);
+    const gameIds = gamesData.games;
+
+    const gameProgressDocs = await GameProgress.find({
+      gameId: { $in: gameIds },
     }).session(session);
-    const gameCompleted = gamesScore.some((game) => game.score !== 0) ? 1 : 0;
-    const completed =
-      ((videoCompleted + gameCompleted) / (1 + gamesScore.length)) * 100;
+
+    //
+    const gamesTotalScore = gameProgressDocs.reduce(
+      (acc, game) => acc + (game.score || 0),
+      0
+    );
+
+    const totalScore = videoScore + gamesTotalScore;
+
+    const videoCompleted = lessonProgress.videoScore !== 0 ? 1 : 0;
+    const gameCompleted = gameProgressDocs.some((game) => game.score !== 0)
+      ? 1
+      : 0;
+    // Prevent NaN in the completed calculation
+    let completed = 0;
+    if (gameProgressDocs.length > 0) {
+      completed = Math.floor(
+        ((videoCompleted + gameCompleted) / (1 + gameProgressDocs.length)) * 100
+      );
+    }
+    if (isNaN(completed) || isNaN(totalScore)) {
+      throw new Error("Calculated values are NaN");
+    }
 
     await LessonProgress.updateOne(
       { userId: userId, lessonId: lessonId },
-      { $set: { completed } },
-      { session }
+      { $set: { completed, totalScore } },
+      { upsert: true, session }
     );
-
+    const { unitId, courseId } = await findIdsByLessonId(lessonId);
     // Recalculate unit progress
-    const unitLessons = await LessonProgress.find({
-      userId: userId,
-      unitId: unitId,
-    }).session(session);
-    const unitCompleted =
-      unitLessons.reduce((acc, lesson) => acc + (lesson.completed || 0), 0) /
-      unitLessons.length;
+    const lessonsOfUnit = await Lesson.find({ unitId: unitId })
+      .select("_id")
+      .session(session);
+    const lessonIds = lessonsOfUnit.map((lesson) => lesson._id);
 
+    const lessonProgressDocs = await LessonProgress.find({
+      lessonId: { $in: lessonIds },
+    }).session(session);
+    let unitCompleted = 0;
+    if (lessonProgressDocs.length > 0) {
+      unitCompleted = Math.floor(
+        lessonProgressDocs.reduce((acc, lesson) => acc + lesson.completed, 0) /
+          lessonProgressDocs.length
+      );
+    }
     await UnitProgress.updateOne(
       { userId: userId, unitId: unitId },
       { $set: { completed: unitCompleted } },
       { session }
     );
-
     // Recalculate course progress
-    const courseUnits = await UnitProgress.find({
-      userId: userId,
-      courseId: courseId,
+    const unitsOfCourse = await Unit.find({ courseId: courseId })
+      .select("_id")
+      .session(session);
+    const unitIds = unitsOfCourse.map((unit) => unit._id);
+    const unitProgressDocs = await UnitProgress.find({
+      unitId: { $in: unitIds },
     }).session(session);
-    const courseCompleted =
-      courseUnits.reduce((acc, unit) => acc + (unit.completed || 0), 0) /
-      courseUnits.length;
-
+    let courseCompleted = 0;
+    if (unitProgressDocs.length > 0) {
+      courseCompleted = Math.floor(
+        unitProgressDocs.reduce((acc, unit) => acc + unit.completed, 0) /
+          unitProgressDocs.length
+      );
+    }
     await CourseProgress.updateOne(
-      { userId: userId, course: courseId },
+      { userId: userId, courseId: courseId },
       { $set: { completed: courseCompleted } },
       { session }
     );
-
+    const courseProgress = await CourseProgress.findOne({
+      userId: userId,
+      courseId: courseId,
+    }).session(session);
+    console.log("courseProgress", courseProgress);
     await session.commitTransaction();
     session.endSession();
     return { status: "OK", message: "Score updated" };
@@ -256,12 +300,16 @@ const getLessonProgress = async (userId, lessonId) => {
     return error;
   }
 };
-const getGameProgress = async (userId, gameId) => {
+const getGameProgress = async (userId, lessonId) => {
   try {
-    const gameProgress = await GameProgress.findOne({
+    const lesson = await Lesson.findById(lessonId).exec();
+    const gameIds = lesson.games;
+    const gameProgress = await GameProgress.find({
       userId: userId,
-      gameId: gameId,
+      gameId: { $in: gameIds },
     });
+
+    console.log("gameProgress", gameProgress);
     return gameProgress;
   } catch (error) {
     return error;

@@ -67,7 +67,7 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
         <Typography
           sx={{
             fontWeight: "bold",
-            fontSize: "24px",
+            fontSize: "26px",
             fontFamily: "Cabin, sans-serif",
             padding: "16px 16px 30px 70px",
             color: "#292d32",

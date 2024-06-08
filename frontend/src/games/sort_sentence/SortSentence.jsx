@@ -4,7 +4,7 @@ import SortSentenceLogic from "./SortSentenceLogic";
 import Finish from "../Finish";
 import * as CourseService from "../../services/CourseService";
 import { useQuery } from "@tanstack/react-query";
-const SortSentence = ({ game }) => {
+const SortSentence = ({ game, lessonId }) => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["lesson", game.materialId],
     queryFn: () => CourseService.getMaterialById(game.materialId),
@@ -45,7 +45,12 @@ const SortSentence = ({ game }) => {
         />
       )}
       {finish && (
-        <Finish point={point} handleReplay={handleReplay} gameId={game._id} />
+        <Finish
+          point={point}
+          handleReplay={handleReplay}
+          gameId={game._id}
+          lessonId={lessonId}
+        />
       )}
     </div>
   );

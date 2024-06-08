@@ -5,7 +5,7 @@ import MemoryFinish from "./MemoryFinish";
 import MemoryCardAnimation from "./MemoryCardAnimation";
 import * as CourseService from "../../services/CourseService";
 import { useQuery } from "@tanstack/react-query";
-const Memory = ({ game }) => {
+const Memory = ({ game, lessonId }) => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["lesson", game.materialId],
     queryFn: () => CourseService.getMaterialById(game.materialId),
@@ -52,7 +52,8 @@ const Memory = ({ game }) => {
   const [scenario, setScenario] = useState("start");
   const clickTimeRef = useRef(0);
   const handleReplay = () => {
-    setScenario("logic");
+    setScenario("animation");
+    clickTimeRef.current = 0;
   };
 
   return (
@@ -71,7 +72,12 @@ const Memory = ({ game }) => {
         />
       )}
       {scenario === "finish" && (
-        <MemoryFinish handleReplay={handleReplay} clickTimeRef={clickTimeRef} />
+        <MemoryFinish
+          handleReplay={handleReplay}
+          clickTimeRef={clickTimeRef}
+          gameId={game._id}
+          lessonId={lessonId}
+        />
       )}
     </div>
   );

@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 // Define the Course schema
 const gameSchema = new Schema(
   {
-    lessonId: { type: String, ref: "Lesson", required: true },
     gameName: { type: String },
     materialId: { type: String, ref: "Material" },
   },

@@ -4,7 +4,7 @@ import Finish from "../Finish";
 import SentenceMonkeyStart from "./SentenceMonkeyStart";
 import * as CourseService from "../../services/CourseService";
 import { useQuery } from "@tanstack/react-query";
-const SentenceMonkey = ({ game }) => {
+const SentenceMonkey = ({ game, lessonId }) => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["lesson", game.materialId],
     queryFn: () => CourseService.getMaterialById(game.materialId),
@@ -49,7 +49,12 @@ const SentenceMonkey = ({ game }) => {
         />
       )}
       {finish && (
-        <Finish point={point} handleReplay={handleReplay} gameId={game._id} />
+        <Finish
+          point={point}
+          handleReplay={handleReplay}
+          gameId={game._id}
+          lessonId={lessonId}
+        />
       )}
     </div>
   );

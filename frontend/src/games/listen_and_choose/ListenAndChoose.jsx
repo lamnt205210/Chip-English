@@ -4,7 +4,13 @@ import ListenAndChooseLogic from "./ListenAndChooseLogic";
 import Finish from "../Finish";
 import * as CourseService from "../../services/CourseService";
 import { useQuery } from "@tanstack/react-query";
-const ListenAndChoose = ({ game }) => {
+//
+import { GetUserId } from "../GetUserId";
+import { useMutationHook } from "../../hooks/useMutationHook";
+import * as ProgressService from "../../services/ProgressService";
+
+//
+const ListenAndChoose = ({ game, lessonId }) => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["lesson", game.materialId],
     queryFn: () => CourseService.getMaterialById(game.materialId),
@@ -15,6 +21,7 @@ const ListenAndChoose = ({ game }) => {
   const [play, setPlay] = useState(false);
   const [finish, setFinish] = useState(false);
   const [point, setPoint] = useState(0);
+  //
   const handleReplay = () => {
     setPlay(true);
     setFinish(false);
@@ -33,7 +40,12 @@ const ListenAndChoose = ({ game }) => {
         />
       )}
       {finish && (
-        <Finish point={point} handleReplay={handleReplay} gameId={game._id} />
+        <Finish
+          point={point}
+          handleReplay={handleReplay}
+          gameId={game._id}
+          lessonId={lessonId}
+        />
       )}
     </div>
   );

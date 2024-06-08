@@ -4,10 +4,12 @@ const updateGameScore = async (req, res) => {
   try {
     const userId = req.params.userId;
     const gameId = req.params.gameId;
+    const lessonId = req.params.lessonId;
     const score = req.body.score;
     const response = await ProgressService.updateGameScore(
       userId,
       gameId,
+      lessonId,
       score
     );
     return res.status(200).json(response);
@@ -15,7 +17,6 @@ const updateGameScore = async (req, res) => {
     return res.status(404).json({ message: error });
   }
 };
-
 const updateVideoScore = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -64,8 +65,8 @@ const getLessonProgress = async (req, res) => {
 const getGameProgress = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const gameId = req.params.gameId;
-    const response = await ProgressService.getGameProgress(userId, gameId);
+    const lessonId = req.params.lessonId;
+    const response = await ProgressService.getGameProgress(userId, lessonId);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json({ message: error });

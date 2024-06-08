@@ -6,35 +6,91 @@ import Dictation from "../games/dictation/Dictation";
 import SortSentence from "../games/sort_sentence/SortSentence";
 import SentenceMonkey from "../games/sentence_monkey/SentenceMonkey";
 import ChooseWord from "../games/choose_word/ChooseWord";
-
+import ComingSoonComponent from "./ComingSoon";
+import { useQuery } from "@tanstack/react-query";
+import * as ProgressService from "../services/ProgressService";
+import { GetUserId } from "../games/GetUserId";
 const ComingSoon = () => (
-  <Box sx={{ textAlign: "center", padding: "20px", color: "#aaa" }}>
-    <Typography variant="h5">Coming Soon</Typography>
+  <Box
+    sx={{
+      textAlign: "center",
+      padding: "20px",
+      color: "#076895",
+      fontSize: 45,
+      backgroundColor: "#d2e8f1",
+      fontWeight: 600,
+      width: "100%",
+      height: "100%",
+    }}
+  >
+    <ComingSoonComponent />
   </Box>
 );
 
 export default function Board({ videoURL, games, lessonId, unitId }) {
   const [selectedExercise, setSelectedExercise] = useState(0); // Default to video
-
+  console.log("2", games);
   const renderGameComponent = (game) => {
     switch (game.gameName) {
       case "ListenAndChoose":
-        return <ListenAndChoose key={game.materialId} game={game} />;
+        return (
+          <ListenAndChoose
+            key={game.materialId}
+            game={game}
+            lessonId={lessonId}
+          />
+        );
       case "Memory":
-        return <Memory key={game.materialId} game={game} />;
+        return <Memory key={game.materialId} game={game} lessonId={lessonId} />;
       case "Dictation":
-        return <Dictation key={game.materialId} game={game} />;
+        return (
+          <Dictation key={game.materialId} game={game} lessonId={lessonId} />
+        );
       case "SortSentence":
-        return <SortSentence key={game.materialId} game={game} />;
+        return (
+          <SortSentence key={game.materialId} game={game} lessonId={lessonId} />
+        );
       case "SentenceMonkey":
-        return <SentenceMonkey key={game.materialId} game={game} />;
+        return (
+          <SentenceMonkey
+            key={game.materialId}
+            game={game}
+            lessonId={lessonId}
+          />
+        );
       case "ChooseWord":
-        return <ChooseWord key={game.materialId} game={game} />;
+        return (
+          <ChooseWord key={game.materialId} game={game} lessonId={lessonId} />
+        );
       default:
         return null;
     }
   };
+  // Get the user ID
+  const userId = GetUserId();
+  const {
+    data: lessonProgress,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["progress", userId, lessonId],
+    queryFn: () => ProgressService.getLessonProgress(userId, lessonId),
+  });
+  const videoScore = lessonProgress?.videoScore || 0;
 
+  const {
+    data: gameProgress,
+    isError: errorGameProgress,
+    isLoading: loadingGameProgress,
+  } = useQuery({
+    queryKey: ["gameProgress", userId, lessonId],
+    queryFn: () => ProgressService.getGameProgress(userId, lessonId),
+  });
+  console.log("gameScores", gameProgress);
+  const gameScores = gameProgress?.map((game) => game.score) || [];
+  console.log("gameScores", gameScores);
+
+  //
   const handleGridClick = (index) => {
     setSelectedExercise(index + 1); // Update to the correct game index
   };
@@ -47,7 +103,18 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
     );
     // }
   };
-
+  const handleVideoEnded = () => {
+    const score = 100;
+    ProgressService.updateVideoScore(userId, lessonId, score)
+      .then((response) => {
+        // Handle the response if needed
+        console.log(response);
+      })
+      .catch((error) => {
+        // Handle the error if needed
+        console.error(error);
+      });
+  };
   return (
     <Grid container spacing={0}>
       <Grid item xs={1.5}>
@@ -119,7 +186,7 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
                 fontFamily: "Ubuntu Mono, monospace",
               }}
             >
-              100 điểm
+              {videoScore} điểm
             </Typography>
           </Grid>
           {[0, 1, 2].map((index) => (
@@ -169,7 +236,7 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
                   fontFamily: "Ubuntu Mono, monospace",
                 }}
               >
-                100 điểm
+                {gameScores[index] ? gameScores[index] : 0} điểm
               </Typography>
             </Grid>
           ))}
@@ -179,7 +246,11 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
       <Grid item xs={10.5} style={{ maxHeight: "550px" }}>
         <Box sx={{ height: "100%" }}>
           {selectedExercise === 0 ? (
-            <video controls style={{ width: "100%", height: "100%" }}>
+            <video
+              controls
+              style={{ width: "100%", height: "100%" }}
+              onEnded={handleVideoEnded}
+            >
               <source src={videoURL} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

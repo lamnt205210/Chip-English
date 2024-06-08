@@ -1,7 +1,10 @@
 import axios from "axios";
-export const updateGameScore = async (userId, gameId, score) => {
+export const updateGameScore = async (userId, gameId, lessonId, score) => {
+  console.log(userId, gameId, lessonId, score);
   const res = await axios.post(
-    `${import.meta.env.VITE_API_URL}/progress/score-game/${userId}/${gameId}`,
+    `${
+      import.meta.env.VITE_API_URL
+    }/progress/score-game/${userId}/${gameId}/${lessonId}`,
     { score }
   );
   return res.data;
@@ -37,9 +40,11 @@ export const getLessonProgress = async (userId, lessonId) => {
   );
   return res.data;
 };
-export const getGameProgress = async (userId, gameId) => {
+export const getGameProgress = async (userId, lessonId) => {
   const res = await axios.get(
-    `${import.meta.env.VITE_API_URL}/progress/game-progress/${userId}/${gameId}`
+    `${
+      import.meta.env.VITE_API_URL
+    }/progress/game-progress/${userId}/${lessonId}`
   );
   return res.data;
 };

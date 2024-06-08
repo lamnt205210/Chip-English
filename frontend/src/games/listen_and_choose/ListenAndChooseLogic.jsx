@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import { Typography, Button, Box } from "@mui/material";
-
 import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined";
 import "./styles.css";
-
 import { openAudio } from "../../utils/audioUtils";
+
 const ListenAndChooseLogic = ({
   words,
   pointPerQuestion,
@@ -85,7 +83,6 @@ const ListenAndChooseLogic = ({
     // }
   };
   const handleFinishGame = () => {
-    console.log("finish game");
     setFinish(true);
   };
   return (

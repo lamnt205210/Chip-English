@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { openAudio } from "../../utils/audioUtils";
-const MemoryFinish = ({ handleReplay, clickTimeRef }) => {
+import { updateGameScore } from "../../services/ProgressService";
+import { GetUserId } from "../GetUserId";
+const MemoryFinish = ({ handleReplay, clickTimeRef, gameId, lessonId }) => {
   let point = 0;
   console.log("clickTimeRef", clickTimeRef);
   if (clickTimeRef.current <= 12) {
@@ -11,6 +13,18 @@ const MemoryFinish = ({ handleReplay, clickTimeRef }) => {
   } else {
     point = 0;
   }
+  const userId = GetUserId();
+  useEffect(() => {
+    updateGameScore(userId, gameId, lessonId, point)
+      .then((response) => {
+        // Handle the response if needed
+        console.log(response);
+      })
+      .catch((error) => {
+        // Handle the error if needed
+        console.error(error);
+      });
+  }, []);
   const canvasRef = useRef(null);
   const evaluate = (score) => {
     if (score >= 0 && score <= 25) {
@@ -25,6 +39,7 @@ const MemoryFinish = ({ handleReplay, clickTimeRef }) => {
       return "Invalid score. Please enter a number between 0 and 100.";
     }
   };
+
   const rate = evaluate(point);
 
   if (rate === 1) {

@@ -1,6 +1,9 @@
 import { Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Exercises from "../pages/Exercises";
+import { useQuery } from "@tanstack/react-query";
+import * as ProgressService from "../services/ProgressService";
+import { GetUserId } from "../games/GetUserId";
+
 export default function ExerciseCategory({
   exercise,
   courseId,
@@ -8,6 +11,15 @@ export default function ExerciseCategory({
   unitId,
 }) {
   const navigate = useNavigate();
+  const lessonId = exercise._id;
+  const userId = GetUserId();
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["progress", userId, lessonId],
+    queryFn: () => ProgressService.getLessonProgress(userId, lessonId),
+  });
+  const completedPercentage = data?.completed || 0;
+  const maxScore = data?.maximumScore || 0;
+  const totalScore = data?.totalScore || 0;
   return (
     <div
       style={{
@@ -42,7 +54,7 @@ export default function ExerciseCategory({
           <Typography
             sx={{
               fontWeight: 550,
-              fontSize: "20px",
+              fontSize: "22px",
               color: "#292d32",
             }}
           >
@@ -55,24 +67,24 @@ export default function ExerciseCategory({
             sx={{
               color: "#21BDC6",
               fontWeight: 700,
-              fontSize: "20px",
+              fontSize: "22px",
               lineHeight: "32px",
               fontFamily: "Roboto, sans-serif",
             }}
           >
-            390/400 điểm
+            {totalScore}/{maxScore} điểm
           </Typography>
         </Grid>
         <Grid item xs={1}>
           <Typography
             sx={{
-              color: "#AAAAAA",
-              fontWeight: "bold",
-              fontSize: "20px",
+              color: "#0000009b",
+              fontWeight: 600,
+              fontSize: "22px",
               fontFamily: "Roboto, sans-serif",
             }}
           >
-            • 97%
+            • {completedPercentage}%
           </Typography>
         </Grid>
       </Grid>

@@ -4,13 +4,23 @@ const Unit = require("../models/course/UnitModel");
 const Lesson = require("../models/course/LessonModel");
 const Semester = require("../models/course/SemesterModel");
 const Material = require("../models/course/MaterialModel");
+const Game = require("../models/course/GameModel");
 const mongoose = require("mongoose");
+// const getAllCourses = async () => {
+//   try {
+//     const courses = await Course.find().populate({
+//       path: "teacher",
+//       model: "Teacher",
+//     });
+
+//     return { courses: courses };
+//   } catch (error) {
+//     return error;
+//   }
+// };
 const getAllCourses = async () => {
   try {
-    const courses = await Course.find().populate({
-      path: "teacher",
-      model: "Teacher",
-    });
+    const courses = await Course.find().populate("teacher");
 
     return { courses: courses };
   } catch (error) {
@@ -25,7 +35,6 @@ const getUnitsByCourseId = async (courseId, semesterId) => {
       semesterId,
     }).populate("courseId");
 
-    console.log("units", units);
     return { units: units };
   } catch (error) {
     console.error("Error fetching units:", error);
@@ -44,8 +53,8 @@ const getUnitDetailsById = async (unitId) => {
 };
 const getLessonDetailsById = async (lessonId) => {
   try {
-    const lesson = await Lesson.findById(lessonId);
-
+    console.log(lessonId);
+    const lesson = await Lesson.findById(lessonId).populate("games");
     return lesson;
   } catch (error) {
     return error;

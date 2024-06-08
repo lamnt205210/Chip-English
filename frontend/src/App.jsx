@@ -14,6 +14,7 @@ import Course from "./pages/Course";
 import LangdingPage from "./pages/LandingPage";
 import UnitDetail from "./pages/UnitDetail";
 import Exercises from "./pages/Exercises";
+import Statistic from "./pages/Statistic";
 // import { isJsonString } from "./utils/utils";
 // import * as UserService from "./services/UserService";
 // import { updateUser } from "./redux/slides/userSlice";
@@ -79,13 +80,14 @@ const App = () => {
             path="/course/:courseId/semester/:semesterId"
             element={<CourseWrapper />}
           />
+          <Route path="/test" element={<Statistic />} />
         </Route>
         <Route
           path="/course/:courseId/semester/:semesterId/unit/:unitId"
           element={<UnitWrapper />}
         />
         <Route path="/lesson/:lessonId" element={<LessonWrapper />} />
-        <Route path="/test" element={<Exercises />} />
+
         <Route index element={<Navigate replace to="landing-page" />} />
         <Route path="landing-page" element={<LangdingPage />} />
         <Route path="*" element={<PageNotFound />} />

@@ -23,6 +23,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { resetUser } from "../redux/slices/userSlice";
@@ -248,7 +249,7 @@ export default function Menu() {
                       primaryTypographyProps={{
                         fontFamily: "Cabin, sans-serif",
                         fontWeight: "bold",
-                        fontSize: "24px",
+                        fontSize: "22px",
                       }}
                     />
                     {openCourse ? <ExpandLess /> : <ExpandMore />}
@@ -274,7 +275,7 @@ export default function Menu() {
                         primaryTypographyProps={{
                           fontFamily: "Cabin, sans-serif",
 
-                          fontSize: "20px",
+                          fontSize: "19px",
                         }}
                       />
                     </ListItemButton>
@@ -282,6 +283,52 @@ export default function Menu() {
                 })}
               </List>
             </Collapse>
+            <ListItem
+              disablePadding
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  display: "flex",
+                  justifyContent: open ? "initial" : "center",
+                  alignItems: "center",
+                  px: 2.5,
+                }}
+                onClick={() => {}}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    marginRight: open ? 3 : 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <AssessmentIcon fontSize="large" />
+                </ListItemIcon>
+                {open && (
+                  <>
+                    <ListItemText
+                      primary={"Kết quả học tập"}
+                      sx={{
+                        display: open ? "block" : "none",
+                      }}
+                      primaryTypographyProps={{
+                        fontFamily: "Cabin, sans-serif",
+                        fontWeight: "bold",
+                        fontSize: "22px",
+                      }}
+                    />
+                  </>
+                )}
+              </ListItemButton>
+            </ListItem>
           </List>
         </DrawerContent>
 

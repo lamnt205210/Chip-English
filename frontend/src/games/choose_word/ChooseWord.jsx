@@ -4,7 +4,7 @@ import ChooseWordLogic from "./ChooseWordLogic";
 import Finish from "../Finish";
 import * as CourseService from "../../services/CourseService";
 import { useQuery } from "@tanstack/react-query";
-const ChooseWord = ({ game }) => {
+const ChooseWord = ({ game, lessonId }) => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["lesson", game.materialId],
     queryFn: () => CourseService.getMaterialById(game.materialId),
@@ -102,7 +102,12 @@ const ChooseWord = ({ game }) => {
         />
       )}
       {finish && (
-        <Finish point={point} handleReplay={handleReplay} gameId={game._id} />
+        <Finish
+          point={point}
+          handleReplay={handleReplay}
+          gameId={game._id}
+          lessonId={lessonId}
+        />
       )}
     </div>
   );

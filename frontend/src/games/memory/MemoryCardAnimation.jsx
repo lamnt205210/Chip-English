@@ -70,24 +70,7 @@ const MemoryCardAnimation = ({ words, setScenario }) => {
           zIndex: 2,
         }}
       ></img>
-      <Typography
-        sx={{
-          position: "absolute",
-          left: "20%",
-          top: "25%",
-          transform: "translate(-50%, -50%)",
-          fontSize: "22px",
-          borderRadius: "15px",
-          color: "#394b41",
-          cursor: "pointer",
 
-          fontWeight: 600,
-          wordSpacing: "5px",
-          zIndex: 3,
-        }}
-      >
-        Câu 1/3
-      </Typography>
       <div
         style={{
           display: "flex",

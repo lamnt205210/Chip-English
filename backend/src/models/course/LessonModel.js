@@ -12,12 +12,7 @@ const lessonSchema = new Schema(
     },
     name: { type: String, required: true },
     videoURL: { type: String, required: false },
-    games: [
-      {
-        gameName: { type: String },
-        materialId: { type: String, ref: "Material" },
-      },
-    ],
+    games: [{ type: Schema.Types.ObjectId, ref: "Game" }],
   },
   { collection: "lessons" }
 );

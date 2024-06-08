@@ -6,10 +6,18 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import * as CourseService from "../services/CourseService";
+import * as ProgressService from "../services/ProgressService";
+import { GetUserId } from "../games/GetUserId";
 export default function UnitCard({ unit, courseId, semesterId }) {
   const { _id, englishName, vnName, imageURL } = unit;
-
+  const unitId = _id;
+  const userId = GetUserId();
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["progress", userId, unitId],
+    queryFn: () => ProgressService.getUnitProgress(userId, unitId),
+  });
+  console.log(data);
+  const completedPercentage = data?.completed || 0;
   const navigate = useNavigate();
   // Fixed height for 2 lines of text
   const fixedHeight = {
@@ -78,11 +86,11 @@ export default function UnitCard({ unit, courseId, semesterId }) {
       </CardContent>
       <Box sx={{ margin: "0px 25px 30px" }} color="#21BDC6">
         <Typography align="left" sx={{ fontWeight: "bold" }}>
-          50%
+          {completedPercentage}%
         </Typography>
         <LinearProgress
           variant="determinate"
-          value={50}
+          value={completedPercentage}
           sx={{
             borderRadius: 2,
             height: 7,
