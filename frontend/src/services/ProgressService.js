@@ -18,11 +18,11 @@ export const updateVideoScore = async (userId, lessonId, score) => {
   );
   return res.data;
 };
-export const getCourseProgress = async (userId, courseId) => {
+export const getCourseProgress = async (userId, courseNumber) => {
   const res = await axios.get(
     `${
       import.meta.env.VITE_API_URL
-    }/progress/course-progress/${userId}/${courseId}`
+    }/progress/course-progress/${userId}/${courseNumber}`
   );
   return res.data;
 };
@@ -45,6 +45,22 @@ export const getGameProgress = async (userId, lessonId) => {
     `${
       import.meta.env.VITE_API_URL
     }/progress/game-progress/${userId}/${lessonId}`
+  );
+  return res.data;
+};
+
+export const getAverageScoreCourse = async (userId, courseId) => {
+  const res = await axios.get(
+    `${
+      import.meta.env.VITE_API_URL
+    }/progress/average-score/${userId}/${courseId}`
+  );
+  return res.data;
+};
+
+export const getRanking = async () => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/progress/ranking`
   );
   return res.data;
 };

@@ -51,13 +51,14 @@ const SemesterTab = ({ semester, setSemester }) => {
             textTransform: "none",
             fontWeight: "bold",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+            border: "1px solid #727272", // Add border to all tabs
             color: "#000000", // Black text color for tabs
             backgroundColor: "#ffffff", // White background for tabs
             borderRadius: "8px", // Adding borderRadius to all tabs
             "&.Mui-selected": {
               color: "#ffffff", // White text color for selected tab
               backgroundColor: "#21bdc6", // Background color for selected tab
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+              boxShadow: "0 4px 8px rgba(175, 167, 167, 0.425)",
               borderRadius: "8px", // Ensuring selected tab has rounded corners
             },
           },

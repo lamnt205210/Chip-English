@@ -3,12 +3,16 @@ import { Box, Typography } from "@mui/material";
 import { openAudio } from "../utils/audioUtils";
 import { updateGameScore } from "../services/ProgressService";
 import { GetUserId } from "./GetUserId";
+import { useQueryClient } from "@tanstack/react-query";
 const Finish = ({ point, handleReplay, lessonId, gameId }) => {
   const userId = GetUserId();
+
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     updateGameScore(userId, gameId, lessonId, point)
       .then((response) => {
-        // Handle the response if needed
+        queryClient.invalidateQueries("gameProgress");
         console.log(response);
       })
       .catch((error) => {

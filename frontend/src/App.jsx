@@ -15,6 +15,7 @@ import LangdingPage from "./pages/LandingPage";
 import UnitDetail from "./pages/UnitDetail";
 import Exercises from "./pages/Exercises";
 import Statistic from "./pages/Statistic";
+import ProtectedPage from "./pages/Protected";
 // import { isJsonString } from "./utils/utils";
 // import * as UserService from "./services/UserService";
 // import { updateUser } from "./redux/slides/userSlice";
@@ -74,22 +75,24 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<DashBoard />} />
+        <Route element={<ProtectedPage />}>
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route
+              path="/course/:courseId/semester/:semesterId"
+              element={<CourseWrapper />}
+            />
+            <Route path="/statistic" element={<Statistic />} />
+          </Route>
           <Route
-            path="/course/:courseId/semester/:semesterId"
-            element={<CourseWrapper />}
+            path="/course/:courseId/semester/:semesterId/unit/:unitId"
+            element={<UnitWrapper />}
           />
-          <Route path="/test" element={<Statistic />} />
+          <Route path="/lesson/:lessonId" element={<LessonWrapper />} />
         </Route>
-        <Route
-          path="/course/:courseId/semester/:semesterId/unit/:unitId"
-          element={<UnitWrapper />}
-        />
-        <Route path="/lesson/:lessonId" element={<LessonWrapper />} />
 
         <Route index element={<Navigate replace to="landing-page" />} />
-        <Route path="landing-page" element={<LangdingPage />} />
+        <Route path="/landing-page" element={<LangdingPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

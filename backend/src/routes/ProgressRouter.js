@@ -10,7 +10,7 @@ router.post(
   progressController.updateVideoScore
 );
 router.get(
-  "/course-progress/:userId/:courseId",
+  "/course-progress/:userId/:courseNumber",
   progressController.getCourseProgress
 );
 router.get(
@@ -25,5 +25,9 @@ router.get(
   "/game-progress/:userId/:lessonId",
   progressController.getGameProgress
 );
-
+router.get(
+  "/average-score/:userId/:courseId",
+  progressController.getAverageScoreCourse
+);
+router.get("/ranking", progressController.getRanking);
 module.exports = router;

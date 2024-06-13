@@ -35,8 +35,11 @@ const updateVideoScore = async (req, res) => {
 const getCourseProgress = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const courseId = req.params.courseId;
-    const response = await ProgressService.getCourseProgress(userId, courseId);
+    const courseNumber = req.params.courseNumber;
+    const response = await ProgressService.getCourseProgress(
+      userId,
+      courseNumber
+    );
     return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json({ message: error });
@@ -72,6 +75,28 @@ const getGameProgress = async (req, res) => {
     return res.status(404).json({ message: error });
   }
 };
+const getAverageScoreCourse = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const courseId = req.params.courseId;
+
+    const response = await ProgressService.getAverageScoreCourse(
+      userId,
+      courseId
+    );
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+};
+const getRanking = async (req, res) => {
+  try {
+    const response = await ProgressService.getRanking();
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+};
 module.exports = {
   updateGameScore,
   updateVideoScore,
@@ -79,4 +104,6 @@ module.exports = {
   getUnitProgress,
   getLessonProgress,
   getGameProgress,
+  getAverageScoreCourse,
+  getRanking,
 };

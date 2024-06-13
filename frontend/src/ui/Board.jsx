@@ -10,6 +10,7 @@ import ComingSoonComponent from "./ComingSoon";
 import { useQuery } from "@tanstack/react-query";
 import * as ProgressService from "../services/ProgressService";
 import { GetUserId } from "../games/GetUserId";
+import { useQueryClient } from "@tanstack/react-query";
 const ComingSoon = () => (
   <Box
     sx={{
@@ -29,7 +30,8 @@ const ComingSoon = () => (
 
 export default function Board({ videoURL, games, lessonId, unitId }) {
   const [selectedExercise, setSelectedExercise] = useState(0); // Default to video
-  console.log("2", games);
+
+  const queryClient = useQueryClient();
   const renderGameComponent = (game) => {
     switch (game.gameName) {
       case "ListenAndChoose":
@@ -105,9 +107,10 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
   };
   const handleVideoEnded = () => {
     const score = 100;
+
     ProgressService.updateVideoScore(userId, lessonId, score)
       .then((response) => {
-        // Handle the response if needed
+        queryClient.invalidateQueries("progress");
         console.log(response);
       })
       .catch((error) => {

@@ -127,7 +127,7 @@ export default function Menu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log("user", user);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -175,7 +175,7 @@ export default function Menu() {
                 width: 60,
                 height: 60,
               }}
-              src=""
+              src={user.profilePicture}
             />
             <Typography
               variant="h6"
@@ -299,7 +299,9 @@ export default function Menu() {
                   alignItems: "center",
                   px: 2.5,
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  navigate("/statistic");
+                }}
               >
                 <ListItemIcon
                   sx={{
