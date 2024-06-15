@@ -37,12 +37,12 @@ function HeaderLandingPage(prop) {
             <h1
               style={{
                 padding: "10px",
-                fontFamily: "Comic Sans MS, cursive",
+                fontFamily: "Cabin, cursive",
                 color: "white",
-                fontSize: "30px",
+                fontSize: "40px",
 
                 flexGrow: 1,
-                margin: "15px",
+                margin: "10px",
               }}
             >
               Chip English
