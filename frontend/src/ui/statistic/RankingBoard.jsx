@@ -115,7 +115,7 @@ const RankingBoard = ({ user }) => {
                 textAlign: "left",
               }}
             >
-              {item.rankingPoint}
+              {Math.floor(item.rankingPoint)}
             </Typography>
           </Box>
         ))}

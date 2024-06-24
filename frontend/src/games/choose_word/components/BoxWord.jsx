@@ -4,7 +4,7 @@ import { openAudio } from "../../../utils/audioUtils";
 const BoxWord = ({ word }) => {
   const [heightImg, setHeightImg] = useState("100px");
   const [wordVisibility, setWordVisibility] = useState("hidden");
-  console.log(heightImg);
+
   return (
     <div>
       <Box

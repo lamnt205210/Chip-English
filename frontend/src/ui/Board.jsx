@@ -239,7 +239,7 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
                   fontFamily: "Ubuntu Mono, monospace",
                 }}
               >
-                {gameScores[index] ? gameScores[index] : 0} điểm
+                {gameScores[index] ? Math.floor(gameScores[index]) : 0} điểm
               </Typography>
             </Grid>
           ))}

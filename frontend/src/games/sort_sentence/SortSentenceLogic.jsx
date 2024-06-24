@@ -55,7 +55,7 @@ export default function SortSentenceLogic({
   useEffect(() => {
     const SortSentence = sentences[sentenceIndex].sentence;
 
-    const words = SortSentence.split(" ");
+    const words = SortSentence?.split(" ");
     const shuffledWords = shuffleArray(words).map((word, index) => ({
       word,
       visible: true,
@@ -67,7 +67,7 @@ export default function SortSentenceLogic({
 
   // function
   const shuffleArray = (array) => {
-    let shuffledArray = array.slice();
+    let shuffledArray = array?.slice();
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffledArray[i], shuffledArray[j]] = [

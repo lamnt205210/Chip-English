@@ -32,7 +32,7 @@ const SortSentence = ({ game, lessonId }) => {
     setFinish(false);
     setPoint(0);
   };
-
+  if (!data) return null;
   return (
     <div>
       {!play && <SortSentenceStart setPlay={setPlay} />}

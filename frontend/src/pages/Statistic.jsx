@@ -66,7 +66,7 @@ const Statistic = () => {
       </div>
 
       <RankingBoard user={user} />
-      <div style={{ height: "100px" }}></div>
+      <div style={{ height: "100px", backgroundColor: "#f5fcff" }}></div>
     </div>
   );
 };

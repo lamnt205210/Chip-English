@@ -14,7 +14,8 @@ const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
     }, 1200);
   }, [word]);
   useEffect(() => {
-    if (showAnswer) {
+    console.log("showAnswer", showAnswer, word, answer, keyword);
+    if (showAnswer === true) {
       setFlipped(true);
       if (word === keyword) {
         setSrcButton("/images/choose_word/btn_submit_true.png");
@@ -24,13 +25,11 @@ const AnswerBox = ({ word, setAnswer, answer, showAnswer, keyword }) => {
       const timer = setTimeout(() => {
         setFlipped(false);
       }, 4000);
-
       return () => clearTimeout(timer);
+    } else {
+      setSrcButton("/images/choose_word/btn_submit.png");
     }
-  }, [showAnswer]);
-  useEffect(() => {
-    setSrcButton("/images/choose_word/btn_submit.png");
-  }, [word]);
+  }, [showAnswer, word, answer, keyword]);
 
   const handleOnClick = () => {
     setFlipped(true);

@@ -25,7 +25,9 @@ const DashBoard = () => {
   console.log("data", data);
   return (
     <div style={{ marginLeft: "50px" }}>
-      <h1 style={{ color: "#0f575a" }}>Các khóa học tiếng Anh</h1>
+      <h1 style={{ color: "#0f575a", paddingLeft: "34px" }}>
+        Các khóa học tiếng Anh
+      </h1>
       <Box
         display="grid"
         gridTemplateColumns="repeat(3, 1fr)"

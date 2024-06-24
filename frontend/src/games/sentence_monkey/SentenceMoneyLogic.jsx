@@ -47,33 +47,35 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
       boxCo.src = "/images/sentence_monkey/box_conco.png";
       boxCo.onload = () => {
         context.drawImage(boxCo, 608, 36, 350, 198);
-        const sentenceImage = new Image();
-        sentenceImage.src = currentSentence.imageURL;
-        sentenceImage.onload = () => {
-          // Calculate aspect ratio
-          const aspectRatio = sentenceImage.width / sentenceImage.height;
-          let newWidth = 350;
-          let newHeight = 198;
+        //
+        // const sentenceImage = new Image();
+        // sentenceImage.src = currentSentence.imageURL;
+        // sentenceImage.onload = () => {
+        //   // Calculate aspect ratio
+        //   const aspectRatio = sentenceImage.width / sentenceImage.height;
+        //   let newWidth = 350;
+        //   let newHeight = 198;
 
-          // Adjust dimensions to maintain aspect ratio
-          if (aspectRatio > 1) {
-            newHeight = newWidth / aspectRatio;
-          } else {
-            newWidth = newHeight * aspectRatio;
-          }
+        //   // Adjust dimensions to maintain aspect ratio
+        //   if (aspectRatio > 1) {
+        //     newHeight = newWidth / aspectRatio;
+        //   } else {
+        //     newWidth = newHeight * aspectRatio;
+        //   }
 
-          // Center the image in the box
-          const offsetX = 608 + (350 - newWidth) / 2;
-          const offsetY = 36 + (198 - newHeight) / 2;
+        //   // Center the image in the box
+        //   const offsetX = 608 + (350 - newWidth) / 2;
+        //   const offsetY = 36 + (198 - newHeight) / 2;
 
-          context.drawImage(
-            sentenceImage,
-            offsetX,
-            offsetY,
-            newWidth,
-            newHeight
-          );
-        };
+        //   context.drawImage(
+        //     sentenceImage,
+        //     offsetX,
+        //     offsetY,
+        //     newWidth,
+        //     newHeight
+        //   );
+        // };
+        //
       };
     };
   }, [sentenceIndex, monkeyImg, currentSentence.imageURL]);
@@ -131,6 +133,22 @@ const SentenceMoneyLogic = ({ sentences, setFinish, point, setPoint }) => {
           width={980}
           height={550}
         ></canvas>
+        <Box sx={{ height: "22px", width: "36px" }}>
+          <img
+            src={currentSentence.imageURL}
+            style={{
+              width: "166px",
+              height: "350px",
+              position: "absolute",
+              zIndex: 3,
+              top: "23.5%",
+              left: "80%",
+              transform: "translate(-50%, -50%)",
+              objectFit: "contain",
+            }}
+            alt="anh cau hoi"
+          ></img>
+        </Box>
         <Box>
           <img
             src={buttonURL}

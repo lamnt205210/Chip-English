@@ -24,7 +24,7 @@ const PointBox = ({ point }) => {
           width: "110px",
         }}
       >
-        {point} ĐIỂM
+        {Math.floor(point)} ĐIỂM
       </Typography>
     </Box>
   );

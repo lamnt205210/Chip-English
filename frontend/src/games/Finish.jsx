@@ -35,17 +35,17 @@ const Finish = ({ point, handleReplay, lessonId, gameId }) => {
     }
   };
   const rate = evaluate(point);
-
-  if (rate === 1) {
-    openAudio("/audio/TryAgain.mp3");
-  } else if (rate === 2) {
-    openAudio("/audio/NiceTry.mp3");
-  } else if (rate === 3) {
-    openAudio("/audio/GoodJob.mp3");
-  } else {
-    openAudio("/audio/Excellent.mp3");
-  }
-
+  useEffect(() => {
+    if (rate === 1) {
+      openAudio("/audio/TryAgain.mp3");
+    } else if (rate === 2) {
+      openAudio("/audio/NiceTry.mp3");
+    } else if (rate === 3) {
+      openAudio("/audio/GoodJob.mp3");
+    } else {
+      openAudio("/audio/Excellent.mp3");
+    }
+  }, []);
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");

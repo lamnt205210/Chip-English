@@ -72,7 +72,7 @@ export default function ExerciseCategory({
               fontFamily: "Roboto, sans-serif",
             }}
           >
-            {totalScore}/{maxScore} điểm
+            {Math.floor(totalScore)}/{maxScore} điểm
           </Typography>
         </Grid>
         <Grid item xs={1}>

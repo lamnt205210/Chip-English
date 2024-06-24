@@ -27,7 +27,13 @@ const classes = [
 
 const ClassDescribe = () => {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" p={8}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      p={8}
+      sx={{ backgroundColor: "#f5fcff" }}
+    >
       <Typography variant="h4">Các khóa học từ lớp 1 đến lớp 5</Typography>
 
       <Box
@@ -48,11 +54,11 @@ const ClassDescribe = () => {
 const ClassCard = ({ image, title }) => {
   return (
     <Card>
-      <CardMedia sx={{ height: 170, width: 200 }} image={image} title={title} />
+      <CardMedia sx={{ height: 170, width: 230 }} image={image} title={title} />
       <CardContent>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Typography gutterBottom variant="h5" component="div">
-            {title}
+            Tiếng Anh {title}
           </Typography>
         </Box>
       </CardContent>
