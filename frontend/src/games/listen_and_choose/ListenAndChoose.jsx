@@ -4,6 +4,8 @@ import ListenAndChooseLogic from "./ListenAndChooseLogic";
 import Finish from "../Finish";
 import * as CourseService from "../../services/CourseService";
 import { useQuery } from "@tanstack/react-query";
+import { openAudio } from "../../utils/audioUtils";
+
 //
 import { GetUserId } from "../GetUserId";
 import { useMutationHook } from "../../hooks/useMutationHook";
@@ -23,6 +25,7 @@ const ListenAndChoose = ({ game, lessonId }) => {
   const [point, setPoint] = useState(0);
   //
   const handleReplay = () => {
+    openAudio("/audio/touch.mp3");
     setPlay(true);
     setFinish(false);
     setPoint(0);
