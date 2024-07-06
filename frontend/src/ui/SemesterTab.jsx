@@ -36,7 +36,13 @@ const SemesterTab = ({ semester, setSemester }) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "#e9f8f9",
+        borderRadius: "10px",
+        marginBottom: "30px",
+      }}
+    >
       <Tabs
         value={value}
         onChange={handleChange}
@@ -50,15 +56,15 @@ const SemesterTab = ({ semester, setSemester }) => {
             fontFamily: "Cabin, sans-serif",
             textTransform: "none",
             fontWeight: "bold",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-            border: "1px solid #727272", // Add border to all tabs
+
             color: "#000000", // Black text color for tabs
-            backgroundColor: "#ffffff", // White background for tabs
-            borderRadius: "8px", // Adding borderRadius to all tabs
+            backgroundColor: "#e9f8f9", // White background for tabs
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.137)",
             "&.Mui-selected": {
               color: "#ffffff", // White text color for selected tab
               backgroundColor: "#21bdc6", // Background color for selected tab
-              boxShadow: "0 4px 8px rgba(175, 167, 167, 0.425)",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
               borderRadius: "8px", // Ensuring selected tab has rounded corners
             },
           },

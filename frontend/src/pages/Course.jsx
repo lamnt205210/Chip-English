@@ -13,7 +13,10 @@ const Course = ({ courseId, semesterId }) => {
     queryKey: ["units", courseId, semester],
     queryFn: () => CourseService.getUnits(courseId, semester),
   });
+
   const units = data?.units || [];
+  const unitsSort = units.sort((a, b) => a.unitNumber - b.unitNumber);
+  console.log(unitsSort);
   const courseName = units[0]?.courseId.name || "";
 
   return (
@@ -52,7 +55,7 @@ const Course = ({ courseId, semesterId }) => {
 
       <SemesterTab semester={semester} setSemester={setSemester} />
       <div style={{ display: "flex", flexWrap: "wrap", marginTop: "30px" }}>
-        {units.map((unit) => (
+        {unitsSort.map((unit) => (
           <div
             key={unit._id}
             style={{ width: "25%", padding: "0 10px", marginBottom: "20px" }}

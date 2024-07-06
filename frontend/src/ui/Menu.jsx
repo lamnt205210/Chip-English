@@ -148,7 +148,8 @@ export default function Menu() {
     queryKey: ["course"],
     queryFn: () => CourseService.getAllCourses(),
   });
-  const courses = dataCourses?.courses || [];
+  let courses = dataCourses?.courses || [];
+  courses = courses?.sort((a, b) => a.courseNumber - b.courseNumber);
   const { data: semesterData } = useQuery({
     queryKey: ["semester"],
     queryFn: () => CourseService.getSemesterId(1),

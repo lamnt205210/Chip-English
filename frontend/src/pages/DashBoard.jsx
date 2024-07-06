@@ -19,6 +19,8 @@ const DashBoard = () => {
 
   const mutation = useMutationHook((data) => CourseService.getAllCourses());
   const { data, error, isPending, isSuccess } = mutation;
+  let courses = data?.courses || [];
+  courses = courses?.sort((a, b) => a.courseNumber - b.courseNumber);
   useEffect(() => {
     mutation.mutate();
   }, []);
@@ -34,7 +36,7 @@ const DashBoard = () => {
         gap={2}
         padding={2}
       >
-        {data?.courses?.map((course) => (
+        {courses?.map((course) => (
           <Box
             key={course._id}
             sx={{
