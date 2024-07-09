@@ -37,7 +37,7 @@ const DictationLogic = ({ words, point, setPoint, setFinish }) => {
   useEffect(() => {
     // const lengthWords = words[currentWordIndex].word.length;
     setLengthWords(words[currentWordIndex].word.length);
-    setValues(Array(lengthWords).fill(""));
+    setValues(Array(words[currentWordIndex].word.length).fill(""));
     refs.current = Array(lengthWords)
       .fill()
       .map((_, i) => refs.current[i] || React.createRef());

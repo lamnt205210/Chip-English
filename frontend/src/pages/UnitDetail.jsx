@@ -5,6 +5,7 @@ import { Box, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import * as CourseService from "../services/CourseService";
 import { useNavigate } from "react-router-dom";
+import ComingSoon from "../ui/ComingSoon";
 const UnitDetail = ({ courseId, semesterId, unitId }) => {
   const navigate = useNavigate();
   const { data, isError, isLoading } = useQuery({
@@ -18,6 +19,7 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
 
   // Sorting function
   const lessons = data?.lessons;
+  console.log(lessons);
   const sortLessonsByCategory = (lessons) => {
     if (!lessons) return [];
     return lessons.sort((a, b) => {
@@ -54,14 +56,15 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
       >
         <ArrowBackIcon style={{ fontSize: "35px" }} />
       </Box>
+
       <Box
         sx={{
           border: "2px solid #f0f0f0",
           boxShadow: "0px 2px 2px rgba(198, 180, 180, 0.25)",
           borderRadius: "32px",
-
           margin: "70px 200px 0px 200px",
           paddingBottom: "30px",
+          backgroundColor: "#d2e8f1",
         }}
       >
         <Typography
@@ -75,15 +78,32 @@ const UnitDetail = ({ courseId, semesterId, unitId }) => {
         >
           {unitName}
         </Typography>
-        {sortLessonsByCategory(lessons).map((exercise) => (
-          <ExerciseCatergory
-            key={exercise._id}
-            exercise={exercise}
-            courseId={courseId}
-            semesterId={semesterId}
-            unitId={unitId}
-          />
-        ))}
+        {lessons?.length > 0 &&
+          sortLessonsByCategory(lessons).map((exercise) => (
+            <ExerciseCatergory
+              key={exercise._id}
+              exercise={exercise}
+              courseId={courseId}
+              semesterId={semesterId}
+              unitId={unitId}
+            />
+          ))}
+        {lessons?.length === 0 && (
+          <Box
+            sx={{
+              textAlign: "center",
+              color: "#076895",
+              fontSize: 45,
+              backgroundColor: "#d2e8f1",
+              fontWeight: 600,
+              width: "100%",
+              height: "100%",
+              paddingBottom: "100px",
+            }}
+          >
+            <ComingSoon />
+          </Box>
+        )}
       </Box>
     </div>
   );

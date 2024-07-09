@@ -9,6 +9,7 @@ import ChooseWord from "../games/choose_word/ChooseWord";
 import ComingSoonComponent from "./ComingSoon";
 import { useQuery } from "@tanstack/react-query";
 import * as ProgressService from "../services/ProgressService";
+import * as CourseService from "../services/CourseService";
 import { GetUserId } from "../games/GetUserId";
 import { useQueryClient } from "@tanstack/react-query";
 const ComingSoon = () => (
@@ -78,6 +79,27 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
     queryKey: ["progress", userId, lessonId],
     queryFn: () => ProgressService.getLessonProgress(userId, lessonId),
   });
+
+  const {
+    data: unitDetail,
+    isError: errorGetUnitDetails,
+    isLoading: loadingGetUnitDetails,
+  } = useQuery({
+    queryKey: ["units", unitId],
+    queryFn: () => CourseService.getUnitDetails(unitId),
+  });
+  const unitNumber = unitDetail?.lessons[0]?.unitId.unitNumber || 0;
+
+  const {
+    data: lesson,
+    isError: errorGetLesson,
+    isLoading: loadingGetLesson,
+  } = useQuery({
+    queryKey: ["lessons", lessonId],
+    queryFn: () => CourseService.getLessonDetails(lessonId),
+  });
+  console.log("lesson", lesson);
+  const lessonCategory = lesson?.category || "Từ vựng";
   const videoScore = lessonProgress?.videoScore || 0;
 
   const {
@@ -149,7 +171,7 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
                 textAlign: "center",
               }}
             >
-              Unit 1
+              Unit {unitNumber}
             </Typography>
             <Typography
               sx={{
@@ -158,7 +180,7 @@ export default function Board({ videoURL, games, lessonId, unitId }) {
                 textAlign: "center",
               }}
             >
-              Từ vựng
+              {lessonCategory}
             </Typography>
           </Grid>
           <Grid
