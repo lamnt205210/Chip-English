@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MemoryDialogGuide from "./MemoryDialogGuide";
 import Box from "@mui/material/Box";
-
+import { openAudio } from "../../utils/audioUtils";
 const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const canvasRef = useRef(null);
@@ -54,6 +54,7 @@ const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
             // setPlay(true);
             // setAnimation(true);
             setScenario("animation");
+            openAudio("/audio/touch.mp3");
           }}
         ></img>
         <img
@@ -66,7 +67,10 @@ const MemoryStart = ({ setPlay, setAnimation, setScenario }) => {
             cursor: "pointer",
             zIndex: 2,
           }}
-          onClick={() => setOpenGuide(true)}
+          onClick={() => {
+            setOpenGuide(true);
+            openAudio("/audio/touch.mp3");
+          }}
         ></img>
 
         {openGuide && <MemoryDialogGuide setOpenGuide={setOpenGuide} />}

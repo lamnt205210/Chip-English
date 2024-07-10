@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ListenAndChooseDialogGuide from "./ListenAndChooseDialogGuide";
-
+import { openAudio } from "../../utils/audioUtils";
 const ListenAndChooseStart = ({ setPlay }) => {
   const [openGuide, setOpenGuide] = useState(false);
   const canvasRef = useRef(null);
@@ -41,12 +41,18 @@ const ListenAndChooseStart = ({ setPlay }) => {
             color: "white",
             cursor: "pointer",
           }}
-          onClick={() => setPlay(true)}
+          onClick={() => {
+            setPlay(true);
+            openAudio("/audio/touch.mp3");
+          }}
         >
           Let's Play
         </button>
         <button
-          onClick={() => setOpenGuide(true)}
+          onClick={() => {
+            setOpenGuide(true);
+            openAudio("/audio/touch.mp3");
+          }}
           style={{
             position: "absolute",
             left: "55%",

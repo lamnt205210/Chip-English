@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { openAudio } from "../../utils/audioUtils";
 const ListenAndChooseDialogGuide = (props) => {
   const { setOpenGuide } = props;
   return (
@@ -43,6 +44,7 @@ const ListenAndChooseDialogGuide = (props) => {
       <button
         onClick={() => {
           setOpenGuide(false);
+          openAudio("/audio/touch.mp3");
         }}
         style={{
           padding: "10px 20px",

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { openAudio } from "../../utils/audioUtils";
 const MemoryDialogGuide = ({ setOpenGuide }) => {
   return (
     <div>
@@ -13,7 +13,10 @@ const MemoryDialogGuide = ({ setOpenGuide }) => {
           cursor: "pointer",
           zIndex: 3,
         }}
-        onClick={() => setOpenGuide(false)}
+        // onClick={() => {
+        //   setOpenGuide(false);
+        //   openAudio("/audio/touch.mp3");
+        // }}
       ></img>
       <img
         src="/images/memory/backIntro.png"
@@ -25,7 +28,10 @@ const MemoryDialogGuide = ({ setOpenGuide }) => {
           cursor: "pointer",
           zIndex: 4,
         }}
-        onClick={() => setOpenGuide(false)}
+        onClick={() => {
+          setOpenGuide(false);
+          openAudio("/audio/touch.mp3");
+        }}
       ></img>
     </div>
   );
